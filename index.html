@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasySyntax - Vibe Coding & AI Courses</title>
+    <title>EasySyntax — Belajar Coding & AI di Jayapura</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,434 +11,866 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-                    colors: {
-                        brandBlue: '#3B82F6',
-                        brandBlueDark: '#1D4ED8',
-                    }
+                    colors: { brandBlue: '#3B82F6', brandBlueDark: '#1D4ED8' }
                 }
             }
         }
     </script>
     <style>
-        /* ===== GLOBAL ===== */
         *, *::before, *::after { box-sizing: border-box; }
+
+        .nav-link {
+            position: relative; font-weight: 700; color: #475569; transition: color 0.2s;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 3px; background: #4f46e5;
+            border-radius: 99px; transition: width 0.2s;
+        }
+        .nav-link:hover { color: #4f46e5; }
+        .nav-link:hover::after { width: 100%; }
 
         .btn-flat {
             position: relative;
             transition: transform 0.08s ease, border-bottom-width 0.08s ease;
-            border-bottom-width: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            border-bottom-width: 5px;
+            display: inline-flex; align-items: center; justify-content: center;
         }
-        .btn-flat:active {
-            transform: translateY(4px);
-            border-bottom-width: 2px;
-        }
-        .card-flat { border-bottom-width: 8px; }
+        .btn-flat:active { transform: translateY(3px); border-bottom-width: 2px; }
+        .card-flat { border-bottom-width: 7px; }
 
-        /* ===== HERO GRID BACKGROUND ===== */
         .hero-grid {
             background-image:
-                linear-gradient(rgba(99,102,241,0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99,102,241,0.07) 1px, transparent 1px);
+                linear-gradient(rgba(99,102,241,.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99,102,241,.07) 1px, transparent 1px);
             background-size: 48px 48px;
         }
 
-        /* ===== MARQUEE ===== */
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
-        .marquee-track:hover { animation-play-state: paused; }
+        @keyframes marquee { from{transform:translateX(0);}to{transform:translateX(-50%);} }
+        .marquee-track { display:flex; width:max-content; animation:marquee 30s linear infinite; }
+        .marquee-track:hover { animation-play-state:paused; }
 
-        /* ===== FADE IN UP ===== */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(28px); }
-            to   { opacity: 1; transform: translateY(0); }
+        .reveal { opacity:0; transform:translateY(28px); transition:opacity .55s ease,transform .55s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+        .a1{animation:fadeUp .5s .05s ease both;}
+        .a2{animation:fadeUp .5s .15s ease both;}
+        .a3{animation:fadeUp .5s .25s ease both;}
+        .a4{animation:fadeUp .5s .35s ease both;}
+
+        .faq-body { max-height:0; overflow:hidden; transition:max-height .35s ease; }
+        .faq-body.open { max-height:500px; }
+        .faq-icon { transition:transform .3s ease; }
+        .faq-icon.open { transform:rotate(45deg); }
+
+        .poster-card img { transition:transform .3s ease; }
+        .poster-card:hover img { transform:scale(1.05); }
+
+        .gallery-item img { transition:transform .35s ease; }
+        .gallery-item:hover img { transform:scale(1.06); }
+
+        .float-group {
+            position:fixed; right:20px; bottom:24px; z-index:9999;
+            display:flex; flex-direction:column; align-items:center; gap:10px;
         }
-        .anim-1 { animation: fadeInUp 0.55s ease both; }
-        .anim-2 { animation: fadeInUp 0.55s 0.12s ease both; }
-        .anim-3 { animation: fadeInUp 0.55s 0.24s ease both; }
-        .anim-4 { animation: fadeInUp 0.55s 0.36s ease both; }
+        .float-btn {
+            width:50px; height:50px; border-radius:14px;
+            display:flex; align-items:center; justify-content:center;
+            box-shadow:0 4px 0 rgba(0,0,0,.25);
+            transition:transform .15s ease, box-shadow .15s ease;
+            cursor:pointer; text-decoration:none;
+        }
+        .float-btn:active { transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,.25); }
+        #back-to-top { display:none; }
+        #back-to-top.visible { display:flex; }
 
-        /* ===== SCROLL REVEAL ===== */
-        .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .price-box { display:none; }
+        .price-box.active { display:block; }
+        .tab-pill { cursor:pointer; transition:all .15s ease; }
 
-        /* ===== PRICING CARD HOVER ===== */
-        .pricing-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .pricing-card:hover { transform: translateY(-6px); }
+        #mobile-menu { transition:max-height .3s ease,opacity .3s ease; max-height:0; opacity:0; overflow:hidden; }
+        #mobile-menu.open { max-height:400px; opacity:1; }
 
-        /* ===== TESTIMONIAL ===== */
-        .testi-card { transition: transform 0.2s ease; }
-        .testi-card:hover { transform: rotate(-1deg) scale(1.02); }
-
-        /* ===== COUNTER ANIMATE ===== */
-        @keyframes countUp { from { opacity:0; transform: scale(0.8); } to { opacity:1; transform: scale(1); } }
-        .stat-num { animation: countUp 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+        #syarat-modal { display:none; }
+        #syarat-modal.open { display:flex; }
     </style>
 </head>
 <body class="bg-[#F0F7FF] text-slate-900 font-sans antialiased" style="font-size:16px;">
 
-<!-- ===== TOP BANNER ===== -->
+<!-- TOP BANNER -->
 <div class="bg-indigo-600 text-white py-2.5 text-center font-bold tracking-wide text-sm">
-    ✨ Join 5,000+ Students Learning AI Today!
-    <a href="#pricing" class="underline ml-2 hover:text-yellow-300 transition-all">Claim Discount ⚡</a>
+    ✨ Kelas baru dibuka di Jayapura, Papua!
+    <a href="#harga" class="underline ml-2 hover:text-yellow-300 transition-all">Lihat Paket ⚡</a>
 </div>
 
-<!-- ===== NAVBAR ===== -->
-<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b-4 border-slate-200 py-4">
+<!-- NAVBAR -->
+<nav id="navbar" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-slate-200 py-4">
     <div class="container mx-auto px-6 flex justify-between items-center">
-        <!-- Logo -->
-        <a href="#hero" class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-xl border-b-4 border-indigo-900">ES</div>
-            <div class="text-2xl font-extrabold text-slate-900 tracking-tighter">Easy<span class="text-indigo-600">Syntax</span></div>
+        <a href="#beranda" class="flex items-center gap-2 shrink-0">
+            <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-lg border-b-4 border-indigo-900">ES</div>
+            <div class="text-xl font-extrabold text-slate-900 tracking-tighter">Easy<span class="text-indigo-600">Syntax</span></div>
         </a>
-        <!-- Nav Links -->
-        <div class="hidden md:flex space-x-8 font-bold text-slate-600 uppercase tracking-wider text-sm">
-            <a href="#courses" class="hover:text-indigo-600 transition-colors">Courses</a>
-            <a href="#ai" class="hover:text-indigo-600 transition-colors">AI Lab</a>
-            <a href="#pricing" class="hover:text-indigo-600 transition-colors">Pricing</a>
-            <a href="components.html" class="hover:text-indigo-600 transition-colors flex items-center gap-1">
-                <span>Docs</span>
-                <span class="px-1.5 py-0.5 bg-yellow-300 text-slate-900 rounded text-xs font-black border border-slate-900">UI</span>
-            </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#beranda"  class="nav-link">Beranda</a>
+            <a href="#kursus"   class="nav-link">Kursus</a>
+            <a href="#harga"    class="nav-link">Harga</a>
+            <button onclick="openSyarat()" class="nav-link bg-transparent border-none cursor-pointer p-0">Syarat &amp; Ketentuan</button>
         </div>
-        <!-- CTA -->
-        <a href="#pricing" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-7 py-3 rounded-2xl font-extrabold uppercase text-sm">Daftar Sekarang</a>
+        <div class="flex items-center gap-3">
+            <a href="#harga" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-6 py-2.5 rounded-xl font-black uppercase text-xs hidden sm:inline-flex">Daftar Sekarang</a>
+            <button id="hamburger" onclick="toggleMenu()" class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 rounded-xl border-2 border-slate-200">
+                <span class="w-5 h-0.5 bg-slate-700 block"></span>
+                <span class="w-5 h-0.5 bg-slate-700 block"></span>
+                <span class="w-4 h-0.5 bg-slate-700 block self-start ml-0.5"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden bg-white border-t-2 border-slate-100 px-6">
+        <div class="py-5 flex flex-col gap-4 font-bold">
+            <a href="#beranda"  onclick="closeMenu()" class="text-slate-700 hover:text-indigo-600 py-1">Beranda</a>
+            <a href="#kursus"   onclick="closeMenu()" class="text-slate-700 hover:text-indigo-600 py-1">Kursus</a>
+            <a href="#harga"    onclick="closeMenu()" class="text-slate-700 hover:text-indigo-600 py-1">Harga</a>
+            <button onclick="closeMenu();openSyarat();" class="text-left text-slate-700 hover:text-indigo-600 py-1">Syarat &amp; Ketentuan</button>
+            <a href="#harga" onclick="closeMenu()" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-6 py-3 rounded-xl font-black uppercase text-xs text-center mt-2">Daftar Sekarang</a>
+        </div>
     </div>
 </nav>
 
-<!-- ===== HERO ===== -->
-<section id="hero" class="hero-grid py-28 px-6 text-center relative overflow-hidden">
-    <!-- Decorative blobs -->
-    <div class="absolute -top-20 -left-20 w-80 h-80 bg-indigo-200 rounded-full opacity-30 blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-sky-200 rounded-full opacity-30 blur-3xl pointer-events-none"></div>
-    <div class="absolute top-16 left-12 text-5xl opacity-20 animate-bounce select-none">🚀</div>
-    <div class="absolute bottom-16 right-12 text-5xl opacity-20 animate-pulse select-none">🤖</div>
-
-    <div class="max-w-5xl mx-auto relative z-10">
-        <div class="anim-1 inline-flex items-center gap-2 bg-indigo-100 border-2 border-indigo-300 text-indigo-700 rounded-full px-5 py-2 font-black uppercase tracking-widest text-xs mb-6">
+<!-- ══════════════════════════════
+     BERANDA / HERO
+══════════════════════════════ -->
+<section id="beranda" class="hero-grid py-24 md:py-32 px-6 text-center relative overflow-hidden">
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-indigo-200 rounded-full opacity-25 blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-sky-200 rounded-full opacity-25 blur-3xl pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto relative z-10">
+        <div class="a1 inline-flex items-center gap-2 bg-indigo-100 border-2 border-indigo-300 text-indigo-700 rounded-full px-5 py-2 font-black uppercase tracking-widest text-xs mb-6">
             <span class="w-2 h-2 bg-indigo-500 rounded-full animate-ping"></span>
-            Vibe Coding & AI Courses — Jayapura, Papua
+            Kursus Coding &amp; AI — Jayapura, Papua
         </div>
-        <h1 class="anim-2 text-6xl md:text-8xl font-black mb-6 leading-[1.05] tracking-tighter text-slate-900">
-            Coding Jadi <span class="bg-yellow-300 px-3 italic">Santuy</span><br>Dengan AI.
+        <h1 class="a2 text-5xl md:text-7xl font-black mb-6 leading-[1.08] tracking-tighter text-slate-900">
+            Coding Jadi <span class="bg-yellow-300 px-3 italic">Santuy</span><br>Dengan Bantuan AI.
         </h1>
-        <p class="anim-3 text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-semibold leading-relaxed">
-            Belajar sintaksis tanpa pusing. Kuasai Tech Stack modern dan manfaatkan AI untuk bangun produk impianmu <span class="underline decoration-4 decoration-indigo-400 underline-offset-4">lebih cepat</span>.
+        <p class="a3 text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-semibold leading-relaxed">
+            Belajar pemrograman modern secara mandiri <em>atau</em> <strong>on-site di Jayapura</strong>.
+            Kuasai Tech Stack terbaru dan manfaatkan AI untuk membangun produk impianmu lebih cepat.
         </p>
-        <div class="anim-4 flex flex-col sm:flex-row justify-center gap-5">
-            <a href="#courses" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-12 py-5 rounded-[2rem] text-xl font-black">Mulai Belajar ⚡</a>
-            <a href="components.html" class="btn-flat bg-white border-slate-300 text-slate-700 px-12 py-5 rounded-[2rem] text-xl font-black">Lihat UI Docs →</a>
+        <div class="a4 flex flex-col sm:flex-row justify-center gap-4">
+            <a href="#kursus" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-10 py-4 rounded-[1.8rem] text-lg font-black">Lihat Kursus 📚</a>
+            <a href="#harga"  class="btn-flat bg-white border-slate-300 text-slate-800 px-10 py-4 rounded-[1.8rem] text-lg font-black">Cek Harga 💰</a>
+        </div>
+        <div class="mt-14 grid grid-cols-3 gap-4 max-w-sm mx-auto text-center">
+            <div><div class="text-3xl font-black text-indigo-600">5K+</div><div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Students</div></div>
+            <div><div class="text-3xl font-black text-indigo-600">12+</div><div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Courses</div></div>
+            <div><div class="text-3xl font-black text-indigo-600">98%</div><div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Puas</div></div>
         </div>
     </div>
 </section>
 
-<!-- ===== STATS STRIP ===== -->
-<section class="bg-slate-900 py-12 px-6 border-y-8 border-slate-800">
-    <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
-        <div class="reveal">
-            <div class="stat-num text-5xl font-black text-yellow-300">5K+</div>
-            <div class="text-slate-400 font-bold uppercase tracking-widest text-sm mt-1">Students</div>
-        </div>
-        <div class="reveal">
-            <div class="stat-num text-5xl font-black text-indigo-400">12+</div>
-            <div class="text-slate-400 font-bold uppercase tracking-widest text-sm mt-1">Courses</div>
-        </div>
-        <div class="reveal">
-            <div class="stat-num text-5xl font-black text-sky-400">98%</div>
-            <div class="text-slate-400 font-bold uppercase tracking-widest text-sm mt-1">Satisfaction</div>
-        </div>
-        <div class="reveal">
-            <div class="stat-num text-5xl font-black text-emerald-400">3</div>
-            <div class="text-slate-400 font-bold uppercase tracking-widest text-sm mt-1">Tracks</div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== MARQUEE ===== -->
-<div class="overflow-hidden bg-yellow-300 border-y-4 border-slate-900 py-4">
-    <div class="marquee-track text-slate-900 font-black uppercase tracking-widest text-sm gap-16">
-        <span class="pr-16">🚀 AI Engineering</span><span class="pr-16">✦ Fullstack Vibe</span><span class="pr-16">🎨 Visual Aesthetics</span><span class="pr-16">⚡ Prompt Engineering</span><span class="pr-16">🤖 RAG Systems</span><span class="pr-16">🔥 Next.js & Supabase</span><span class="pr-16">✨ Figma & AI Design</span><span class="pr-16">💻 Vibe Coding</span>
-        <!-- duplicate for seamless loop -->
-        <span class="pr-16">🚀 AI Engineering</span><span class="pr-16">✦ Fullstack Vibe</span><span class="pr-16">🎨 Visual Aesthetics</span><span class="pr-16">⚡ Prompt Engineering</span><span class="pr-16">🤖 RAG Systems</span><span class="pr-16">🔥 Next.js & Supabase</span><span class="pr-16">✨ Figma & AI Design</span><span class="pr-16">💻 Vibe Coding</span>
+<!-- MARQUEE -->
+<div class="overflow-hidden bg-yellow-300 border-y-4 border-slate-900 py-3.5">
+    <div class="marquee-track text-slate-900 font-black uppercase tracking-widest text-xs">
+        <span class="pr-12">🚀 AI Engineering</span><span class="pr-12">✦ Fullstack Dev</span><span class="pr-12">🎨 UI/UX Design</span><span class="pr-12">⚡ Prompt Engineering</span><span class="pr-12">🤖 RAG Systems</span><span class="pr-12">🔥 Next.js &amp; Supabase</span><span class="pr-12">✨ Figma &amp; Generative AI</span><span class="pr-12">💻 Vibe Coding</span><span class="pr-12">📱 Mobile Dev</span><span class="pr-12">🛠 Git &amp; DevOps</span>
+        <span class="pr-12">🚀 AI Engineering</span><span class="pr-12">✦ Fullstack Dev</span><span class="pr-12">🎨 UI/UX Design</span><span class="pr-12">⚡ Prompt Engineering</span><span class="pr-12">🤖 RAG Systems</span><span class="pr-12">🔥 Next.js &amp; Supabase</span><span class="pr-12">✨ Figma &amp; Generative AI</span><span class="pr-12">💻 Vibe Coding</span><span class="pr-12">📱 Mobile Dev</span><span class="pr-12">🛠 Git &amp; DevOps</span>
     </div>
 </div>
 
-<!-- ===== COURSES ===== -->
-<section id="courses" class="py-24 bg-white border-y-8 border-slate-100">
-    <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div class="max-w-xl reveal">
-                <p class="text-indigo-600 font-black uppercase tracking-widest text-sm mb-2">03 Learning Tracks</p>
-                <h2 class="text-5xl font-black text-slate-900 tracking-tighter leading-tight">Pilih Skill<br>Level-Up Kamu</h2>
+<!-- ══════════════════════════════
+     KURSUS
+══════════════════════════════ -->
+<section id="kursus" class="py-24 bg-white border-y-8 border-slate-100 px-6">
+    <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
+            <div class="reveal">
+                <p class="text-indigo-600 font-black uppercase tracking-widest text-xs mb-2">Pilih Jalurmu</p>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tighter">Kursus <span class="text-indigo-600">Tersedia</span></h2>
+                <p class="text-slate-500 font-bold mt-2">Kurikulum yang dirancang untuk masa depan serba AI.</p>
             </div>
-            <a href="#" class="reveal text-indigo-600 font-black text-lg underline decoration-4 underline-offset-8 hover:text-indigo-800 transition-colors">Explore All 12+ Classes →</a>
+            <a href="#harga" class="reveal text-indigo-600 font-black text-base underline decoration-4 underline-offset-8 hover:text-indigo-800 transition-colors shrink-0">Daftar Sekarang →</a>
         </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 
-        <div class="grid lg:grid-cols-3 gap-10">
-            <!-- Card 1 -->
-            <div class="reveal card-flat bg-violet-50 p-10 rounded-[3rem] border-4 border-violet-200 hover:-translate-y-2 transition-transform">
-                <div class="bg-violet-600 w-16 h-16 rounded-2xl mb-8 flex items-center justify-center text-3xl border-b-4 border-violet-900">🤖</div>
-                <span class="text-violet-500 font-black uppercase text-xs tracking-widest">Track 01</span>
-                <h3 class="text-2xl font-black mt-2 mb-4">AI Engineering</h3>
-                <p class="text-slate-600 mb-8 font-semibold leading-relaxed">Cara "ngobrol" dengan AI untuk auto-generate code, debugging, dan dokumentasi proyek.</p>
-                <div class="flex items-center gap-3 mb-8">
-                    <span class="px-3 py-1 bg-violet-100 border-2 border-violet-300 text-violet-700 rounded-full text-xs font-black">Beginner Friendly</span>
-                    <span class="px-3 py-1 bg-violet-100 border-2 border-violet-300 text-violet-700 rounded-full text-xs font-black">4 Modules</span>
+            <div class="poster-card reveal card-flat bg-slate-50 rounded-3xl border-4 border-slate-200 overflow-hidden cursor-pointer hover:-translate-y-1 transition-transform">
+                <div class="overflow-hidden aspect-[3/4] bg-violet-100">
+                    <img src="poster/ai-engineering.jpg" alt="AI Engineering"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-3 p-6 text-center">
+                        <div class="text-6xl">🤖</div>
+                        <div class="text-violet-800 font-black text-lg">AI Engineering</div>
+                        <div class="text-violet-600 font-semibold text-sm">Prompt • RAG • Agents</div>
+                    </div>
                 </div>
-                <button class="btn-flat bg-violet-600 border-violet-900 text-white w-full py-4 rounded-2xl font-black uppercase">Level Up! →</button>
+                <div class="p-5">
+                    <span class="text-violet-600 font-black uppercase text-xs tracking-widest">Track 01</span>
+                    <h3 class="text-lg font-black mt-1 mb-1">AI Engineering</h3>
+                    <p class="text-slate-500 font-semibold text-sm leading-relaxed">Prompt engineering, RAG systems, dan AI agents untuk produktivitas.</p>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-violet-100 border border-violet-300 text-violet-700 rounded-full font-black text-xs">Beginner</span>
+                        <span class="px-2 py-1 bg-violet-100 border border-violet-300 text-violet-700 rounded-full font-black text-xs">4 Modul</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Card 2 (featured) -->
-            <div class="reveal card-flat bg-indigo-600 p-10 rounded-[3rem] border-4 border-indigo-900 hover:-translate-y-2 transition-transform relative overflow-hidden">
-                <div class="absolute top-5 right-5 bg-yellow-300 text-slate-900 px-3 py-1 rounded-full text-xs font-black border-2 border-slate-900 uppercase">Most Popular</div>
-                <div class="bg-white/20 w-16 h-16 rounded-2xl mb-8 flex items-center justify-center text-3xl border-b-4 border-indigo-900 font-black text-white">{}</div>
-                <span class="text-indigo-300 font-black uppercase text-xs tracking-widest">Track 02</span>
-                <h3 class="text-2xl font-black mt-2 mb-4 text-white">Fullstack Vibe</h3>
-                <p class="text-indigo-200 mb-8 font-semibold leading-relaxed">Bangun web app dari nol sampai deployment menggunakan Next.js & Supabase.</p>
-                <div class="flex items-center gap-3 mb-8">
-                    <span class="px-3 py-1 bg-white/20 border-2 border-white/30 text-white rounded-full text-xs font-black">Intermediate</span>
-                    <span class="px-3 py-1 bg-white/20 border-2 border-white/30 text-white rounded-full text-xs font-black">6 Modules</span>
+            <div class="poster-card reveal card-flat bg-slate-50 rounded-3xl border-4 border-slate-200 overflow-hidden cursor-pointer hover:-translate-y-1 transition-transform">
+                <div class="overflow-hidden aspect-[3/4] bg-indigo-100">
+                    <img src="poster/fullstack.jpg" alt="Fullstack Development"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-3 p-6 text-center">
+                        <div class="text-6xl font-black text-indigo-600">{}</div>
+                        <div class="text-indigo-800 font-black text-lg">Fullstack Dev</div>
+                        <div class="text-indigo-600 font-semibold text-sm">Next.js • Supabase</div>
+                    </div>
                 </div>
-                <button class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 w-full py-4 rounded-2xl font-black uppercase">Level Up! →</button>
+                <div class="p-5">
+                    <span class="text-indigo-600 font-black uppercase text-xs tracking-widest">Track 02</span>
+                    <h3 class="text-lg font-black mt-1 mb-1">Fullstack Development</h3>
+                    <p class="text-slate-500 font-semibold text-sm leading-relaxed">Bangun web app dari nol sampai deployment dengan Next.js & Supabase.</p>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-indigo-100 border border-indigo-300 text-indigo-700 rounded-full font-black text-xs">Intermediate</span>
+                        <span class="px-2 py-1 bg-indigo-100 border border-indigo-300 text-indigo-700 rounded-full font-black text-xs">6 Modul</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Card 3 -->
-            <div class="reveal card-flat bg-rose-50 p-10 rounded-[3rem] border-4 border-rose-200 hover:-translate-y-2 transition-transform">
-                <div class="bg-rose-500 w-16 h-16 rounded-2xl mb-8 flex items-center justify-center text-3xl border-b-4 border-rose-800">✨</div>
-                <span class="text-rose-400 font-black uppercase text-xs tracking-widest">Track 03</span>
-                <h3 class="text-2xl font-black mt-2 mb-4">Visual Aesthetics</h3>
-                <p class="text-slate-600 mb-8 font-semibold leading-relaxed">Belajar desain yang punya 'vibe' lewat Figma dan integrasi aset AI Generative.</p>
-                <div class="flex items-center gap-3 mb-8">
-                    <span class="px-3 py-1 bg-rose-100 border-2 border-rose-300 text-rose-700 rounded-full text-xs font-black">All Levels</span>
-                    <span class="px-3 py-1 bg-rose-100 border-2 border-rose-300 text-rose-700 rounded-full text-xs font-black">5 Modules</span>
+            <div class="poster-card reveal card-flat bg-slate-50 rounded-3xl border-4 border-slate-200 overflow-hidden cursor-pointer hover:-translate-y-1 transition-transform">
+                <div class="overflow-hidden aspect-[3/4] bg-rose-100">
+                    <img src="poster/ui-design.jpg" alt="Visual Aesthetics"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-3 p-6 text-center">
+                        <div class="text-6xl">✨</div>
+                        <div class="text-rose-800 font-black text-lg">Visual Aesthetics</div>
+                        <div class="text-rose-600 font-semibold text-sm">Figma • Generative AI</div>
+                    </div>
                 </div>
-                <button class="btn-flat bg-rose-500 border-rose-800 text-white w-full py-4 rounded-2xl font-black uppercase">Level Up! →</button>
+                <div class="p-5">
+                    <span class="text-rose-500 font-black uppercase text-xs tracking-widest">Track 03</span>
+                    <h3 class="text-lg font-black mt-1 mb-1">Visual Aesthetics</h3>
+                    <p class="text-slate-500 font-semibold text-sm leading-relaxed">Desain UI/UX yang punya vibe lewat Figma dan AI Generative.</p>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-rose-100 border border-rose-300 text-rose-700 rounded-full font-black text-xs">All Levels</span>
+                        <span class="px-2 py-1 bg-rose-100 border border-rose-300 text-rose-700 rounded-full font-black text-xs">5 Modul</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="poster-card reveal card-flat bg-slate-50 rounded-3xl border-4 border-slate-200 overflow-hidden cursor-pointer hover:-translate-y-1 transition-transform">
+                <div class="overflow-hidden aspect-[3/4] bg-sky-100">
+                    <img src="poster/python.jpg" alt="Python Programming"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-3 p-6 text-center">
+                        <div class="text-6xl">🐍</div>
+                        <div class="text-sky-800 font-black text-lg">Python Programming</div>
+                        <div class="text-sky-600 font-semibold text-sm">Data • Automation • AI</div>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-sky-600 font-black uppercase text-xs tracking-widest">Track 04</span>
+                    <h3 class="text-lg font-black mt-1 mb-1">Python Programming</h3>
+                    <p class="text-slate-500 font-semibold text-sm leading-relaxed">Dasar hingga otomasi data dan integrasi AI dengan Python.</p>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-sky-100 border border-sky-300 text-sky-700 rounded-full font-black text-xs">Beginner</span>
+                        <span class="px-2 py-1 bg-sky-100 border border-sky-300 text-sky-700 rounded-full font-black text-xs">5 Modul</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="poster-card reveal card-flat bg-slate-50 rounded-3xl border-4 border-slate-200 overflow-hidden cursor-pointer hover:-translate-y-1 transition-transform">
+                <div class="overflow-hidden aspect-[3/4] bg-emerald-100">
+                    <img src="poster/web-dasar.jpg" alt="Web Dasar"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-3 p-6 text-center">
+                        <div class="text-6xl">🌐</div>
+                        <div class="text-emerald-800 font-black text-lg">Web Dasar</div>
+                        <div class="text-emerald-600 font-semibold text-sm">HTML • CSS • JavaScript</div>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-emerald-600 font-black uppercase text-xs tracking-widest">Track 05</span>
+                    <h3 class="text-lg font-black mt-1 mb-1">Web Dasar</h3>
+                    <p class="text-slate-500 font-semibold text-sm leading-relaxed">Fondasi web: HTML, CSS, dan JavaScript dari nol sampai bisa.</p>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-emerald-100 border border-emerald-300 text-emerald-700 rounded-full font-black text-xs">Pemula</span>
+                        <span class="px-2 py-1 bg-emerald-100 border border-emerald-300 text-emerald-700 rounded-full font-black text-xs">4 Modul</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="poster-card reveal card-flat bg-slate-50 rounded-3xl border-4 border-slate-200 overflow-hidden cursor-pointer hover:-translate-y-1 transition-transform">
+                <div class="overflow-hidden aspect-[3/4] bg-amber-100">
+                    <img src="poster/mobile.jpg" alt="Mobile Development"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-3 p-6 text-center">
+                        <div class="text-6xl">📱</div>
+                        <div class="text-amber-800 font-black text-lg">Mobile Dev</div>
+                        <div class="text-amber-600 font-semibold text-sm">React Native • Flutter</div>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-amber-600 font-black uppercase text-xs tracking-widest">Track 06</span>
+                    <h3 class="text-lg font-black mt-1 mb-1">Mobile Development</h3>
+                    <p class="text-slate-500 font-semibold text-sm leading-relaxed">Bangun app Android & iOS dengan React Native atau Flutter.</p>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-amber-100 border border-amber-300 text-amber-700 rounded-full font-black text-xs">Intermediate</span>
+                        <span class="px-2 py-1 bg-amber-100 border border-amber-300 text-amber-700 rounded-full font-black text-xs">6 Modul</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p class="text-center text-slate-400 font-bold text-xs mt-8">Tambahkan file gambar ke folder <code class="bg-slate-100 px-1 rounded">/poster/</code> untuk menampilkan poster asli. Format JPG/PNG, rasio 3:4.</p>
+    </div>
+</section>
+
+<!-- SYARAT TEKNIS -->
+<section class="py-16 bg-indigo-600 px-6">
+    <div class="container mx-auto">
+        <div class="reveal text-center mb-10">
+            <p class="text-indigo-300 font-black uppercase tracking-widest text-xs mb-2">Persiapan Peserta</p>
+            <h2 class="text-3xl md:text-4xl font-black text-white tracking-tighter">Yang Kamu Butuhkan</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <div class="reveal card-flat bg-white/10 border-4 border-white/20 rounded-3xl p-8 text-center">
+                <div class="text-5xl mb-4">💻</div>
+                <h3 class="font-black text-white text-lg mb-2">Punya Laptop</h3>
+                <p class="text-indigo-200 font-semibold text-sm leading-relaxed">Laptop pribadi dengan spesifikasi yang memadai untuk coding.</p>
+            </div>
+            <div class="reveal card-flat bg-white/10 border-4 border-white/20 rounded-3xl p-8 text-center">
+                <div class="text-5xl mb-4">📶</div>
+                <h3 class="font-black text-white text-lg mb-2">Koneksi Internet</h3>
+                <p class="text-indigo-200 font-semibold text-sm leading-relaxed">Bisa terkoneksi internet selama sesi, baik WiFi maupun hotspot.</p>
+            </div>
+            <div class="reveal card-flat bg-white/10 border-4 border-white/20 rounded-3xl p-8 text-center">
+                <div class="text-5xl mb-4">🔑</div>
+                <h3 class="font-black text-white text-lg mb-2">Akun Google</h3>
+                <p class="text-indigo-200 font-semibold text-sm leading-relaxed">Akun Google aktif untuk akses materi, Google Colab, dan tools lainnya.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== AI LAB ===== -->
-<section id="ai" class="py-24 px-6 bg-[#F0F7FF]">
+<!-- ══════════════════════════════
+     HARGA
+══════════════════════════════ -->
+<section id="harga" class="py-24 bg-[#F0F7FF] px-6">
     <div class="container mx-auto">
-        <div class="reveal card-flat bg-slate-900 rounded-[3rem] border-4 border-slate-700 overflow-hidden">
-            <div class="grid md:grid-cols-2 gap-0">
-                <!-- Left text -->
-                <div class="p-16">
-                    <span class="text-indigo-400 font-black uppercase tracking-widest text-xs">⚡ Fitur Unggulan</span>
-                    <h2 class="text-5xl font-black text-white tracking-tighter leading-tight mt-4 mb-6">AI Lab<br><span class="text-indigo-400">Interactive</span></h2>
-                    <p class="text-slate-400 font-semibold leading-relaxed mb-8 text-lg">
-                        Latih skill AI engineering kamu langsung di browser. Eksperimen dengan prompt, lihat hasilnya real-time, dan pelajari pola yang benar.
-                    </p>
-                    <ul class="space-y-4 mb-10">
-                        <li class="flex items-center gap-3 text-white font-bold">
-                            <span class="w-6 h-6 bg-emerald-400 rounded-lg flex items-center justify-center text-slate-900 text-xs font-black shrink-0">✓</span>
-                            Prompt Engineering Sandbox
-                        </li>
-                        <li class="flex items-center gap-3 text-white font-bold">
-                            <span class="w-6 h-6 bg-emerald-400 rounded-lg flex items-center justify-center text-slate-900 text-xs font-black shrink-0">✓</span>
-                            Real-time Code Generation
-                        </li>
-                        <li class="flex items-center gap-3 text-white font-bold">
-                            <span class="w-6 h-6 bg-emerald-400 rounded-lg flex items-center justify-center text-slate-900 text-xs font-black shrink-0">✓</span>
-                            AI-assisted Debugging
-                        </li>
+        <div class="text-center mb-12 reveal">
+            <p class="text-indigo-600 font-black uppercase tracking-widest text-xs mb-2">Pilih Paket Belajar</p>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tighter">Harga yang <span class="bg-yellow-300 px-2 italic">Terjangkau</span></h2>
+            <p class="text-slate-500 font-bold mt-3 max-w-xl mx-auto">Tersedia pilihan online dan on-site di Jayapura. Semua paket dapat disesuaikan.</p>
+        </div>
+        <!-- Toggle -->
+        <div class="flex justify-center mb-10 reveal">
+            <div class="inline-flex bg-white border-4 border-slate-200 rounded-2xl p-1.5 gap-1">
+                <button id="tab-online"  onclick="switchMode('online')"
+                    class="tab-pill px-7 py-2.5 rounded-xl font-black text-sm uppercase bg-indigo-600 text-white border-b-4 border-indigo-900">
+                    🌐 Online
+                </button>
+                <button id="tab-onsite" onclick="switchMode('onsite')"
+                    class="tab-pill px-7 py-2.5 rounded-xl font-black text-sm uppercase text-slate-500">
+                    📍 On-site
+                </button>
+            </div>
+        </div>
+
+        <!-- ONLINE -->
+        <div id="prices-online" class="price-box active">
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="reveal card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-200">
+                    <div class="font-black uppercase tracking-widest text-slate-400 text-xs mb-1">Paket Kilat</div>
+                    <h3 class="text-2xl font-black mb-1">1 Pertemuan</h3>
+                    <div class="text-slate-400 font-bold text-sm mb-5">Durasi 3 jam · Online 🌐</div>
+                    <div class="text-4xl font-black text-indigo-600 mb-1">Rp 150K</div>
+                    <div class="text-slate-400 font-bold text-sm mb-8">per sesi</div>
+                    <ul class="space-y-3 mb-10 font-semibold text-slate-700 text-sm">
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> 1 sesi intensif 3 jam</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Materi + rekaman sesi</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Q&amp;A langsung via Zoom/Meet</li>
+                        <li class="flex gap-3 text-slate-400"><span class="shrink-0">✗</span> Sertifikat</li>
                     </ul>
-                    <button class="btn-flat bg-indigo-600 border-indigo-900 text-white px-10 py-4 rounded-2xl font-black uppercase">Masuk AI Lab →</button>
+                    <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20tertarik%20Paket%20Kilat%20Online" target="_blank"
+                       class="btn-flat bg-white border-slate-300 text-slate-900 w-full py-4 rounded-2xl font-black uppercase text-sm">Daftar Sekarang</a>
                 </div>
-                <!-- Right: fake terminal -->
-                <div class="bg-black/40 p-10 border-l-4 border-slate-700 font-mono text-sm">
-                    <div class="flex gap-2 mb-6">
-                        <div class="w-3 h-3 bg-rose-500 rounded-full"></div>
-                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                        <div class="w-3 h-3 bg-emerald-400 rounded-full"></div>
-                        <span class="text-slate-500 text-xs ml-2 font-sans font-bold uppercase tracking-widest">AI Lab Terminal</span>
-                    </div>
-                    <div class="space-y-3 text-sm leading-relaxed">
-                        <div class="text-slate-500">// Prompt Engineering Example</div>
-                        <div class="text-indigo-400">const prompt = <span class="text-emerald-400">`</span></div>
-                        <div class="text-emerald-400 pl-4">  Buatkan fungsi React untuk</div>
-                        <div class="text-emerald-400 pl-4">  fetch data dengan error handling</div>
-                        <div class="text-emerald-400 pl-4">  dan loading state yang proper.</div>
-                        <div class="text-indigo-400"><span class="text-emerald-400">`</span>;</div>
-                        <div class="mt-4 text-slate-500">// AI Response:</div>
-                        <div class="text-yellow-300">function useFetch(url) {'{'}</div>
-                        <div class="text-white pl-4">  const [data, setData] = useState(null);</div>
-                        <div class="text-white pl-4">  const [loading, setLoading] = useState(true);</div>
-                        <div class="text-slate-500 pl-4">  // ... auto-generated by AI ✨</div>
-                        <div class="text-yellow-300">{'}'}</div>
-                        <div class="flex items-center gap-2 mt-4 text-emerald-400">
-                            <span class="w-2 h-4 bg-emerald-400 animate-pulse"></span>
-                            <span class="text-slate-400">_</span>
-                        </div>
-                    </div>
+                <div class="reveal card-flat bg-indigo-600 p-10 rounded-[2.5rem] border-4 border-indigo-900 -mt-3 relative overflow-hidden">
+                    <div class="absolute top-5 right-5 bg-yellow-300 text-slate-900 px-3 py-1 rounded-full text-xs font-black border-2 border-slate-900">Best Value</div>
+                    <div class="font-black uppercase tracking-widest text-indigo-300 text-xs mb-1">Paket Reguler</div>
+                    <h3 class="text-2xl font-black text-white mb-1">12 Pertemuan</h3>
+                    <div class="text-indigo-300 font-bold text-sm mb-5">2 jam/sesi · Online 🌐</div>
+                    <div class="text-4xl font-black text-yellow-300 mb-1">Rp 1.2Jt</div>
+                    <div class="text-indigo-300 font-bold text-sm mb-8">total paket</div>
+                    <ul class="space-y-3 mb-10 font-semibold text-indigo-100 text-sm">
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> 12 sesi × 2 jam</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Semua materi + rekaman</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Project nyata + review</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Sertifikat kelulusan</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Group WhatsApp alumni</li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20tertarik%20Paket%20Reguler%20Online" target="_blank"
+                       class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 w-full py-4 rounded-2xl font-black uppercase text-sm">Daftar Sekarang ⚡</a>
+                </div>
+                <div class="reveal card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-200">
+                    <div class="font-black uppercase tracking-widest text-slate-400 text-xs mb-1">Paket Fleksibel</div>
+                    <h3 class="text-2xl font-black mb-1">By Request</h3>
+                    <div class="text-slate-400 font-bold text-sm mb-5">Jadwal bebas · Online 🌐</div>
+                    <div class="text-4xl font-black text-indigo-600 mb-1">Custom</div>
+                    <div class="text-slate-400 font-bold text-sm mb-8">sesuai kebutuhan</div>
+                    <ul class="space-y-3 mb-10 font-semibold text-slate-700 text-sm">
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Jadwal sesuai keinginanmu</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Materi bisa dikustomisasi</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> 1-on-1 atau grup kecil</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Harga nego langsung</li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20mau%20tanya%20Paket%20By%20Request%20Online" target="_blank"
+                       class="btn-flat bg-slate-900 border-slate-700 text-white w-full py-4 rounded-2xl font-black uppercase text-sm">Hubungi Kami</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ON-SITE -->
+        <div id="prices-onsite" class="price-box">
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="reveal card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-200">
+                    <div class="font-black uppercase tracking-widest text-slate-400 text-xs mb-1">Paket Kilat</div>
+                    <h3 class="text-2xl font-black mb-1">1 Pertemuan</h3>
+                    <div class="text-slate-400 font-bold text-sm mb-5">Durasi 3 jam · On-site 📍</div>
+                    <div class="text-4xl font-black text-indigo-600 mb-1">Rp 250K</div>
+                    <div class="text-slate-400 font-bold text-sm mb-8">per sesi</div>
+                    <ul class="space-y-3 mb-10 font-semibold text-slate-700 text-sm">
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> 1 sesi intensif 3 jam</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Tatap muka di Jayapura</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Materi + bimbingan langsung</li>
+                        <li class="flex gap-3 text-slate-400"><span class="shrink-0">✗</span> Sertifikat</li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20tertarik%20Paket%20Kilat%20On-site" target="_blank"
+                       class="btn-flat bg-white border-slate-300 text-slate-900 w-full py-4 rounded-2xl font-black uppercase text-sm">Daftar Sekarang</a>
+                </div>
+                <div class="reveal card-flat bg-indigo-600 p-10 rounded-[2.5rem] border-4 border-indigo-900 -mt-3 relative overflow-hidden">
+                    <div class="absolute top-5 right-5 bg-yellow-300 text-slate-900 px-3 py-1 rounded-full text-xs font-black border-2 border-slate-900">Terlaris</div>
+                    <div class="font-black uppercase tracking-widest text-indigo-300 text-xs mb-1">Paket Reguler</div>
+                    <h3 class="text-2xl font-black text-white mb-1">12 Pertemuan</h3>
+                    <div class="text-indigo-300 font-bold text-sm mb-5">2 jam/sesi · On-site 📍</div>
+                    <div class="text-4xl font-black text-yellow-300 mb-1">Rp 2Jt</div>
+                    <div class="text-indigo-300 font-bold text-sm mb-8">total paket</div>
+                    <ul class="space-y-3 mb-10 font-semibold text-indigo-100 text-sm">
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> 12 sesi × 2 jam langsung</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Semua materi + modul fisik</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Project review tatap muka</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Sertifikat kelulusan</li>
+                        <li class="flex gap-3"><span class="text-yellow-300 shrink-0">✓</span> Networking komunitas Jayapura</li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20tertarik%20Paket%20Reguler%20On-site" target="_blank"
+                       class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 w-full py-4 rounded-2xl font-black uppercase text-sm">Daftar Sekarang ⚡</a>
+                </div>
+                <div class="reveal card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-200">
+                    <div class="font-black uppercase tracking-widest text-slate-400 text-xs mb-1">Paket Fleksibel</div>
+                    <h3 class="text-2xl font-black mb-1">By Request</h3>
+                    <div class="text-slate-400 font-bold text-sm mb-5">Jadwal bebas · On-site 📍</div>
+                    <div class="text-4xl font-black text-indigo-600 mb-1">Custom</div>
+                    <div class="text-slate-400 font-bold text-sm mb-8">sesuai kebutuhan</div>
+                    <ul class="space-y-3 mb-10 font-semibold text-slate-700 text-sm">
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Waktu &amp; tempat fleksibel</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Cocok untuk korporat / sekolah</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Materi dikustomisasi</li>
+                        <li class="flex gap-3"><span class="text-emerald-500 shrink-0">✓</span> Harga nego langsung</li>
+                    </ul>
+                    <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20mau%20tanya%20Paket%20By%20Request%20On-site" target="_blank"
+                       class="btn-flat bg-slate-900 border-slate-700 text-white w-full py-4 rounded-2xl font-black uppercase text-sm">Hubungi Kami</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== TESTIMONIALS ===== -->
-<section class="py-24 bg-white border-t-8 border-slate-100 px-6">
+<!-- ══════════════════════════════
+     TESTIMONI
+══════════════════════════════ -->
+<section id="testimoni" class="py-24 bg-white border-t-8 border-slate-100 px-6">
     <div class="container mx-auto">
-        <div class="text-center mb-16 reveal">
-            <p class="text-indigo-600 font-black uppercase tracking-widest text-sm mb-2">Kata Mereka</p>
-            <h2 class="text-5xl font-black tracking-tighter">Real Students,<br>Real <span class="bg-yellow-300 px-2 italic">Vibes</span>.</h2>
+        <div class="text-center mb-14 reveal">
+            <p class="text-indigo-600 font-black uppercase tracking-widest text-xs mb-2">Kata Mereka</p>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tighter">Real Students,<br>Real <span class="bg-yellow-300 px-2 italic">Cerita</span>.</h2>
         </div>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="reveal testi-card card-flat bg-indigo-50 p-8 rounded-3xl border-4 border-indigo-200">
-                <div class="text-4xl mb-4">⭐⭐⭐⭐⭐</div>
-                <p class="text-slate-700 font-semibold leading-relaxed mb-6 text-lg">"Serius, ini kursus paling santuy yang pernah gua ikutin. Dalam 2 minggu udah bisa deploy app sendiri!"</p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="reveal card-flat bg-indigo-50 p-8 rounded-3xl border-4 border-indigo-200 hover:-rotate-1 transition-transform">
+                <div class="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                <p class="text-slate-700 font-semibold leading-relaxed mb-6">"Serius, ini kursus paling santuy yang pernah gua ikutin. Dalam 2 minggu udah bisa deploy app sendiri dan langsung dapet client pertama!"</p>
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-lg border-b-4 border-indigo-900">RK</div>
-                    <div>
-                        <div class="font-black">Rizky K.</div>
-                        <div class="text-slate-500 font-bold text-sm">Fullstack Vibe Student</div>
-                    </div>
+                    <div class="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black border-b-4 border-indigo-900">RK</div>
+                    <div><div class="font-black text-sm">Rizky Kurniawan</div><div class="text-slate-500 font-bold text-xs">Fullstack Track · Jayapura</div></div>
                 </div>
             </div>
-            <div class="reveal testi-card card-flat bg-yellow-50 p-8 rounded-3xl border-4 border-yellow-300 md:translate-y-4">
-                <div class="text-4xl mb-4">⭐⭐⭐⭐⭐</div>
-                <p class="text-slate-700 font-semibold leading-relaxed mb-6 text-lg">"AI Lab-nya beda banget. Bisa langsung eksperimen prompt dan lihat output code-nya. Belajar jadi super ngebut!"</p>
+            <div class="reveal card-flat bg-yellow-50 p-8 rounded-3xl border-4 border-yellow-300 hover:rotate-1 transition-transform md:translate-y-4">
+                <div class="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                <p class="text-slate-700 font-semibold leading-relaxed mb-6">"Instrukturnya sabar banget jelasinnya. Aku yang awalnya gak tau apa-apa soal coding, sekarang udah bisa bikin website sendiri!"</p>
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-yellow-400 rounded-xl flex items-center justify-center text-slate-900 font-black text-lg border-b-4 border-yellow-600">SR</div>
-                    <div>
-                        <div class="font-black">Sari R.</div>
-                        <div class="text-slate-500 font-bold text-sm">AI Engineering Student</div>
-                    </div>
+                    <div class="w-12 h-12 bg-yellow-400 rounded-xl flex items-center justify-center text-slate-900 font-black border-b-4 border-yellow-600">SR</div>
+                    <div><div class="font-black text-sm">Sari Rahayu</div><div class="text-slate-500 font-bold text-xs">Web Dasar · Online</div></div>
                 </div>
             </div>
-            <div class="reveal testi-card card-flat bg-emerald-50 p-8 rounded-3xl border-4 border-emerald-200">
-                <div class="text-4xl mb-4">⭐⭐⭐⭐⭐</div>
-                <p class="text-slate-700 font-semibold leading-relaxed mb-6 text-lg">"Desain UI yang diajarkan beneran beda. Akhirnya portfolio gua keliatan profesional dan dapet freelance job!"</p>
+            <div class="reveal card-flat bg-emerald-50 p-8 rounded-3xl border-4 border-emerald-200 hover:-rotate-1 transition-transform">
+                <div class="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                <p class="text-slate-700 font-semibold leading-relaxed mb-6">"Paket on-site-nya recommended! Bisa tanya langsung, langsung dikerjain bareng. Jauh lebih efektif dari belajar sendiri."</p>
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-black text-lg border-b-4 border-emerald-800">DN</div>
-                    <div>
-                        <div class="font-black">David N.</div>
-                        <div class="text-slate-500 font-bold text-sm">Visual Aesthetics Student</div>
-                    </div>
+                    <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white font-black border-b-4 border-emerald-800">DN</div>
+                    <div><div class="font-black text-sm">David Numberi</div><div class="text-slate-500 font-bold text-xs">AI Engineering · On-site</div></div>
+                </div>
+            </div>
+            <div class="reveal card-flat bg-violet-50 p-8 rounded-3xl border-4 border-violet-200 hover:rotate-1 transition-transform">
+                <div class="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                <p class="text-slate-700 font-semibold leading-relaxed mb-6">"By request option-nya keren! Gua minta jadwal sabtu-minggu, dikasih. Materinya juga disesuaiin sama project yang lagi gua kerjain."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black border-b-4 border-violet-900">MA</div>
+                    <div><div class="font-black text-sm">Michael Asso</div><div class="text-slate-500 font-bold text-xs">Python Track · By Request</div></div>
+                </div>
+            </div>
+            <div class="reveal card-flat bg-rose-50 p-8 rounded-3xl border-4 border-rose-200 hover:-rotate-1 transition-transform md:translate-y-4">
+                <div class="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                <p class="text-slate-700 font-semibold leading-relaxed mb-6">"Setelah ikut kursus Figma di sini, portfolio desain gue langsung naik level. Akhirnya dapet kerjaan freelance pertama dari Bali!"</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-rose-500 rounded-xl flex items-center justify-center text-white font-black border-b-4 border-rose-800">LT</div>
+                    <div><div class="font-black text-sm">Lita Tanggahma</div><div class="text-slate-500 font-bold text-xs">Visual Aesthetics · Online</div></div>
+                </div>
+            </div>
+            <div class="reveal card-flat bg-sky-50 p-8 rounded-3xl border-4 border-sky-200 hover:rotate-1 transition-transform">
+                <div class="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                <p class="text-slate-700 font-semibold leading-relaxed mb-6">"Ini pertama kalinya ada kursus coding berkualitas di Jayapura. Bangga banget bisa belajar di sini dan langsung praktek."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-sky-500 rounded-xl flex items-center justify-center text-white font-black border-b-4 border-sky-800">YW</div>
+                    <div><div class="font-black text-sm">Yonas Wambrauw</div><div class="text-slate-500 font-bold text-xs">Mobile Dev · On-site</div></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== PRICING ===== -->
-<section id="pricing" class="py-24 bg-[#F0F7FF] border-t-8 border-slate-100 px-6">
+<!-- ══════════════════════════════
+     GALERI  (1 baris, 4 kolom)
+══════════════════════════════ -->
+<section id="galeri" class="py-24 bg-[#F0F7FF] border-t-8 border-slate-100 px-6">
     <div class="container mx-auto">
-        <div class="text-center mb-16 reveal">
-            <p class="text-indigo-600 font-black uppercase tracking-widest text-sm mb-2">Investasi Terbaik</p>
-            <h2 class="text-5xl font-black tracking-tighter">Pilih Plan<br>yang Pas Buat Kamu</h2>
+        <div class="text-center mb-14 reveal">
+            <p class="text-indigo-600 font-black uppercase tracking-widest text-xs mb-2">Suasana Belajar</p>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tighter">Galeri <span class="text-indigo-600">Kegiatan</span></h2>
         </div>
-        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <!-- Free -->
-            <div class="reveal pricing-card card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-200">
-                <div class="font-black uppercase tracking-widest text-slate-500 text-sm mb-4">Starter</div>
-                <div class="text-5xl font-black mb-2">Free</div>
-                <div class="text-slate-500 font-bold mb-8">Selamanya gratis ✌️</div>
-                <ul class="space-y-3 mb-10 font-semibold text-slate-700">
-                    <li class="flex gap-3"><span class="text-emerald-500">✓</span> 2 Kursus Gratis</li>
-                    <li class="flex gap-3"><span class="text-emerald-500">✓</span> Community Access</li>
-                    <li class="flex gap-3 text-slate-400"><span>✗</span> AI Lab</li>
-                    <li class="flex gap-3 text-slate-400"><span>✗</span> Certificate</li>
-                </ul>
-                <button class="btn-flat bg-white border-slate-300 text-slate-900 w-full py-4 rounded-2xl font-black uppercase">Mulai Gratis</button>
-            </div>
-            <!-- Pro (featured) -->
-            <div class="reveal pricing-card card-flat bg-indigo-600 p-10 rounded-[2.5rem] border-4 border-indigo-900 -mt-4">
-                <div class="flex justify-between items-center mb-4">
-                    <div class="font-black uppercase tracking-widest text-indigo-300 text-sm">Pro</div>
-                    <span class="px-3 py-1 bg-yellow-300 text-slate-900 rounded-full text-xs font-black border-2 border-slate-900">Best Value</span>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div class="gallery-item reveal card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+                <div class="overflow-hidden aspect-square bg-indigo-100">
+                    <img src="galeri/sesi-1.jpg" alt="Sesi On-site Jayapura"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-2 bg-indigo-50">
+                        <div class="text-5xl">🖥️</div><div class="font-black text-indigo-700 text-sm">Sesi On-site</div>
+                    </div>
                 </div>
-                <div class="text-5xl font-black text-white mb-2">Rp 299K <span class="text-2xl text-indigo-300">/bln</span></div>
-                <div class="text-indigo-300 font-bold mb-8">Bayar tahunan, hemat 40% 🔥</div>
-                <ul class="space-y-3 mb-10 font-semibold text-indigo-100">
-                    <li class="flex gap-3"><span class="text-yellow-300">✓</span> Semua Kursus (12+)</li>
-                    <li class="flex gap-3"><span class="text-yellow-300">✓</span> AI Lab Access</li>
-                    <li class="flex gap-3"><span class="text-yellow-300">✓</span> Certificate</li>
-                    <li class="flex gap-3"><span class="text-yellow-300">✓</span> 1-on-1 Mentoring</li>
-                </ul>
-                <button class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 w-full py-4 rounded-2xl font-black uppercase">Pilih Pro ⚡</button>
+                <div class="p-4">
+                    <p class="font-black text-sm">Sesi On-site</p>
+                    <p class="text-slate-500 font-semibold text-xs mt-0.5">Coding bareng di Jayapura</p>
+                </div>
             </div>
-            <!-- Team -->
-            <div class="reveal pricing-card card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-200">
-                <div class="font-black uppercase tracking-widest text-slate-500 text-sm mb-4">Team</div>
-                <div class="text-5xl font-black mb-2">Custom</div>
-                <div class="text-slate-500 font-bold mb-8">Min. 5 seats 💼</div>
-                <ul class="space-y-3 mb-10 font-semibold text-slate-700">
-                    <li class="flex gap-3"><span class="text-emerald-500">✓</span> Semua Fitur Pro</li>
-                    <li class="flex gap-3"><span class="text-emerald-500">✓</span> Dedicated Mentor</li>
-                    <li class="flex gap-3"><span class="text-emerald-500">✓</span> Custom Curriculum</li>
-                    <li class="flex gap-3"><span class="text-emerald-500">✓</span> Invoice Perusahaan</li>
-                </ul>
-                <button class="btn-flat bg-slate-900 border-slate-700 text-white w-full py-4 rounded-2xl font-black uppercase">Hubungi Kami</button>
+
+            <div class="gallery-item reveal card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+                <div class="overflow-hidden aspect-square bg-yellow-100">
+                    <img src="galeri/workshop.jpg" alt="Workshop AI"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-2 bg-yellow-50">
+                        <div class="text-5xl">🤖</div><div class="font-black text-yellow-700 text-sm">Workshop AI</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <p class="font-black text-sm">Workshop AI</p>
+                    <p class="text-slate-500 font-semibold text-xs mt-0.5">Eksplor AI tools terbaru</p>
+                </div>
             </div>
+
+            <div class="gallery-item reveal card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+                <div class="overflow-hidden aspect-square bg-emerald-100">
+                    <img src="galeri/demo-day.jpg" alt="Demo Day"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-2 bg-emerald-50">
+                        <div class="text-5xl">🚀</div><div class="font-black text-emerald-700 text-sm">Demo Day</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <p class="font-black text-sm">Demo Day</p>
+                    <p class="text-slate-500 font-semibold text-xs mt-0.5">Presentasi project peserta</p>
+                </div>
+            </div>
+
+            <div class="gallery-item reveal card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+                <div class="overflow-hidden aspect-square bg-violet-100">
+                    <img src="galeri/graduation.jpg" alt="Wisuda Batch"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                         class="w-full h-full object-cover">
+                    <div style="display:none" class="w-full h-full flex-col items-center justify-center gap-2 bg-violet-50">
+                        <div class="text-5xl">🎓</div><div class="font-black text-violet-700 text-sm">Wisuda Batch</div>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <p class="font-black text-sm">Wisuda Batch</p>
+                    <p class="text-slate-500 font-semibold text-xs mt-0.5">Seremoni kelulusan peserta</p>
+                </div>
+            </div>
+
+        </div>
+        <p class="text-center text-slate-400 font-bold text-xs mt-6">Tambahkan foto ke folder <code class="bg-slate-100 px-1 rounded">/galeri/</code> untuk menampilkan foto asli.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════
+     FAQ
+══════════════════════════════ -->
+<section id="faq" class="py-24 bg-white border-t-8 border-slate-100 px-6">
+    <div class="container mx-auto max-w-3xl">
+        <div class="text-center mb-14 reveal">
+            <p class="text-indigo-600 font-black uppercase tracking-widest text-xs mb-2">Pertanyaan Umum</p>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tighter">FAQ</h2>
+        </div>
+        <div class="space-y-4">
+            <div class="reveal card-flat bg-slate-50 rounded-2xl border-4 border-slate-200 overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center gap-4">
+                    <span class="font-black text-slate-900">Apakah saya harus punya pengalaman coding dulu?</span>
+                    <span class="faq-icon text-2xl font-black text-indigo-600 shrink-0">+</span>
+                </button>
+                <div class="faq-body">
+                    <div class="px-6 pb-6 text-slate-600 font-semibold leading-relaxed border-t-4 border-slate-200 pt-5">
+                        Tidak perlu sama sekali! Beberapa track kami dirancang untuk pemula total. Yang penting kamu punya laptop, bisa koneksi internet, dan punya akun Google. Semangat belajar jauh lebih penting dari pengalaman sebelumnya.
+                    </div>
+                </div>
+            </div>
+            <div class="reveal card-flat bg-slate-50 rounded-2xl border-4 border-slate-200 overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center gap-4">
+                    <span class="font-black text-slate-900">Apa perbedaan paket online dan on-site?</span>
+                    <span class="faq-icon text-2xl font-black text-indigo-600 shrink-0">+</span>
+                </button>
+                <div class="faq-body">
+                    <div class="px-6 pb-6 text-slate-600 font-semibold leading-relaxed border-t-4 border-slate-200 pt-5">
+                        Paket <strong>online</strong> dilakukan via Zoom/Google Meet sehingga bisa dari mana saja. Paket <strong>on-site</strong> dilakukan tatap muka langsung di Jayapura — cocok untuk kamu yang lebih suka belajar langsung dan bisa bertanya secara real-time tanpa batasan layar.
+                    </div>
+                </div>
+            </div>
+            <div class="reveal card-flat bg-slate-50 rounded-2xl border-4 border-slate-200 overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center gap-4">
+                    <span class="font-black text-slate-900">Bagaimana cara pembayaran?</span>
+                    <span class="faq-icon text-2xl font-black text-indigo-600 shrink-0">+</span>
+                </button>
+                <div class="faq-body">
+                    <div class="px-6 pb-6 text-slate-600 font-semibold leading-relaxed border-t-4 border-slate-200 pt-5">
+                        Pembayaran bisa dilakukan via transfer bank, GoPay, OVO, atau QRIS. Setelah konfirmasi pembayaran, kamu langsung mendapat akses materi dan jadwal sesi pertama. Hubungi kami via WhatsApp untuk detail.
+                    </div>
+                </div>
+            </div>
+            <div class="reveal card-flat bg-slate-50 rounded-2xl border-4 border-slate-200 overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center gap-4">
+                    <span class="font-black text-slate-900">Apakah ada sertifikat setelah selesai?</span>
+                    <span class="faq-icon text-2xl font-black text-indigo-600 shrink-0">+</span>
+                </button>
+                <div class="faq-body">
+                    <div class="px-6 pb-6 text-slate-600 font-semibold leading-relaxed border-t-4 border-slate-200 pt-5">
+                        Ya! Paket 12 pertemuan (reguler) mendapat sertifikat digital kelulusan dari EasySyntax. Sertifikat ini bisa kamu cantumkan di LinkedIn, portofolio, atau CV sebagai bukti kompetensi.
+                    </div>
+                </div>
+            </div>
+            <div class="reveal card-flat bg-slate-50 rounded-2xl border-4 border-slate-200 overflow-hidden">
+                <button onclick="toggleFaq(this)" class="w-full p-6 text-left flex justify-between items-center gap-4">
+                    <span class="font-black text-slate-900">Bagaimana jika saya tidak bisa hadir di salah satu sesi?</span>
+                    <span class="faq-icon text-2xl font-black text-indigo-600 shrink-0">+</span>
+                </button>
+                <div class="faq-body">
+                    <div class="px-6 pb-6 text-slate-600 font-semibold leading-relaxed border-t-4 border-slate-200 pt-5">
+                        Jangan khawatir! Setiap sesi direkam dan tersedia untuk ditonton kembali. Untuk paket reguler, kamu bisa reschedule sesi maksimal 2 kali dengan pemberitahuan minimal 24 jam sebelumnya.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 reveal">
+            <p class="text-slate-500 font-bold mb-4">Masih ada pertanyaan lain?</p>
+            <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20punya%20pertanyaan" target="_blank"
+               class="btn-flat bg-emerald-500 border-emerald-800 text-white px-8 py-4 rounded-2xl font-black uppercase text-sm">
+                💬 Tanya via WhatsApp
+            </a>
         </div>
     </div>
 </section>
 
-<!-- ===== CTA FOOTER BANNER ===== -->
-<section class="py-20 bg-slate-900 border-t-8 border-slate-700 px-6 text-center">
-    <div class="max-w-3xl mx-auto reveal">
-        <h2 class="text-5xl md:text-6xl font-black text-white tracking-tighter mb-6">
-            Siap Mulai <span class="text-yellow-300 italic">Vibe</span><br>Coding Hari Ini?
-        </h2>
-        <p class="text-slate-400 font-semibold mb-10 text-xl">Gabung dengan 5,000+ student yang sudah membuktikannya.</p>
-        <div class="flex flex-col sm:flex-row justify-center gap-5">
-            <a href="#pricing" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-12 py-5 rounded-[2rem] text-xl font-black">Daftar Sekarang ⚡</a>
-            <a href="components.html" class="btn-flat bg-slate-800 border-slate-600 text-white px-12 py-5 rounded-[2rem] text-xl font-black">Lihat UI Docs →</a>
+<!-- ══════════════════════════════
+     BRAND PENDUKUNG / MITRA
+══════════════════════════════ -->
+<section id="mitra" class="py-20 bg-[#F0F7FF] border-t-8 border-slate-100 px-6">
+    <div class="container mx-auto">
+        <div class="text-center mb-12 reveal">
+            <p class="text-indigo-600 font-black uppercase tracking-widest text-xs mb-2">Ekosistem Kami</p>
+            <h2 class="text-3xl font-black tracking-tighter">Brand Pendukung <span class="text-slate-400">&amp;</span> Mitra</h2>
         </div>
+        <div class="reveal grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-5 items-center max-w-4xl mx-auto">
+            <div class="card-flat bg-white rounded-2xl border-4 border-slate-200 p-5 flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform">
+                <div class="text-3xl">🔍</div><div class="font-black text-xs text-center text-slate-700">Google</div>
+            </div>
+            <div class="card-flat bg-white rounded-2xl border-4 border-slate-200 p-5 flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform">
+                <div class="text-3xl">▲</div><div class="font-black text-xs text-center text-slate-700">Vercel</div>
+            </div>
+            <div class="card-flat bg-white rounded-2xl border-4 border-slate-200 p-5 flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform">
+                <div class="text-3xl">⚡</div><div class="font-black text-xs text-center text-slate-700">Supabase</div>
+            </div>
+            <div class="card-flat bg-white rounded-2xl border-4 border-slate-200 p-5 flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform">
+                <div class="text-3xl">🐙</div><div class="font-black text-xs text-center text-slate-700">GitHub</div>
+            </div>
+            <div class="card-flat bg-white rounded-2xl border-4 border-slate-200 p-5 flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform">
+                <div class="text-3xl">🎨</div><div class="font-black text-xs text-center text-slate-700">Figma</div>
+            </div>
+            <div class="card-flat bg-white rounded-2xl border-4 border-slate-200 p-5 flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform">
+                <div class="text-3xl">🤖</div><div class="font-black text-xs text-center text-slate-700">Claude AI</div>
+            </div>
+        </div>
+        <p class="text-center text-slate-400 font-bold text-xs mt-8 reveal">Ganti dengan logo mitra resmi. Simpan di folder <code class="bg-slate-100 px-1 rounded">/img/mitra/</code></p>
     </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
-<footer class="bg-slate-950 text-white py-16 px-6">
+<!-- ══════════════════════════════
+     FOOTER
+══════════════════════════════ -->
+<footer class="bg-slate-900 text-white py-16 px-6">
     <div class="container mx-auto grid md:grid-cols-4 gap-12">
         <div class="md:col-span-2">
             <div class="text-3xl font-black tracking-tighter mb-4 uppercase">Easy<span class="text-indigo-400">Syntax</span></div>
-            <p class="text-slate-400 font-bold max-w-sm leading-relaxed mb-6">
-                Platform belajar coding yang nggak bikin stres. Fokus pada hasil, bukan cuma teori yang bikin ngantuk.
+            <p class="text-slate-400 font-semibold max-w-sm leading-relaxed mb-6 text-sm">
+                Platform belajar coding yang nggak bikin stres. Tersedia online dan on-site di Jayapura, Papua. Open Source — MIT License.
             </p>
-            <div class="flex gap-4">
-                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border-b-4 border-slate-700 font-bold hover:bg-indigo-600 transition-colors cursor-pointer">IG</div>
-                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border-b-4 border-slate-700 font-bold hover:bg-red-600 transition-colors cursor-pointer">YT</div>
-                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border-b-4 border-slate-700 font-bold hover:bg-sky-500 transition-colors cursor-pointer">TW</div>
+            <p class="text-slate-500 font-bold text-xs uppercase tracking-widest mb-3">Ikuti Kami</p>
+            <div class="flex gap-3">
+                <a href="https://instagram.com/easysyntax" target="_blank"
+                   class="w-12 h-12 rounded-xl flex items-center justify-center border-b-4 border-pink-900 hover:-translate-y-1 transition-transform"
+                   style="background:linear-gradient(135deg,#f43f5e,#a855f7)" title="Instagram">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+                <a href="https://youtube.com/@easysyntax" target="_blank"
+                   class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center border-b-4 border-red-900 hover:-translate-y-1 transition-transform" title="YouTube">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="https://tiktok.com/@easysyntax" target="_blank"
+                   class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border-b-4 border-slate-700 hover:-translate-y-1 transition-transform" title="TikTok">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                </a>
+                <a href="https://wa.me/6281234567890" target="_blank"
+                   class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center border-b-4 border-emerald-900 hover:-translate-y-1 transition-transform" title="WhatsApp">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
             </div>
         </div>
-        <div class="flex flex-col gap-4 font-bold">
-            <span class="text-indigo-400 uppercase tracking-widest text-sm">Quick Links</span>
-            <a href="#courses" class="hover:text-indigo-400 transition-colors">Courses</a>
-            <a href="#ai" class="hover:text-indigo-400 transition-colors">AI Lab</a>
-            <a href="components.html" class="hover:text-indigo-400 transition-colors">UI Documentation</a>
-            <a href="#" class="hover:text-indigo-400 transition-colors">Free Workshop</a>
+        <div class="flex flex-col gap-4 font-bold text-sm">
+            <span class="text-indigo-400 uppercase tracking-widest text-xs">Navigasi</span>
+            <a href="#beranda"   class="text-slate-400 hover:text-white transition-colors">Beranda</a>
+            <a href="#kursus"    class="text-slate-400 hover:text-white transition-colors">Kursus</a>
+            <a href="#harga"     class="text-slate-400 hover:text-white transition-colors">Harga</a>
+            <a href="#testimoni" class="text-slate-400 hover:text-white transition-colors">Testimoni</a>
+            <a href="#faq"       class="text-slate-400 hover:text-white transition-colors">FAQ</a>
+            <button onclick="openSyarat()" class="text-left text-slate-400 hover:text-white transition-colors">Syarat &amp; Ketentuan</button>
         </div>
-        <div class="flex flex-col gap-4 font-bold">
-            <span class="text-indigo-400 uppercase tracking-widest text-sm">Support</span>
-            <a href="#" class="hover:text-indigo-400 transition-colors">Help Center</a>
-            <a href="#" class="hover:text-indigo-400 transition-colors">Partnership</a>
-            <a href="#" class="hover:text-indigo-400 transition-colors">Privacy Policy</a>
+        <div class="flex flex-col gap-4 font-bold text-sm">
+            <span class="text-indigo-400 uppercase tracking-widest text-xs">Kontak</span>
+            <a href="https://wa.me/6281234567890" target="_blank" class="text-slate-400 hover:text-white transition-colors">💬 WhatsApp</a>
+            <a href="mailto:hello@easysyntax.id"   class="text-slate-400 hover:text-white transition-colors">✉️ Email</a>
+            <span class="text-slate-400">📍 Jayapura, Papua</span>
+            <a href="components.html" class="text-indigo-400 hover:text-indigo-300 transition-colors mt-2">🛠 UI Documentation</a>
         </div>
     </div>
-    <div class="container mx-auto mt-16 pt-8 border-t border-slate-800 text-center text-slate-500 font-bold uppercase tracking-widest text-sm">
-        &copy; 2026 EasySyntax. Open Source — MIT License. Let's make it simple.
+    <div class="container mx-auto mt-14 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-slate-500 font-bold text-sm">&copy; 2026 EasySyntax. Open Source — MIT License.</div>
+        <div class="text-slate-500 font-bold text-sm">Made with ❤️ in Jayapura, Papua 🇮🇩</div>
     </div>
 </footer>
 
-<!-- ===== SCROLL REVEAL SCRIPT ===== -->
-<script>
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                entry.target.style.transitionDelay = (i % 3) * 0.1 + 's';
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.12 });
-    reveals.forEach(el => observer.observe(el));
-</script>
+<!-- SYARAT & KETENTUAN MODAL -->
+<div id="syarat-modal" class="fixed inset-0 z-[100] items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeSyarat()"></div>
+    <div class="relative bg-white rounded-[2rem] border-4 border-slate-900 w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+        <div class="sticky top-0 bg-white border-b-4 border-slate-200 px-8 py-5 flex justify-between items-center rounded-t-[2rem]">
+            <h2 class="text-2xl font-black">Syarat &amp; Ketentuan</h2>
+            <button onclick="closeSyarat()" class="w-10 h-10 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center font-black hover:bg-rose-100 hover:border-rose-400 transition-colors text-lg">✕</button>
+        </div>
+        <div class="px-8 py-7 space-y-6 text-sm font-semibold text-slate-700 leading-relaxed">
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">1. Persyaratan Peserta</h3><p>Peserta wajib memiliki laptop pribadi, koneksi internet yang stabil, dan akun Google aktif. EasySyntax tidak menyediakan perangkat keras selama sesi berlangsung.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">2. Pembayaran</h3><p>Pembayaran dilakukan di muka sebelum sesi pertama dimulai. EasySyntax menerima transfer bank, GoPay, OVO, dan QRIS. Bukti pembayaran wajib dikirimkan via WhatsApp untuk konfirmasi pendaftaran.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">3. Kebijakan Reschedule</h3><p>Reschedule sesi diperbolehkan maksimal 2 kali per paket dengan pemberitahuan minimal 24 jam sebelumnya. Ketidakhadiran tanpa pemberitahuan dianggap sebagai sesi yang sudah terpakai.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">4. Kebijakan Refund</h3><p>Refund penuh (100%) dapat diberikan jika dibatalkan lebih dari 48 jam sebelum sesi pertama. Refund 50% jika dibatalkan kurang dari 48 jam. Tidak ada refund setelah sesi pertama dimulai.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">5. Hak Kekayaan Intelektual</h3><p>Seluruh materi kursus adalah hak milik EasySyntax dan dilindungi lisensi MIT. Peserta boleh menggunakan materi untuk keperluan pribadi tetapi dilarang mendistribusikan atau menjualnya tanpa izin tertulis.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">6. Rekaman Sesi</h3><p>Sesi online direkam untuk keperluan review peserta. Rekaman hanya dibagikan kepada peserta terdaftar dan tidak untuk disebarluaskan ke pihak lain.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">7. Kode Etik</h3><p>Peserta wajib menjaga sikap yang sopan selama sesi berlangsung. EasySyntax berhak memberhentikan peserta yang melanggar kode etik tanpa pengembalian dana.</p></div>
+            <div class="bg-indigo-50 border-4 border-indigo-200 rounded-2xl p-5"><p class="font-black text-indigo-800">Dengan mendaftar, peserta dianggap telah membaca dan menyetujui seluruh syarat dan ketentuan di atas.</p></div>
+        </div>
+    </div>
+</div>
 
+<!-- FLOATING BUTTONS -->
+<div class="float-group">
+    <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        class="float-btn bg-slate-800 border-2 border-slate-600 hover:bg-indigo-600 transition-colors"
+        title="Kembali ke atas">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
+    <a href="https://instagram.com/easysyntax" target="_blank"
+       class="float-btn border-2 border-pink-800"
+       style="background:linear-gradient(135deg,#f43f5e,#a855f7)"
+       title="Instagram EasySyntax">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://wa.me/6281234567890?text=Halo%20EasySyntax%2C%20saya%20tertarik%20untuk%20belajar%20coding!" target="_blank"
+       class="float-btn bg-emerald-500 border-2 border-emerald-800"
+       title="Chat WhatsApp">
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+</div>
+
+<script>
+    /* Scroll reveal */
+    const reveals = document.querySelectorAll('.reveal');
+    const ro = new IntersectionObserver(entries => {
+        entries.forEach((e,i)=>{ if(e.isIntersecting){ e.target.style.transitionDelay=(i%4)*.08+'s'; e.target.classList.add('visible'); } });
+    },{threshold:.1});
+    reveals.forEach(el=>ro.observe(el));
+
+    /* Back to top */
+    const backBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll',()=>{ backBtn.classList.toggle('visible', window.scrollY>400); });
+
+    /* Mobile menu */
+    function toggleMenu(){ document.getElementById('mobile-menu').classList.toggle('open'); }
+    function closeMenu(){ document.getElementById('mobile-menu').classList.remove('open'); }
+
+    /* Price toggle */
+    function switchMode(mode){
+        document.getElementById('prices-online').classList.toggle('active', mode==='online');
+        document.getElementById('prices-onsite').classList.toggle('active', mode==='onsite');
+        document.getElementById('tab-online').className = mode==='online'
+            ? 'tab-pill px-7 py-2.5 rounded-xl font-black text-sm uppercase bg-indigo-600 text-white border-b-4 border-indigo-900'
+            : 'tab-pill px-7 py-2.5 rounded-xl font-black text-sm uppercase text-slate-500';
+        document.getElementById('tab-onsite').className = mode==='onsite'
+            ? 'tab-pill px-7 py-2.5 rounded-xl font-black text-sm uppercase bg-indigo-600 text-white border-b-4 border-indigo-900'
+            : 'tab-pill px-7 py-2.5 rounded-xl font-black text-sm uppercase text-slate-500';
+    }
+
+    /* FAQ */
+    function toggleFaq(btn){
+        const body=btn.nextElementSibling, icon=btn.querySelector('.faq-icon');
+        const isOpen=body.classList.contains('open');
+        document.querySelectorAll('.faq-body').forEach(b=>b.classList.remove('open'));
+        document.querySelectorAll('.faq-icon').forEach(i=>i.classList.remove('open'));
+        if(!isOpen){ body.classList.add('open'); icon.classList.add('open'); }
+    }
+
+    /* Syarat modal */
+    function openSyarat()  { document.getElementById('syarat-modal').classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeSyarat() { document.getElementById('syarat-modal').classList.remove('open'); document.body.style.overflow=''; }
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSyarat(); });
+</script>
 </body>
 </html>
