@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasySyntax — UI Component Docs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brandBlue: '#3B82F6',
+                        brandBlueDark: '#1D4ED8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ===== GLOBAL ===== */
+        html { font-size: 16px; }
+        * { box-sizing: border-box; }
+
+        .btn-flat {
+            position: relative;
+            transition: transform 0.08s ease, border-bottom-width 0.08s ease;
+            border-bottom-width: 6px;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .btn-flat:active { transform: translateY(4px); border-bottom-width: 2px; }
+        .card-flat { border-bottom-width: 8px; }
+
+        /* ===== SIDEBAR ===== */
+        #sidebar { position: sticky; top: 72px; height: calc(100vh - 72px); overflow-y: auto; }
+        #sidebar::-webkit-scrollbar { width: 4px; }
+        #sidebar::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 4px; }
+
+        /* ===== CODE BLOCK ===== */
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            border: 3px solid #334155;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-kw  { color: #818cf8; }
+        .code-str { color: #6ee7b7; }
+        .code-cls { color: #fbbf24; }
+        .code-cmt { color: #64748b; font-style: italic; }
+
+        /* ===== COPY BUTTON ===== */
+        .copy-btn {
+            position: absolute; top: 12px; right: 12px;
+            background: #1e293b; border: 2px solid #334155;
+            color: #94a3b8; font-size: 11px; font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700; padding: 4px 10px; border-radius: 6px;
+            cursor: pointer; transition: all 0.15s ease;
+        }
+        .copy-btn:hover { background: #334155; color: white; }
+        .copy-btn.copied { background: #059669; border-color: #059669; color: white; }
+
+        /* ===== SECTION ANCHOR ===== */
+        .section-anchor { scroll-margin-top: 88px; }
+
+        /* ===== ACTIVE NAV ===== */
+        .sidebar-link { transition: all 0.15s ease; border-left: 3px solid transparent; padding-left: 12px; }
+        .sidebar-link.active { border-left-color: #6366f1; color: #6366f1; background: #eef2ff; border-radius: 0 8px 8px 0; }
+
+        /* ===== PREVIEW BOX ===== */
+        .preview-box {
+            background: repeating-linear-gradient(45deg, #f8faff, #f8faff 8px, #f0f7ff 8px, #f0f7ff 16px);
+            border: 3px solid #e2e8f0; border-radius: 1.5rem; padding: 2rem;
+        }
+
+        /* ===== COLOR SWATCH ===== */
+        .swatch { width: 100%; height: 72px; border-radius: 12px; border: 3px solid rgba(0,0,0,0.08); }
+    </style>
+</head>
+<body class="bg-[#F8FAFF] text-slate-900 font-sans antialiased">
+
+<!-- ===== TOPBAR ===== -->
+<nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-slate-200 py-4">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-lg border-b-4 border-indigo-900">ES</div>
+                <div class="text-xl font-extrabold text-slate-900 tracking-tighter">Easy<span class="text-indigo-600">Syntax</span></div>
+            </a>
+            <div class="w-px h-6 bg-slate-200"></div>
+            <span class="font-black text-slate-500 uppercase tracking-widest text-xs">UI Documentation</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="hidden md:inline px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full font-black text-xs border-2 border-indigo-200 uppercase">v1.0.0</span>
+            <a href="index.html" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-6 py-2.5 rounded-xl font-black text-sm uppercase">← Back to Site</a>
+        </div>
+    </div>
+</nav>
+
+<div class="flex">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside id="sidebar" class="hidden lg:block w-64 shrink-0 bg-white border-r-4 border-slate-100 py-8 px-4">
+        <div class="mb-6 px-3">
+            <p class="font-black uppercase tracking-widest text-xs text-slate-400 mb-3">Getting Started</p>
+            <a href="#overview" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Overview</a>
+            <a href="#design-tokens" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Design Tokens</a>
+            <a href="#typography" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Typography</a>
+        </div>
+        <div class="mb-6 px-3">
+            <p class="font-black uppercase tracking-widest text-xs text-slate-400 mb-3">Components</p>
+            <a href="#buttons" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Buttons</a>
+            <a href="#badges" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Badges & Alerts</a>
+            <a href="#cards" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Cards</a>
+            <a href="#forms" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Form Controls</a>
+            <a href="#navigation" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Navigation & Tabs</a>
+            <a href="#accordion" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Accordion</a>
+            <a href="#progress" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Progress & Loading</a>
+            <a href="#modals" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Modals</a>
+        </div>
+        <div class="px-3">
+            <p class="font-black uppercase tracking-widest text-xs text-slate-400 mb-3">Patterns</p>
+            <a href="#pricing-pattern" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Pricing Cards</a>
+            <a href="#hero-pattern" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Hero Section</a>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="flex-1 max-w-4xl mx-auto px-6 lg:px-12 py-12 space-y-24">
+
+        <!-- ======== OVERVIEW ======== -->
+        <section id="overview" class="section-anchor">
+            <div class="card-flat bg-indigo-600 p-10 rounded-[2.5rem] border-4 border-indigo-900 mb-12">
+                <span class="text-indigo-300 font-black uppercase tracking-widest text-xs">Getting Started</span>
+                <h1 class="text-5xl font-black text-white tracking-tighter mt-2 mb-4">EasySyntax<br>UI Components</h1>
+                <p class="text-indigo-200 font-semibold text-lg leading-relaxed max-w-xl">
+                    Design system berbasis Neo-Brutalism untuk platform EasySyntax. Dibangun di atas Tailwind CSS dengan gaya yang tegas, bold, dan fungsional.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-black mb-6 uppercase tracking-tight">Setup & Installation</h2>
+            <p class="text-slate-600 font-semibold mb-4 leading-relaxed">Tambahkan dependency berikut di <code class="bg-indigo-50 border-2 border-indigo-200 px-2 py-0.5 rounded-lg font-mono text-indigo-700 text-sm">head</code> HTML kamu:</p>
+            <div class="code-block mb-8 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Google Fonts: Plus Jakarta Sans --&gt;</span>
+<span class="code-kw">&lt;link</span> href=<span class="code-str">"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"</span> rel=<span class="code-str">"stylesheet"</span><span class="code-kw">&gt;</span>
+
+<span class="code-cmt">&lt;!-- Tailwind CSS CDN --&gt;</span>
+<span class="code-kw">&lt;script</span> src=<span class="code-str">"https://cdn.tailwindcss.com"</span><span class="code-kw">&gt;&lt;/script&gt;</span>
+
+<span class="code-cmt">&lt;!-- Tailwind Config --&gt;</span>
+<span class="code-kw">&lt;script&gt;</span>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: { sans: [<span class="code-str">'"Plus Jakarta Sans"'</span>, <span class="code-str">'sans-serif'</span>] },
+      colors: { brandBlue: <span class="code-str">'#3B82F6'</span>, brandBlueDark: <span class="code-str">'#1D4ED8'</span> }
+    }}
+  }
+<span class="code-kw">&lt;/script&gt;</span>
+
+<span class="code-cmt">&lt;!-- Global Utility CSS --&gt;</span>
+<span class="code-kw">&lt;style&gt;</span>
+  .btn-flat { position: relative; transition: all 0.08s ease; border-bottom-width: 6px; }
+  .btn-flat:active { transform: translateY(4px); border-bottom-width: 2px; }
+  .card-flat { border-bottom-width: 8px; }
+<span class="code-kw">&lt;/style&gt;</span>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="card-flat bg-emerald-50 p-6 rounded-2xl border-4 border-emerald-200 text-center">
+                    <div class="text-3xl mb-2">🎨</div>
+                    <div class="font-black">Neo-Brutalist</div>
+                    <div class="text-slate-500 font-bold text-sm">Bold borders & flat shadows</div>
+                </div>
+                <div class="card-flat bg-sky-50 p-6 rounded-2xl border-4 border-sky-200 text-center">
+                    <div class="text-3xl mb-2">⚡</div>
+                    <div class="font-black">Tailwind CSS</div>
+                    <div class="text-slate-500 font-bold text-sm">Utility-first framework</div>
+                </div>
+                <div class="card-flat bg-violet-50 p-6 rounded-2xl border-4 border-violet-200 text-center">
+                    <div class="text-3xl mb-2">📦</div>
+                    <div class="font-black">Copy & Paste</div>
+                    <div class="text-slate-500 font-bold text-sm">Zero dependencies</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== DESIGN TOKENS ======== -->
+        <section id="design-tokens" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Foundation</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Design Tokens</h2>
+            </div>
+
+            <h3 class="text-xl font-black mb-4 uppercase">Color Palette</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                <div>
+                    <div class="swatch bg-indigo-600 mb-2"></div>
+                    <div class="font-black text-sm">Primary</div>
+                    <div class="text-slate-500 font-mono text-xs">#4F46E5</div>
+                </div>
+                <div>
+                    <div class="swatch bg-yellow-300 mb-2"></div>
+                    <div class="font-black text-sm">Accent</div>
+                    <div class="text-slate-500 font-mono text-xs">#FDE047</div>
+                </div>
+                <div>
+                    <div class="swatch bg-slate-900 mb-2"></div>
+                    <div class="font-black text-sm">Dark</div>
+                    <div class="text-slate-500 font-mono text-xs">#0F172A</div>
+                </div>
+                <div>
+                    <div class="swatch bg-[#F0F7FF] border-4 border-slate-200 mb-2"></div>
+                    <div class="font-black text-sm">Background</div>
+                    <div class="text-slate-500 font-mono text-xs">#F0F7FF</div>
+                </div>
+                <div>
+                    <div class="swatch bg-violet-600 mb-2"></div>
+                    <div class="font-black text-sm">AI Track</div>
+                    <div class="text-slate-500 font-mono text-xs">#7C3AED</div>
+                </div>
+                <div>
+                    <div class="swatch bg-rose-500 mb-2"></div>
+                    <div class="font-black text-sm">Visual Track</div>
+                    <div class="text-slate-500 font-mono text-xs">#F43F5E</div>
+                </div>
+                <div>
+                    <div class="swatch bg-emerald-500 mb-2"></div>
+                    <div class="font-black text-sm">Success</div>
+                    <div class="text-slate-500 font-mono text-xs">#10B981</div>
+                </div>
+                <div>
+                    <div class="swatch bg-brandBlue mb-2"></div>
+                    <div class="font-black text-sm">Brand Blue</div>
+                    <div class="text-slate-500 font-mono text-xs">#3B82F6</div>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-black mb-4 uppercase">Spacing & Border System</h3>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">/* Border Radius Scale */</span>
+rounded-xl    <span class="code-cmt">/* 12px — small elements: badges, inputs */</span>
+rounded-2xl   <span class="code-cmt">/* 16px — buttons, small cards */</span>
+rounded-3xl   <span class="code-cmt">/* 24px — medium cards */</span>
+rounded-[2.5rem] <span class="code-cmt">/* 40px — large cards */</span>
+rounded-[3rem]   <span class="code-cmt">/* 48px — feature sections */</span>
+
+<span class="code-cmt">/* Bottom Border (Neo-Brutalist Depth) */</span>
+.btn-flat  → border-bottom-width: <span class="code-str">6px</span>  <span class="code-cmt">/* buttons */</span>
+.card-flat → border-bottom-width: <span class="code-str">8px</span>  <span class="code-cmt">/* cards */</span>
+            </div>
+        </section>
+
+        <!-- ======== TYPOGRAPHY ======== -->
+        <section id="typography" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Foundation</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Typography System</h2>
+                <p class="text-slate-500 font-bold mt-2">Font Family: <span class="text-indigo-600 font-mono">"Plus Jakarta Sans"</span></p>
+            </div>
+
+            <div class="preview-box mb-6 space-y-8">
+                <div>
+                    <div class="text-xs font-mono text-indigo-500 mb-2">text-6xl / font-black / tracking-tighter</div>
+                    <h1 class="text-6xl font-black tracking-tighter leading-none">Hero Display.</h1>
+                </div>
+                <div>
+                    <div class="text-xs font-mono text-indigo-500 mb-2">text-4xl / font-black / tracking-tight</div>
+                    <h2 class="text-4xl font-black tracking-tight">Section Heading.</h2>
+                </div>
+                <div>
+                    <div class="text-xs font-mono text-indigo-500 mb-2">text-2xl / font-black</div>
+                    <h3 class="text-2xl font-black">Card Title.</h3>
+                </div>
+                <div>
+                    <div class="text-xs font-mono text-indigo-500 mb-2">text-xl / font-semibold / text-slate-600</div>
+                    <p class="text-xl text-slate-600 font-semibold leading-relaxed">Body paragraph. Belajar sintaksis tanpa pusing. Kuasai Tech Stack modern dan manfaatkan AI.</p>
+                </div>
+                <div>
+                    <div class="text-xs font-mono text-indigo-500 mb-2">text-xs / font-black / uppercase / tracking-widest — Label</div>
+                    <p class="text-xs font-black uppercase tracking-widest text-indigo-600">Section Label / Category Tag</p>
+                </div>
+            </div>
+
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Hero Display --&gt;</span>
+<span class="code-kw">&lt;h1</span> class=<span class="code-str">"text-6xl font-black tracking-tighter leading-[1.05]"</span><span class="code-kw">&gt;</span>Your Title<span class="code-kw">&lt;/h1&gt;</span>
+
+<span class="code-cmt">&lt;!-- Section Heading --&gt;</span>
+<span class="code-kw">&lt;h2</span> class=<span class="code-str">"text-4xl font-black tracking-tight"</span><span class="code-kw">&gt;</span>Section Title<span class="code-kw">&lt;/h2&gt;</span>
+
+<span class="code-cmt">&lt;!-- Section Label (above heading) --&gt;</span>
+<span class="code-kw">&lt;p</span> class=<span class="code-str">"text-indigo-600 font-black uppercase tracking-widest text-xs"</span><span class="code-kw">&gt;</span>Category<span class="code-kw">&lt;/p&gt;</span>
+
+<span class="code-cmt">&lt;!-- Body Paragraph --&gt;</span>
+<span class="code-kw">&lt;p</span> class=<span class="code-str">"text-xl text-slate-600 font-semibold leading-relaxed"</span><span class="code-kw">&gt;</span>Body text<span class="code-kw">&lt;/p&gt;</span>
+
+<span class="code-cmt">&lt;!-- Highlighted Keyword --&gt;</span>
+<span class="code-kw">&lt;span</span> class=<span class="code-str">"bg-yellow-300 px-2 italic"</span><span class="code-kw">&gt;</span>keyword<span class="code-kw">&lt;/span&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== BUTTONS ======== -->
+        <section id="buttons" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Buttons</h2>
+            </div>
+
+            <!-- Primary & Variants -->
+            <h3 class="text-lg font-black uppercase mb-4">Primary Variants</h3>
+            <div class="preview-box flex flex-wrap gap-4 mb-4">
+                <button class="btn-flat bg-indigo-600 border-indigo-900 text-white px-7 py-3 rounded-2xl font-black uppercase text-sm">Primary</button>
+                <button class="btn-flat bg-brandBlue border-brandBlueDark text-white px-7 py-3 rounded-2xl font-black uppercase text-sm">Blue</button>
+                <button class="btn-flat bg-rose-500 border-rose-800 text-white px-7 py-3 rounded-2xl font-black uppercase text-sm">Danger</button>
+                <button class="btn-flat bg-emerald-500 border-emerald-800 text-white px-7 py-3 rounded-2xl font-black uppercase text-sm">Success</button>
+                <button class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 px-7 py-3 rounded-2xl font-black uppercase text-sm">Accent</button>
+                <button class="btn-flat bg-white border-slate-300 text-slate-900 px-7 py-3 rounded-2xl font-black uppercase text-sm">Ghost</button>
+                <button class="btn-flat bg-slate-900 border-slate-700 text-white px-7 py-3 rounded-2xl font-black uppercase text-sm">Dark</button>
+            </div>
+            <div class="code-block mb-10 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Primary --&gt;</span>
+<span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-indigo-600 border-indigo-900 text-white px-7 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Primary<span class="code-kw">&lt;/button&gt;</span>
+
+<span class="code-cmt">&lt;!-- Danger --&gt;</span>
+<span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-rose-500 border-rose-800 text-white px-7 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Danger<span class="code-kw">&lt;/button&gt;</span>
+
+<span class="code-cmt">&lt;!-- Accent (Yellow) --&gt;</span>
+<span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-yellow-300 border-yellow-600 text-slate-900 px-7 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Accent<span class="code-kw">&lt;/button&gt;</span>
+
+<span class="code-cmt">&lt;!-- Ghost --&gt;</span>
+<span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-white border-slate-300 text-slate-900 px-7 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Ghost<span class="code-kw">&lt;/button&gt;</span>
+            </div>
+
+            <!-- Sizes -->
+            <h3 class="text-lg font-black uppercase mb-4">Sizes</h3>
+            <div class="preview-box flex flex-wrap items-center gap-4 mb-4">
+                <button class="btn-flat bg-indigo-600 border-indigo-900 text-white px-4 py-2 rounded-xl font-black uppercase text-xs">Small</button>
+                <button class="btn-flat bg-indigo-600 border-indigo-900 text-white px-7 py-3 rounded-2xl font-black uppercase text-sm">Medium</button>
+                <button class="btn-flat bg-indigo-600 border-indigo-900 text-white px-10 py-4 rounded-[1.5rem] font-black uppercase text-base">Large</button>
+                <button class="btn-flat bg-indigo-600 border-indigo-900 text-white px-14 py-5 rounded-[2rem] font-black uppercase text-xl">XL Hero</button>
+            </div>
+            <div class="code-block mb-10 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- sm --&gt;</span> class=<span class="code-str">"...px-4 py-2 rounded-xl text-xs"</span>
+<span class="code-cmt">&lt;!-- md --&gt;</span> class=<span class="code-str">"...px-7 py-3 rounded-2xl text-sm"</span>
+<span class="code-cmt">&lt;!-- lg --&gt;</span> class=<span class="code-str">"...px-10 py-4 rounded-[1.5rem] text-base"</span>
+<span class="code-cmt">&lt;!-- xl --&gt;</span> class=<span class="code-str">"...px-14 py-5 rounded-[2rem] text-xl"</span>
+            </div>
+
+            <!-- Button Group -->
+            <h3 class="text-lg font-black uppercase mb-4">Button Group</h3>
+            <div class="preview-box mb-4">
+                <div class="inline-flex">
+                    <button class="btn-flat bg-white border-slate-300 px-5 py-3 rounded-l-xl font-black uppercase text-sm border-r-2">Left</button>
+                    <button class="btn-flat bg-white border-slate-300 px-5 py-3 font-black uppercase text-sm border-x-2">Mid</button>
+                    <button class="btn-flat bg-white border-slate-300 px-5 py-3 rounded-r-xl font-black uppercase text-sm border-l-2">Right</button>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"inline-flex"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-white border-slate-300 px-5 py-3 rounded-l-xl font-black border-r-2"</span><span class="code-kw">&gt;</span>Left<span class="code-kw">&lt;/button&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-white border-slate-300 px-5 py-3 font-black border-x-2"</span><span class="code-kw">&gt;</span>Mid<span class="code-kw">&lt;/button&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-white border-slate-300 px-5 py-3 rounded-r-xl font-black border-l-2"</span><span class="code-kw">&gt;</span>Right<span class="code-kw">&lt;/button&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== BADGES & ALERTS ======== -->
+        <section id="badges" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Badges & Alerts</h2>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Badges</h3>
+            <div class="preview-box flex flex-wrap gap-3 mb-4">
+                <span class="px-4 py-1.5 bg-indigo-600 text-white rounded-full font-black text-xs uppercase border-2 border-indigo-900">New</span>
+                <span class="px-4 py-1.5 bg-yellow-300 text-slate-900 rounded-full font-black text-xs uppercase border-2 border-slate-900">Trending</span>
+                <span class="px-4 py-1.5 bg-emerald-100 text-emerald-800 rounded-full font-black text-xs uppercase border-2 border-emerald-500">Beginner</span>
+                <span class="px-4 py-1.5 bg-rose-100 text-rose-800 rounded-full font-black text-xs uppercase border-2 border-rose-400">Advanced</span>
+                <span class="px-4 py-1.5 bg-slate-900 text-white rounded-full font-black text-xs uppercase border-2 border-slate-700">🔒 Premium</span>
+            </div>
+            <div class="code-block mb-10 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Primary Badge --&gt;</span>
+<span class="code-kw">&lt;span</span> class=<span class="code-str">"px-4 py-1.5 bg-indigo-600 text-white rounded-full font-black text-xs uppercase border-2 border-indigo-900"</span><span class="code-kw">&gt;</span>New<span class="code-kw">&lt;/span&gt;</span>
+
+<span class="code-cmt">&lt;!-- Accent Badge --&gt;</span>
+<span class="code-kw">&lt;span</span> class=<span class="code-str">"px-4 py-1.5 bg-yellow-300 text-slate-900 rounded-full font-black text-xs uppercase border-2 border-slate-900"</span><span class="code-kw">&gt;</span>Trending<span class="code-kw">&lt;/span&gt;</span>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Alerts</h3>
+            <div class="preview-box space-y-4 mb-4">
+                <div class="bg-emerald-100 border-4 border-emerald-500 p-4 rounded-2xl font-bold text-emerald-800 flex justify-between items-center">
+                    <span>✅ Success! Modul terbuka dan siap dipelajari.</span>
+                    <button class="hover:rotate-90 transition-transform font-black text-emerald-900">✕</button>
+                </div>
+                <div class="bg-yellow-50 border-4 border-yellow-400 p-4 rounded-2xl font-bold text-yellow-900 flex justify-between items-center">
+                    <span>⚠️ Warning! Lengkapi profil kamu dulu.</span>
+                    <button class="hover:rotate-90 transition-transform font-black">✕</button>
+                </div>
+                <div class="bg-rose-50 border-4 border-rose-500 p-4 rounded-2xl font-bold text-rose-800 flex justify-between items-center">
+                    <span>❌ Error! Pembayaran gagal diproses.</span>
+                    <button class="hover:rotate-90 transition-transform font-black">✕</button>
+                </div>
+                <div class="bg-indigo-50 border-4 border-indigo-400 p-4 rounded-2xl font-bold text-indigo-800 flex justify-between items-center">
+                    <span>ℹ️ Info: Sesi AI Lab tersedia 24 jam.</span>
+                    <button class="hover:rotate-90 transition-transform font-black">✕</button>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Success Alert --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"bg-emerald-100 border-4 border-emerald-500 p-4 rounded-2xl font-bold text-emerald-800 flex justify-between items-center"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;span&gt;</span>✅ Success message here<span class="code-kw">&lt;/span&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"hover:rotate-90 transition-transform font-black"</span><span class="code-kw">&gt;</span>✕<span class="code-kw">&lt;/button&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+
+<span class="code-cmt">&lt;!-- Error Alert --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"bg-rose-50 border-4 border-rose-500 p-4 rounded-2xl font-bold text-rose-800 flex justify-between items-center"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;span&gt;</span>❌ Error message here<span class="code-kw">&lt;/span&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"hover:rotate-90 transition-transform font-black"</span><span class="code-kw">&gt;</span>✕<span class="code-kw">&lt;/button&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== CARDS ======== -->
+        <section id="cards" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Cards</h2>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Course Card</h3>
+            <div class="preview-box grid md:grid-cols-2 gap-6 mb-4">
+                <div class="card-flat bg-violet-50 p-8 rounded-[2rem] border-4 border-violet-200">
+                    <div class="bg-violet-600 w-14 h-14 rounded-xl mb-6 flex items-center justify-center text-2xl border-b-4 border-violet-900">🤖</div>
+                    <span class="text-violet-500 font-black uppercase text-xs tracking-widest">Track 01</span>
+                    <h3 class="text-xl font-black mt-1 mb-3">AI Engineering</h3>
+                    <p class="text-slate-600 mb-6 font-semibold leading-relaxed text-sm">Cara ngobrol dengan AI untuk auto-generate code dan debugging.</p>
+                    <button class="btn-flat bg-violet-600 border-violet-900 text-white w-full py-3 rounded-2xl font-black uppercase text-sm">Level Up! →</button>
+                </div>
+                <div class="card-flat bg-indigo-600 p-8 rounded-[2rem] border-4 border-indigo-900 relative overflow-hidden">
+                    <div class="absolute top-4 right-4 bg-yellow-300 text-slate-900 px-2 py-1 rounded-full text-xs font-black border-2 border-slate-900">Popular</div>
+                    <div class="bg-white/20 w-14 h-14 rounded-xl mb-6 flex items-center justify-center text-2xl border-b-4 border-indigo-900 font-black text-white">{}</div>
+                    <span class="text-indigo-300 font-black uppercase text-xs tracking-widest">Track 02</span>
+                    <h3 class="text-xl font-black mt-1 mb-3 text-white">Fullstack Vibe</h3>
+                    <p class="text-indigo-200 mb-6 font-semibold leading-relaxed text-sm">Bangun web app dari nol pakai Next.js & Supabase.</p>
+                    <button class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 w-full py-3 rounded-2xl font-black uppercase text-sm">Level Up! →</button>
+                </div>
+            </div>
+            <div class="code-block mb-10 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Course Card --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"card-flat bg-violet-50 p-8 rounded-[2rem] border-4 border-violet-200"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"bg-violet-600 w-14 h-14 rounded-xl mb-6 flex items-center justify-center text-2xl border-b-4 border-violet-900"</span><span class="code-kw">&gt;</span>🤖<span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-kw">&lt;span</span> class=<span class="code-str">"text-violet-500 font-black uppercase text-xs tracking-widest"</span><span class="code-kw">&gt;</span>Track Label<span class="code-kw">&lt;/span&gt;</span>
+  <span class="code-kw">&lt;h3</span> class=<span class="code-str">"text-xl font-black mt-1 mb-3"</span><span class="code-kw">&gt;</span>Card Title<span class="code-kw">&lt;/h3&gt;</span>
+  <span class="code-kw">&lt;p</span> class=<span class="code-str">"text-slate-600 mb-6 font-semibold leading-relaxed text-sm"</span><span class="code-kw">&gt;</span>Description<span class="code-kw">&lt;/p&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-violet-600 border-violet-900 text-white w-full py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>CTA<span class="code-kw">&lt;/button&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+
+<span class="code-cmt">&lt;!-- Featured Card (dark) --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"card-flat bg-indigo-600 p-8 rounded-[2rem] border-4 border-indigo-900 relative overflow-hidden"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- optional: badge --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"absolute top-4 right-4 bg-yellow-300 text-slate-900 px-2 py-1 rounded-full text-xs font-black border-2 border-slate-900"</span><span class="code-kw">&gt;</span>Popular<span class="code-kw">&lt;/div&gt;</span>
+  ...
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+
+            <!-- Info Card -->
+            <h3 class="text-lg font-black uppercase mb-4">Info / Doc Card</h3>
+            <div class="preview-box mb-4">
+                <div class="card-flat bg-indigo-50 border-4 border-indigo-200 p-8 rounded-[2rem]">
+                    <h3 class="text-2xl font-black mb-6 text-indigo-900">Typographic Rules</h3>
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-4">
+                            <div class="bg-indigo-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-black shrink-0 border-b-4 border-indigo-900 text-sm">1</div>
+                            <div>
+                                <p class="font-black text-slate-900 uppercase tracking-tight">Rule Title</p>
+                                <p class="text-slate-600 font-semibold text-sm">Description of the rule goes here with details.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="bg-indigo-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-black shrink-0 border-b-4 border-indigo-900 text-sm">2</div>
+                            <div>
+                                <p class="font-black text-slate-900 uppercase tracking-tight">Another Rule</p>
+                                <p class="text-slate-600 font-semibold text-sm">More description here.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== FORMS ======== -->
+        <section id="forms" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Form Controls</h2>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Text Inputs</h3>
+            <div class="preview-box space-y-4 mb-4">
+                <div>
+                    <label class="block text-sm font-black uppercase mb-2">Default</label>
+                    <input type="text" placeholder="Type something..." class="w-full bg-white border-4 border-slate-900 p-4 rounded-xl font-bold focus:ring-4 focus:ring-yellow-300 outline-none transition-all placeholder:text-slate-300">
+                </div>
+                <div>
+                    <label class="block text-sm font-black uppercase mb-2">Error State</label>
+                    <input type="text" value="Wrong input" class="w-full border-4 border-rose-500 p-4 rounded-xl font-bold bg-rose-50 outline-none">
+                    <p class="text-rose-600 text-xs font-black mt-1 uppercase">⚠ Format tidak valid!</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-black uppercase mb-2">Success State</label>
+                    <input type="text" value="Accepted" class="w-full border-4 border-emerald-500 p-4 rounded-xl font-bold bg-emerald-50 outline-none">
+                    <p class="text-emerald-600 text-xs font-black mt-1 uppercase">✓ Username tersedia.</p>
+                </div>
+            </div>
+            <div class="code-block mb-10 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Default Input --&gt;</span>
+<span class="code-kw">&lt;input</span> type=<span class="code-str">"text"</span> placeholder=<span class="code-str">"..."</span>
+  class=<span class="code-str">"w-full bg-white border-4 border-slate-900 p-4 rounded-xl font-bold focus:ring-4 focus:ring-yellow-300 outline-none placeholder:text-slate-300"</span><span class="code-kw">&gt;</span>
+
+<span class="code-cmt">&lt;!-- Error Input --&gt;</span>
+<span class="code-kw">&lt;input</span> class=<span class="code-str">"w-full border-4 border-rose-500 p-4 rounded-xl font-bold bg-rose-50 outline-none"</span><span class="code-kw">&gt;</span>
+<span class="code-kw">&lt;p</span> class=<span class="code-str">"text-rose-600 text-xs font-black mt-1 uppercase"</span><span class="code-kw">&gt;</span>⚠ Error message<span class="code-kw">&lt;/p&gt;</span>
+
+<span class="code-cmt">&lt;!-- Success Input --&gt;</span>
+<span class="code-kw">&lt;input</span> class=<span class="code-str">"w-full border-4 border-emerald-500 p-4 rounded-xl font-bold bg-emerald-50 outline-none"</span><span class="code-kw">&gt;</span>
+<span class="code-kw">&lt;p</span> class=<span class="code-str">"text-emerald-600 text-xs font-black mt-1 uppercase"</span><span class="code-kw">&gt;</span>✓ Success message<span class="code-kw">&lt;/p&gt;</span>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Input Group</h3>
+            <div class="preview-box mb-4">
+                <div class="flex">
+                    <span class="bg-slate-900 text-white px-4 py-4 border-4 border-slate-900 rounded-l-xl font-black text-sm">https://</span>
+                    <input type="text" placeholder="yoursite.com" class="w-full border-y-4 border-r-4 border-slate-900 p-4 rounded-r-xl font-bold outline-none focus:bg-indigo-50">
+                </div>
+            </div>
+            <div class="code-block mb-10 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"flex"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;span</span> class=<span class="code-str">"bg-slate-900 text-white px-4 py-4 border-4 border-slate-900 rounded-l-xl font-black"</span><span class="code-kw">&gt;</span>https://<span class="code-kw">&lt;/span&gt;</span>
+  <span class="code-kw">&lt;input</span> type=<span class="code-str">"text"</span> class=<span class="code-str">"w-full border-y-4 border-r-4 border-slate-900 p-4 rounded-r-xl font-bold outline-none"</span><span class="code-kw">&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Select & Checkbox</h3>
+            <div class="preview-box space-y-6 mb-4">
+                <select class="w-full bg-white border-4 border-slate-900 p-4 rounded-xl font-bold outline-none appearance-none cursor-pointer focus:bg-yellow-50">
+                    <option>Pick a Track</option>
+                    <option>AI Engineering</option>
+                    <option>Fullstack Vibe</option>
+                    <option>Visual Aesthetics</option>
+                </select>
+                <div class="flex gap-8">
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <div class="relative w-6 h-6 border-4 border-slate-900 rounded bg-white group-hover:bg-yellow-300 transition-colors">
+                            <input type="checkbox" class="absolute opacity-0 w-full h-full cursor-pointer peer">
+                            <div class="hidden peer-checked:block text-center font-black leading-none mt-[-2px]">✓</div>
+                        </div>
+                        <span class="font-bold">Remind Me</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <div class="relative w-6 h-6 border-4 border-slate-900 rounded-full bg-white group-hover:bg-brandBlue transition-colors">
+                            <input type="radio" name="plan_doc" class="absolute opacity-0 w-full h-full cursor-pointer peer">
+                            <div class="hidden peer-checked:block w-2 h-2 bg-slate-900 rounded-full mx-auto mt-[3px]"></div>
+                        </div>
+                        <span class="font-bold">Pro Plan</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== NAVIGATION ======== -->
+        <section id="navigation" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Navigation & Tabs</h2>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Navbar</h3>
+            <div class="preview-box mb-4">
+                <div class="bg-white/90 border-b-4 border-slate-200 py-4 px-6 rounded-2xl flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <div class="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black border-b-4 border-indigo-900 text-sm">ES</div>
+                        <span class="text-xl font-extrabold tracking-tighter">Easy<span class="text-indigo-600">Syntax</span></span>
+                    </div>
+                    <div class="flex gap-6 font-bold text-slate-600 uppercase tracking-wider text-xs">
+                        <a href="#" class="hover:text-indigo-600">Courses</a>
+                        <a href="#" class="hover:text-indigo-600">AI Lab</a>
+                        <a href="#" class="hover:text-indigo-600">Pricing</a>
+                    </div>
+                    <button class="btn-flat bg-indigo-600 border-indigo-900 text-white px-5 py-2.5 rounded-xl font-black uppercase text-xs">Daftar</button>
+                </div>
+            </div>
+            <div class="code-block mb-10 relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-kw">&lt;nav</span> class=<span class="code-str">"sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b-4 border-slate-200 py-4"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"container mx-auto px-6 flex justify-between items-center"</span><span class="code-kw">&gt;</span>
+    <span class="code-cmt">&lt;!-- Logo --&gt;</span>
+    <span class="code-kw">&lt;a</span> href=<span class="code-str">"#"</span> class=<span class="code-str">"flex items-center gap-2"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;div</span> class=<span class="code-str">"w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-black text-xl border-b-4 border-indigo-900"</span><span class="code-kw">&gt;</span>ES<span class="code-kw">&lt;/div&gt;</span>
+      <span class="code-kw">&lt;span</span> class=<span class="code-str">"text-2xl font-extrabold tracking-tighter"</span><span class="code-kw">&gt;</span>Easy<span class="code-cls">&lt;span class="text-indigo-600"&gt;</span>Syntax<span class="code-cls">&lt;/span&gt;</span><span class="code-kw">&lt;/span&gt;</span>
+    <span class="code-kw">&lt;/a&gt;</span>
+    <span class="code-cmt">&lt;!-- Links --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"hidden md:flex space-x-8 font-bold text-slate-600 uppercase tracking-wider text-sm"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;a</span> href=<span class="code-str">"#"</span> class=<span class="code-str">"hover:text-indigo-600 transition-colors"</span><span class="code-kw">&gt;</span>Link<span class="code-kw">&lt;/a&gt;</span>
+    <span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-cmt">&lt;!-- CTA --&gt;</span>
+    <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-indigo-600 border-indigo-900 text-white px-7 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Daftar<span class="code-kw">&lt;/button&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/nav&gt;</span>
+            </div>
+
+            <h3 class="text-lg font-black uppercase mb-4">Tabs</h3>
+            <div class="preview-box mb-4">
+                <div class="flex border-b-4 border-slate-100 gap-8">
+                    <button class="pb-3 border-b-4 border-indigo-600 text-indigo-600 font-black -mb-[4px] text-sm uppercase tracking-wide">Description</button>
+                    <button class="pb-3 text-slate-400 font-black hover:text-slate-700 text-sm uppercase tracking-wide">Curriculum</button>
+                    <button class="pb-3 text-slate-400 font-black hover:text-slate-700 text-sm uppercase tracking-wide">Reviews</button>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"flex border-b-4 border-slate-100 gap-8"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- Active Tab --&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"pb-3 border-b-4 border-indigo-600 text-indigo-600 font-black -mb-[4px] uppercase tracking-wide"</span><span class="code-kw">&gt;</span>Active<span class="code-kw">&lt;/button&gt;</span>
+  <span class="code-cmt">&lt;!-- Inactive Tab --&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"pb-3 text-slate-400 font-black hover:text-slate-700 uppercase tracking-wide"</span><span class="code-kw">&gt;</span>Inactive<span class="code-kw">&lt;/button&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== ACCORDION ======== -->
+        <section id="accordion" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Accordion</h2>
+            </div>
+
+            <div class="preview-box mb-4">
+                <div class="space-y-3">
+                    <div class="border-4 border-slate-900 rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+                        <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('span').textContent = this.nextElementSibling.classList.contains('hidden') ? '↓' : '↑'"
+                            class="w-full bg-slate-900 text-white p-5 font-bold flex justify-between items-center cursor-pointer text-left">
+                            Apa itu Vibe Coding?
+                            <span class="font-black">↑</span>
+                        </button>
+                        <div class="p-5 bg-white font-semibold text-slate-600 border-t-4 border-slate-900">
+                            Gaya coding yang mengutamakan intuisi dan bantuan AI untuk mempercepat proses kreatif dan hasil yang lebih cepat.
+                        </div>
+                    </div>
+                    <div class="border-4 border-slate-900 rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+                        <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('span').textContent = this.nextElementSibling.classList.contains('hidden') ? '↓' : '↑'"
+                            class="w-full bg-slate-900 text-white p-5 font-bold flex justify-between items-center cursor-pointer text-left">
+                            Apakah butuh pengalaman coding?
+                            <span class="font-black">↓</span>
+                        </button>
+                        <div class="hidden p-5 bg-white font-semibold text-slate-600 border-t-4 border-slate-900">
+                            Tidak! Kursus dirancang dari level dasar. Semua yang dibutuhkan hanyalah keinginan untuk belajar.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"border-4 border-slate-900 rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;button</span> onclick=<span class="code-str">"this.nextElementSibling.classList.toggle('hidden')"</span>
+    class=<span class="code-str">"w-full bg-slate-900 text-white p-5 font-bold flex justify-between items-center cursor-pointer"</span><span class="code-kw">&gt;</span>
+    Question Title
+    <span class="code-kw">&lt;span&gt;</span>↓<span class="code-kw">&lt;/span&gt;</span>
+  <span class="code-kw">&lt;/button&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"hidden p-5 bg-white font-semibold text-slate-600 border-t-4 border-slate-900"</span><span class="code-kw">&gt;</span>
+    Answer content here.
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== PROGRESS ======== -->
+        <section id="progress" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Progress & Loading</h2>
+            </div>
+
+            <div class="preview-box space-y-8 mb-4">
+                <!-- Progress bars -->
+                <div>
+                    <div class="flex justify-between font-black text-sm mb-2 uppercase"><span>Progress Bar</span><span>65%</span></div>
+                    <div class="w-full bg-slate-200 rounded-full h-6 border-2 border-slate-900 overflow-hidden">
+                        <div class="bg-brandBlue h-full border-r-4 border-brandBlueDark" style="width:65%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between font-black text-sm mb-2 uppercase"><span>Success</span><span>90%</span></div>
+                    <div class="w-full bg-slate-200 rounded-full h-6 border-2 border-slate-900 overflow-hidden">
+                        <div class="bg-emerald-500 h-full border-r-4 border-emerald-800" style="width:90%"></div>
+                    </div>
+                </div>
+                <!-- Spinners -->
+                <div class="flex items-center gap-8">
+                    <div class="w-8 h-8 border-4 border-slate-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                    <div class="w-10 h-10 border-4 border-slate-200 border-t-brandBlue rounded-full animate-spin"></div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 border-4 border-slate-200 border-t-brandBlue rounded-full animate-spin"></div>
+                        <span class="font-bold text-slate-500 italic text-sm">Generating Vibe...</span>
+                    </div>
+                </div>
+                <!-- Skeleton -->
+                <div class="space-y-3">
+                    <div class="font-black text-sm uppercase mb-3">Skeleton Loader</div>
+                    <div class="h-5 bg-slate-200 rounded-lg animate-pulse"></div>
+                    <div class="h-5 bg-slate-200 rounded-lg animate-pulse w-3/4"></div>
+                    <div class="h-5 bg-slate-200 rounded-lg animate-pulse w-1/2"></div>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Progress Bar --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"w-full bg-slate-200 rounded-full h-6 border-2 border-slate-900 overflow-hidden"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"bg-brandBlue h-full border-r-4 border-brandBlueDark"</span> style=<span class="code-str">"width: 65%"</span><span class="code-kw">&gt;&lt;/div&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+
+<span class="code-cmt">&lt;!-- Spinner --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"w-8 h-8 border-4 border-slate-200 border-t-indigo-600 rounded-full animate-spin"</span><span class="code-kw">&gt;&lt;/div&gt;</span>
+
+<span class="code-cmt">&lt;!-- Skeleton --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"h-5 bg-slate-200 rounded-lg animate-pulse"</span><span class="code-kw">&gt;&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== MODALS ======== -->
+        <section id="modals" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Component</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Modals</h2>
+            </div>
+
+            <div class="preview-box mb-4">
+                <button onclick="document.getElementById('demo-modal').classList.remove('hidden')"
+                    class="btn-flat bg-indigo-600 border-indigo-900 text-white px-7 py-3 rounded-2xl font-black uppercase text-sm">Open Modal Demo</button>
+            </div>
+
+            <!-- Modal Demo -->
+            <div id="demo-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6">
+                <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="document.getElementById('demo-modal').classList.add('hidden')"></div>
+                <div class="relative card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-900 max-w-md w-full shadow-2xl">
+                    <button onclick="document.getElementById('demo-modal').classList.add('hidden')"
+                        class="absolute top-5 right-5 w-10 h-10 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center font-black hover:bg-rose-100 hover:border-rose-400 transition-colors">✕</button>
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-black mb-3">Konfirmasi Enrollment</h3>
+                    <p class="text-slate-600 font-semibold mb-8 leading-relaxed">Kamu akan masuk ke kursus <strong>AI Engineering Track</strong>. Siap untuk level up?</p>
+                    <div class="flex gap-4">
+                        <button onclick="document.getElementById('demo-modal').classList.add('hidden')"
+                            class="btn-flat bg-white border-slate-300 text-slate-700 flex-1 py-3 rounded-2xl font-black uppercase text-sm">Cancel</button>
+                        <button class="btn-flat bg-indigo-600 border-indigo-900 text-white flex-1 py-3 rounded-2xl font-black uppercase text-sm">Confirm ⚡</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Trigger --&gt;</span>
+<span class="code-kw">&lt;button</span> onclick=<span class="code-str">"document.getElementById('modal').classList.remove('hidden')"</span>
+  class=<span class="code-str">"btn-flat bg-indigo-600 border-indigo-900 text-white px-7 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>
+  Open Modal
+<span class="code-kw">&lt;/button&gt;</span>
+
+<span class="code-cmt">&lt;!-- Modal --&gt;</span>
+<span class="code-kw">&lt;div</span> id=<span class="code-str">"modal"</span> class=<span class="code-str">"hidden fixed inset-0 z-50 flex items-center justify-center p-6"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- Backdrop --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"absolute inset-0 bg-slate-900/60 backdrop-blur-sm"</span>
+    onclick=<span class="code-str">"document.getElementById('modal').classList.add('hidden')"</span><span class="code-kw">&gt;&lt;/div&gt;</span>
+  <span class="code-cmt">&lt;!-- Content --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"relative card-flat bg-white p-10 rounded-[2.5rem] border-4 border-slate-900 max-w-md w-full"</span><span class="code-kw">&gt;</span>
+    <span class="code-kw">&lt;button</span> onclick=<span class="code-str">"document.getElementById('modal').classList.add('hidden')"</span>
+      class=<span class="code-str">"absolute top-5 right-5 w-10 h-10 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center font-black"</span><span class="code-kw">&gt;</span>✕<span class="code-kw">&lt;/button&gt;</span>
+    <span class="code-kw">&lt;h3</span> class=<span class="code-str">"text-2xl font-black mb-3"</span><span class="code-kw">&gt;</span>Modal Title<span class="code-kw">&lt;/h3&gt;</span>
+    <span class="code-kw">&lt;p</span> class=<span class="code-str">"text-slate-600 font-semibold mb-8"</span><span class="code-kw">&gt;</span>Description text<span class="code-kw">&lt;/p&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"flex gap-4"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-white border-slate-300 flex-1 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Cancel<span class="code-kw">&lt;/button&gt;</span>
+      <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-indigo-600 border-indigo-900 text-white flex-1 py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Confirm<span class="code-kw">&lt;/button&gt;</span>
+    <span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== PRICING PATTERN ======== -->
+        <section id="pricing-pattern" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Pattern</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Pricing Cards</h2>
+            </div>
+
+            <div class="preview-box mb-4">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="card-flat bg-white p-8 rounded-[2rem] border-4 border-slate-200">
+                        <div class="font-black uppercase tracking-widest text-slate-500 text-xs mb-3">Starter</div>
+                        <div class="text-4xl font-black mb-1">Free</div>
+                        <div class="text-slate-500 font-bold text-sm mb-6">Selamanya ✌️</div>
+                        <ul class="space-y-2 mb-8 font-semibold text-slate-700 text-sm">
+                            <li class="flex gap-2"><span class="text-emerald-500">✓</span> 2 Kursus Gratis</li>
+                            <li class="flex gap-2 text-slate-400"><span>✗</span> AI Lab</li>
+                        </ul>
+                        <button class="btn-flat bg-white border-slate-300 text-slate-900 w-full py-3 rounded-2xl font-black uppercase text-sm">Mulai</button>
+                    </div>
+                    <div class="card-flat bg-indigo-600 p-8 rounded-[2rem] border-4 border-indigo-900 -mt-3">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="font-black uppercase tracking-widest text-indigo-300 text-xs">Pro</div>
+                            <span class="px-2 py-0.5 bg-yellow-300 text-slate-900 rounded-full text-xs font-black border border-slate-900">Best</span>
+                        </div>
+                        <div class="text-4xl font-black text-white mb-1">Rp 299K</div>
+                        <div class="text-indigo-300 font-bold text-sm mb-6">/bulan 🔥</div>
+                        <ul class="space-y-2 mb-8 font-semibold text-indigo-100 text-sm">
+                            <li class="flex gap-2"><span class="text-yellow-300">✓</span> Semua Kursus</li>
+                            <li class="flex gap-2"><span class="text-yellow-300">✓</span> AI Lab</li>
+                        </ul>
+                        <button class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 w-full py-3 rounded-2xl font-black uppercase text-sm">Pilih Pro ⚡</button>
+                    </div>
+                    <div class="card-flat bg-white p-8 rounded-[2rem] border-4 border-slate-200">
+                        <div class="font-black uppercase tracking-widest text-slate-500 text-xs mb-3">Team</div>
+                        <div class="text-4xl font-black mb-1">Custom</div>
+                        <div class="text-slate-500 font-bold text-sm mb-6">Min. 5 seats 💼</div>
+                        <ul class="space-y-2 mb-8 font-semibold text-slate-700 text-sm">
+                            <li class="flex gap-2"><span class="text-emerald-500">✓</span> Semua Fitur Pro</li>
+                            <li class="flex gap-2"><span class="text-emerald-500">✓</span> Custom Curriculum</li>
+                        </ul>
+                        <button class="btn-flat bg-slate-900 border-slate-700 text-white w-full py-3 rounded-2xl font-black uppercase text-sm">Hubungi Kami</button>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Pricing Grid --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"grid md:grid-cols-3 gap-6"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- Regular Card --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"card-flat bg-white p-8 rounded-[2rem] border-4 border-slate-200"</span><span class="code-kw">&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"font-black uppercase tracking-widest text-slate-500 text-xs mb-3"</span><span class="code-kw">&gt;</span>Plan Name<span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"text-4xl font-black mb-1"</span><span class="code-kw">&gt;</span>Price<span class="code-kw">&lt;/div&gt;</span>
+    ...
+  <span class="code-kw">&lt;/div&gt;</span>
+
+  <span class="code-cmt">&lt;!-- Featured Card (offset -mt-3 for visual pop) --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"card-flat bg-indigo-600 p-8 rounded-[2rem] border-4 border-indigo-900 -mt-3"</span><span class="code-kw">&gt;</span>
+    ...
+    <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-yellow-300 border-yellow-600 text-slate-900 w-full py-3 rounded-2xl font-black uppercase"</span><span class="code-kw">&gt;</span>Pilih<span class="code-kw">&lt;/button&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== HERO PATTERN ======== -->
+        <section id="hero-pattern" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-indigo-600 font-black uppercase tracking-widest text-xs">Pattern</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Hero Section</h2>
+            </div>
+
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-kw">&lt;section</span> class=<span class="code-str">"py-28 px-6 text-center relative overflow-hidden"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- Decorative blob --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"absolute -top-20 -left-20 w-80 h-80 bg-indigo-200 rounded-full opacity-30 blur-3xl pointer-events-none"</span><span class="code-kw">&gt;&lt;/div&gt;</span>
+
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"max-w-4xl mx-auto relative z-10"</span><span class="code-kw">&gt;</span>
+    <span class="code-cmt">&lt;!-- Label Tag --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"inline-flex items-center gap-2 bg-indigo-100 border-2 border-indigo-300 text-indigo-700 rounded-full px-5 py-2 font-black uppercase tracking-widest text-xs mb-6"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;span</span> class=<span class="code-str">"w-2 h-2 bg-indigo-500 rounded-full animate-ping"</span><span class="code-kw">&gt;&lt;/span&gt;</span>
+      Your Tagline Here
+    <span class="code-kw">&lt;/div&gt;</span>
+
+    <span class="code-cmt">&lt;!-- Headline --&gt;</span>
+    <span class="code-kw">&lt;h1</span> class=<span class="code-str">"text-6xl md:text-8xl font-black mb-6 leading-[1.05] tracking-tighter"</span><span class="code-kw">&gt;</span>
+      Your <span class="code-cls">&lt;span class="bg-yellow-300 px-3 italic"&gt;</span>Keyword<span class="code-cls">&lt;/span&gt;</span> Here.
+    <span class="code-kw">&lt;/h1&gt;</span>
+
+    <span class="code-cmt">&lt;!-- Subtext --&gt;</span>
+    <span class="code-kw">&lt;p</span> class=<span class="code-str">"text-xl text-slate-600 mb-10 font-semibold leading-relaxed max-w-2xl mx-auto"</span><span class="code-kw">&gt;</span>Subheadline.<span class="code-kw">&lt;/p&gt;</span>
+
+    <span class="code-cmt">&lt;!-- CTA Group --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"flex flex-col sm:flex-row justify-center gap-5"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-indigo-600 border-indigo-900 text-white px-12 py-5 rounded-[2rem] text-xl font-black"</span><span class="code-kw">&gt;</span>Primary CTA<span class="code-kw">&lt;/button&gt;</span>
+      <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat bg-white border-slate-300 text-slate-700 px-12 py-5 rounded-[2rem] text-xl font-black"</span><span class="code-kw">&gt;</span>Secondary CTA<span class="code-kw">&lt;/button&gt;</span>
+    <span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/section&gt;</span>
+            </div>
+        </section>
+
+        <!-- ===== FOOTER SPACER ===== -->
+        <div class="h-16"></div>
+    </main>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-slate-900 text-white py-10 px-6 border-t-4 border-slate-700">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="font-extrabold tracking-tighter text-xl">Easy<span class="text-indigo-400">Syntax</span> <span class="text-slate-500 font-bold text-sm">UI Docs</span></div>
+        <div class="text-slate-500 font-bold text-sm uppercase tracking-widest">MIT License &copy; 2026 EasySyntax</div>
+        <a href="index.html" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-6 py-2.5 rounded-xl font-black text-sm uppercase">← Back to Site</a>
+    </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+    // Copy button
+    function copyCode(btn) {
+        const block = btn.closest('.code-block');
+        const text = block.innerText.replace('Copy\n', '').replace('Copied!\n', '');
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+        });
+    }
+
+    // Active sidebar link on scroll
+    const sections = document.querySelectorAll('.section-anchor');
+    const links    = document.querySelectorAll('.sidebar-link');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                links.forEach(l => l.classList.remove('active'));
+                const active = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { threshold: 0.4 });
+    sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
