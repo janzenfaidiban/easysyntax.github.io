@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Tutorial — EasySyntax</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['"Plus Jakarta Sans"','sans-serif']},colors:{brandBlue:'#3B82F6',brandBlueDark:'#1D4ED8'}}}}</script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</head>
+<body class="bg-[#F0F7FF] text-slate-900 font-sans antialiased text-lg">
+
+<!-- ▸ Navbar -->
+<div data-include="partials/navbar.html"></div>
+
+<!-- ══════════════ VIDEO TUTORIAL ══════════════ -->
+<main x-data="videoTutorialPage()">
+
+    <!-- ══════ VIEW: Album Grid ══════ -->
+    <template x-if="view === 'grid'">
+    <div>
+        <!-- Hero -->
+        <section class="bg-white border-b-8 border-slate-100 px-6 py-16">
+            <div class="container mx-auto max-w-5xl">
+                <a href="index.html#kursus" class="inline-flex items-center gap-2 text-indigo-600 font-black text-lg mb-8 hover:text-indigo-800 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda
+                </a>
+                <div class="text-center max-w-3xl mx-auto">
+                    <div class="inline-flex items-center gap-2 bg-rose-100 border-2 border-rose-300 text-rose-700 rounded-full px-5 py-2 font-black uppercase tracking-widest text-sm mb-6">
+                        <i class="fa-solid fa-circle-play"></i> Video Tutorial Berseri
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black tracking-tighter mb-4">Belajar Coding <span class="bg-yellow-300 px-2 italic">Kapan Saja</span></h1>
+                    <p class="text-slate-500 font-semibold max-w-xl mx-auto">Video tutorial berseri berdasarkan topik. Tonton gratis atau akses seri premium untuk belajar mandiri yang lengkap.</p>
+                </div>
+                <div class="mt-10 grid grid-cols-3 gap-4 max-w-sm mx-auto text-center">
+                    <div><div class="text-2xl font-black text-indigo-600" x-text="albums.length"></div><div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Album</div></div>
+                    <div><div class="text-2xl font-black text-indigo-600" x-text="totalPlaylists()"></div><div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Playlist</div></div>
+                    <div><div class="text-2xl font-black text-indigo-600" x-text="totalVideos()"></div><div class="text-sm font-bold text-slate-500 uppercase tracking-widest">Video</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter -->
+        <section class="bg-[#F0F7FF] px-6 py-8 border-b-4 border-slate-100">
+            <div class="container mx-auto max-w-5xl">
+                <div class="flex overflow-x-auto gap-2 pb-2 -mx-2 px-2">
+                    <button @click="filter = 'all'" :class="filter==='all' ? 'bg-indigo-600 text-white border-indigo-900' : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300'" class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 transition-colors">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Semua
+                    </button>
+                    <template x-for="cat in categories" :key="cat">
+                        <button @click="filter = cat" :class="filter===cat ? 'bg-indigo-600 text-white border-indigo-900' : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300'" class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 transition-colors" x-text="cat"></button>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- Album Grid -->
+        <section class="px-6 py-12">
+            <div class="container mx-auto max-w-5xl">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <template x-for="a in filteredAlbums()" :key="a.id">
+                        <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden group cursor-pointer hover:-translate-y-1 transition-transform" @click="openAlbum(a)">
+                            <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                                <img :src="a.cover" :alt="a.title" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <div style="display:none" class="w-full h-full items-center justify-center bg-gradient-to-br from-indigo-100 to-rose-100"><i class="fa-solid fa-circle-play text-5xl text-indigo-300"></i></div>
+                                <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center"><i class="fa-solid fa-play text-indigo-600 text-2xl ml-1"></i></div>
+                                </div>
+                                <div class="absolute top-3 left-3 flex flex-col gap-2">
+                                    <span x-show="a.price === 'Gratis'" class="inline-flex items-center gap-1 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-emerald-700"><i class="fa-solid fa-unlock"></i> Gratis</span>
+                                    <span x-show="a.price !== 'Gratis'" class="inline-flex items-center gap-1 bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-indigo-800"><i class="fa-solid fa-crown"></i> Premium</span>
+                                </div>
+                                <div class="absolute bottom-3 right-3 bg-black/70 text-white px-2.5 py-1 rounded-lg text-xs font-black">
+                                    <i class="fa-solid fa-list mr-1"></i><span x-text="a.playlists.length + ' Playlist'"></span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <span class="font-black uppercase text-xs tracking-widest" :class="'text-'+a.color+'-600'" x-text="a.category"></span>
+                                <h3 class="text-lg font-black mt-1 mb-1" x-text="a.title"></h3>
+                                <p class="text-slate-500 font-semibold text-sm leading-relaxed" x-text="a.desc"></p>
+                                <div class="mt-3 flex items-center gap-3 text-sm font-bold text-slate-400">
+                                    <span><i class="fa-solid fa-users mr-1"></i><span x-text="a.enrolled"></span> Terdaftar</span>
+                                    <span class="text-emerald-500"><i class="fa-solid fa-circle-check mr-1"></i><span x-text="a.completed"></span> Selesai</span>
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <div class="flex items-center gap-3 text-sm font-bold text-slate-400">
+                                        <span><i class="fa-solid fa-film mr-1"></i><span x-text="albumVideoCount(a)"></span> Video</span>
+                                        <span><i class="fa-solid fa-clock mr-1"></i><span x-text="a.totalDuration"></span></span>
+                                    </div>
+                                    <span class="font-black text-sm" :class="a.price === 'Gratis' ? 'text-emerald-600' : 'text-indigo-600'" x-text="a.price"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div x-show="filteredAlbums().length === 0" class="text-center py-20">
+                    <i class="fa-solid fa-video-slash text-5xl text-slate-300 mb-4"></i>
+                    <p class="text-slate-400 font-bold text-lg">Belum ada album untuk kategori ini.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    </template>
+
+    <!-- ══════ VIEW: Album Detail ══════ -->
+    <template x-if="view === 'album'">
+    <div>
+        <!-- Album header -->
+        <section class="bg-white border-b-8 border-slate-100 px-6 py-12">
+            <div class="container mx-auto max-w-5xl">
+                <button @click="view = 'grid'" class="inline-flex items-center gap-2 text-indigo-600 font-black text-lg mb-8 hover:text-indigo-800 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Album
+                </button>
+                <div class="grid lg:grid-cols-5 gap-10">
+                    <div class="lg:col-span-2">
+                        <div class="card-flat rounded-3xl border-4 border-slate-200 overflow-hidden aspect-video lg:aspect-[3/4] bg-gray-200">
+                            <img :src="activeAlbum.cover" :alt="activeAlbum.title" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" class="w-full h-full object-cover">
+                            <div style="display:none" class="w-full h-full items-center justify-center bg-gradient-to-br from-indigo-100 to-rose-100"><i class="fa-solid fa-circle-play text-5xl text-indigo-300"></i></div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-3">
+                        <div class="flex flex-wrap gap-3 mb-3">
+                            <span x-show="activeAlbum.price === 'Gratis'" class="inline-flex items-center gap-1.5 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-sm font-black border-2 border-emerald-700"><i class="fa-solid fa-unlock"></i> Gratis</span>
+                            <span x-show="activeAlbum.price !== 'Gratis'" class="inline-flex items-center gap-1.5 bg-indigo-600 text-white px-4 py-1.5 rounded-full text-sm font-black border-2 border-indigo-800"><i class="fa-solid fa-crown"></i> Premium · <span x-text="activeAlbum.price"></span></span>
+                        </div>
+                        <span class="font-black uppercase text-lg tracking-widest" :class="'text-'+activeAlbum.color+'-600'" x-text="activeAlbum.category"></span>
+                        <h1 class="text-3xl md:text-4xl font-black tracking-tighter mt-2 mb-4" x-text="activeAlbum.title"></h1>
+                        <p class="text-slate-600 font-semibold text-lg leading-relaxed mb-6" x-text="activeAlbum.desc"></p>
+                        <div class="card-flat bg-slate-50 p-5 rounded-2xl border-4 border-slate-200 mb-6">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                                <div><div class="text-2xl font-black text-indigo-600" x-text="activeAlbum.playlists?.length"></div><div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Playlist</div></div>
+                                <div><div class="text-2xl font-black text-indigo-600" x-text="albumVideoCount(activeAlbum)"></div><div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Video</div></div>
+                                <div><div class="text-2xl font-black text-indigo-600" x-text="activeAlbum.enrolled"></div><div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Terdaftar</div></div>
+                                <div><div class="text-2xl font-black text-emerald-600" x-text="activeAlbum.completed"></div><div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Selesai</div></div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-bold text-slate-400"><i class="fa-solid fa-clock mr-1"></i><span x-text="activeAlbum.totalDuration"></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Playlist list -->
+        <section class="px-6 py-12">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-2xl font-black tracking-tighter mb-8"><i class="fa-solid fa-list mr-2 text-indigo-600"></i>Daftar Playlist</h2>
+                <div class="space-y-6">
+                    <template x-for="(pl, plIdx) in activeAlbum.playlists" :key="plIdx">
+                        <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+                            <div class="p-6 flex flex-col sm:flex-row gap-5 items-start cursor-pointer hover:bg-slate-50 transition-colors" @click="openPlayer(pl)">
+                                <div class="w-full sm:w-48 aspect-video rounded-2xl overflow-hidden bg-gray-200 relative shrink-0 group">
+                                    <img :src="pl.cover" :alt="pl.title" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" class="w-full h-full object-cover">
+                                    <div style="display:none" class="w-full h-full items-center justify-center bg-gradient-to-br from-indigo-50 to-rose-50"><i class="fa-solid fa-circle-play text-3xl text-indigo-300"></i></div>
+                                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div class="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center"><i class="fa-solid fa-play text-indigo-600 text-lg ml-0.5"></i></div>
+                                    </div>
+                                    <div class="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded-md text-xs font-black"><i class="fa-solid fa-film mr-1"></i><span x-text="pl.videos.length"></span></div>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span x-show="pl.free" class="inline-flex items-center bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-[10px] font-black border border-emerald-200"><i class="fa-solid fa-unlock mr-1"></i>Gratis</span>
+                                        <span x-show="!pl.free" class="inline-flex items-center bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full text-[10px] font-black border border-indigo-200"><i class="fa-solid fa-crown mr-1"></i>Premium</span>
+                                    </div>
+                                    <h3 class="text-lg font-black" x-text="pl.title"></h3>
+                                    <p class="text-slate-500 font-semibold text-sm leading-relaxed mt-1" x-text="pl.desc"></p>
+                                    <div class="mt-3 flex flex-wrap items-center gap-3 text-sm font-bold text-slate-400">
+                                        <span><i class="fa-solid fa-film mr-1"></i><span x-text="pl.videos.length + ' Video'"></span></span>
+                                        <span><i class="fa-solid fa-clock mr-1"></i><span x-text="pl.duration"></span></span>
+                                    </div>
+                                </div>
+                                <div class="hidden sm:flex shrink-0 self-center">
+                                    <div class="btn-flat bg-indigo-600 border-indigo-900 text-white px-5 py-2.5 rounded-xl font-black text-sm"><i class="fa-solid fa-play mr-1"></i> Tonton</div>
+                                </div>
+                            </div>
+                            <!-- Video preview chips -->
+                            <div class="border-t-2 border-slate-100 px-6 py-3 bg-slate-50">
+                                <div class="flex flex-wrap gap-2">
+                                    <template x-for="(v, vIdx) in pl.videos.slice(0,4)" :key="vIdx">
+                                        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                                            <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]" x-text="vIdx+1"></span>
+                                            <span class="truncate max-w-[140px]" x-text="v.title"></span>
+                                        </span>
+                                    </template>
+                                    <span x-show="pl.videos.length > 4" class="inline-flex items-center text-xs font-black text-indigo-600">+<span x-text="pl.videos.length - 4"></span> lainnya</span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+    </div>
+    </template>
+
+    <!-- ══════ MODAL: Video Player ══════ -->
+    <div x-show="showPlayer" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @keydown.escape.window="closePlayer()" class="fixed inset-0 z-[100] flex items-start justify-center p-4 pt-20 overflow-y-auto" style="display:none">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" @click="closePlayer()"></div>
+        <div class="relative bg-white rounded-[2rem] border-4 border-slate-900 w-full max-w-4xl shadow-2xl mb-12" @click.stop>
+            <div class="sticky top-0 bg-white border-b-4 border-slate-200 px-6 md:px-8 py-5 flex justify-between items-start rounded-t-[2rem] z-10">
+                <div class="min-w-0 pr-4">
+                    <span class="font-black uppercase text-xs tracking-widest" :class="'text-'+activeAlbum.color+'-600'" x-text="activeAlbum.category"></span>
+                    <h2 class="text-xl font-black tracking-tight" x-text="activePlaylist.title"></h2>
+                    <div class="flex flex-wrap gap-3 mt-1 text-sm font-bold text-slate-400">
+                        <span><i class="fa-solid fa-film mr-1"></i><span x-text="activePlaylist.videos?.length + ' Video'"></span></span>
+                        <span><i class="fa-solid fa-clock mr-1"></i><span x-text="activePlaylist.duration"></span></span>
+                        <span x-show="activePlaylist.free" class="text-emerald-600"><i class="fa-solid fa-unlock mr-1"></i>Gratis</span>
+                        <span x-show="!activePlaylist.free" class="text-indigo-600"><i class="fa-solid fa-crown mr-1"></i>Premium</span>
+                    </div>
+                </div>
+                <button @click="closePlayer()" class="w-10 h-10 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center font-black hover:bg-rose-100 hover:border-rose-400 transition-colors text-lg shrink-0">✕</button>
+            </div>
+            <div class="grid lg:grid-cols-5">
+                <div class="lg:col-span-3 p-6 md:p-8">
+                    <div class="aspect-video bg-slate-900 rounded-2xl overflow-hidden mb-4 relative">
+                        <template x-if="activeVideo && !activeVideo.locked">
+                            <iframe :src="'https://www.youtube.com/embed/' + activeVideo.youtubeId + '?rel=0'" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </template>
+                        <template x-if="!activeVideo || activeVideo.locked">
+                            <div class="w-full h-full flex flex-col items-center justify-center text-center p-6">
+                                <i class="fa-solid fa-lock text-4xl text-slate-500 mb-3"></i>
+                                <p class="text-white font-black text-lg">Video Premium</p>
+                                <p class="text-slate-400 font-semibold text-sm mt-1">Beli album ini untuk mengakses semua video.</p>
+                                <a href="index.html#harga" class="btn-flat bg-yellow-300 border-yellow-600 text-slate-900 px-6 py-2.5 rounded-xl font-black text-sm mt-4"><i class="fa-solid fa-crown mr-1"></i> Lihat Harga</a>
+                            </div>
+                        </template>
+                    </div>
+                    <div x-show="activeVideo">
+                        <h3 class="font-black text-lg" x-text="activeVideo?.title"></h3>
+                        <div class="flex flex-wrap items-center gap-3 mt-1 text-sm font-bold text-slate-400">
+                            <span><i class="fa-solid fa-clock mr-1"></i><span x-text="activeVideo?.duration"></span></span>
+                            <span x-show="!activeVideo?.locked" class="text-emerald-600"><i class="fa-solid fa-unlock mr-1"></i>Tersedia</span>
+                            <span x-show="activeVideo?.locked" class="text-slate-500"><i class="fa-solid fa-lock mr-1"></i>Premium</span>
+                        </div>
+                        <p class="text-slate-500 font-semibold text-sm mt-2 leading-relaxed" x-text="activeVideo?.desc"></p>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 border-t-4 lg:border-t-0 lg:border-l-4 border-slate-100">
+                    <div class="p-4 md:p-5 border-b-2 border-slate-100">
+                        <h4 class="font-black text-sm uppercase tracking-widest text-slate-400"><i class="fa-solid fa-list mr-1"></i> Daftar Video</h4>
+                    </div>
+                    <div class="max-h-[50vh] lg:max-h-[60vh] overflow-y-auto">
+                        <template x-for="(v, idx) in activePlaylist.videos" :key="idx">
+                            <button @click="selectVideo(v)" class="w-full text-left p-4 md:p-5 border-b-2 border-slate-100 hover:bg-slate-50 transition-colors flex gap-3 items-start" :class="activeVideo?.title === v.title ? 'bg-indigo-50' : ''">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm shrink-0" :class="activeVideo?.title === v.title ? 'bg-indigo-600 text-white' : v.locked ? 'bg-slate-200 text-slate-400' : 'bg-indigo-100 text-indigo-600'" x-text="idx + 1"></div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-black text-sm truncate" :class="v.locked ? 'text-slate-400' : ''" x-text="v.title"></span>
+                                        <i x-show="v.locked" class="fa-solid fa-lock text-xs text-slate-400 shrink-0"></i>
+                                        <span x-show="!v.locked && !activePlaylist.free" class="inline-flex items-center bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black shrink-0">FREE</span>
+                                    </div>
+                                    <div class="text-slate-400 font-semibold text-xs mt-0.5" x-text="v.duration"></div>
+                                </div>
+                                <div x-show="activeVideo?.title === v.title && !v.locked" class="shrink-0"><i class="fa-solid fa-volume-high text-indigo-600 text-sm"></i></div>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- ▸ Partials -->
+<div data-include="partials/footer.html"></div>
+<div data-include="partials/floating-buttons.html"></div>
+
+<script>
+function videoTutorialPage() {
+    return {
+        view: 'grid',
+        filter: 'all',
+        showPlayer: false,
+        activeAlbum: {},
+        activePlaylist: {},
+        activeVideo: null,
+
+        categories: ['Web Development', 'JavaScript', 'Python', 'AI & Prompt', 'Design'],
+
+        albums: [
+            {
+                id: 'alb-001', title: 'Web Development Fundamentals',
+                desc: 'Kuasai fondasi web dari HTML, CSS, hingga responsive design. Cocok untuk pemula yang ingin memulai karir web developer.',
+                category: 'Web Development', color: 'orange', cover: 'poster/web-dasar.jpg',
+                price: 'Gratis', totalDuration: '5 jam 30 menit', enrolled: 487, completed: 312,
+                playlists: [
+                    { title: 'HTML dari Nol', desc: 'Struktur HTML, tag penting, form, dan semantic markup.', cover: 'poster/web-dasar.jpg', duration: '1 jam 15 menit', free: true, videos: [
+                        { title: 'Pengenalan HTML & Struktur Dasar', duration: '18:24', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Apa itu HTML, tag dasar, dan halaman web pertama.' },
+                        { title: 'Heading, Paragraf & Link', duration: '15:10', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'h1-h6, paragraf, anchor link, dan atribut.' },
+                        { title: 'Gambar, List & Tabel', duration: '20:32', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Menambahkan gambar, list, dan tabel di HTML.' },
+                        { title: 'Form & Input Elements', duration: '22:08', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Form login, registrasi, dan jenis input.' }
+                    ]},
+                    { title: 'CSS Styling & Layout', desc: 'CSS modern: Flexbox, Grid, animasi, dan responsive design.', cover: 'poster/web-dasar.jpg', duration: '2 jam 5 menit', free: true, videos: [
+                        { title: 'Pengenalan CSS & Selector', duration: '22:15', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Menghubungkan CSS, selector, dan properti dasar.' },
+                        { title: 'Box Model & Spacing', duration: '18:40', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Margin, padding, border, dan layout elemen.' },
+                        { title: 'Flexbox Layout', duration: '25:40', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Layout fleksibel — axis, justify, align.' },
+                        { title: 'CSS Grid', duration: '28:05', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Layout grid 2D untuk halaman kompleks.' },
+                        { title: 'Responsive & Media Query', duration: '20:15', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Media query dan mobile-first design.' }
+                    ]},
+                    { title: 'Project: Landing Page', desc: 'Bangun landing page modern dari nol sampai deploy.', cover: 'poster/001.jpg', duration: '2 jam 10 menit', free: true, videos: [
+                        { title: 'Wireframe & Konsep Desain', duration: '18:30', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Merancang wireframe dan konsep visual.' },
+                        { title: 'Coding Header & Hero', duration: '28:20', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Navbar dan hero section dengan HTML & CSS.' },
+                        { title: 'Content Sections & Footer', duration: '32:15', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Section fitur, testimoni, pricing, footer.' },
+                        { title: 'Polish & Deploy', duration: '25:40', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Final touch, animasi, deploy ke GitHub Pages.' }
+                    ]}
+                ]
+            },
+            {
+                id: 'alb-002', title: 'JavaScript Mastery',
+                desc: 'Dari variabel sampai async. Kuasai JavaScript modern untuk web app interaktif.',
+                category: 'JavaScript', color: 'amber', cover: 'poster/fullstack.jpg',
+                price: 'Rp 99K', totalDuration: '6 jam 45 menit', enrolled: 256, completed: 134,
+                playlists: [
+                    { title: 'JavaScript Dasar', desc: 'Variabel, tipe data, operator, dan kontrol alur.', cover: 'poster/fullstack.jpg', duration: '1 jam 20 menit', free: true, videos: [
+                        { title: 'Variabel, Tipe Data & Operator', duration: '20:15', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'let, const, var, tipe data, dan operator.' },
+                        { title: 'Kondisi & Perulangan', duration: '18:30', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'if/else, switch, for, while.' },
+                        { title: 'Fungsi & Arrow Function', duration: '22:45', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Fungsi, parameter, return, arrow function ES6.' },
+                        { title: 'Scope & Closure', duration: '19:10', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Block scope, function scope, closure.' }
+                    ]},
+                    { title: 'Array, Object & ES6+', desc: 'Array methods, destructuring, spread, dan ES6+.', cover: 'poster/fullstack.jpg', duration: '2 jam 10 menit', free: false, videos: [
+                        { title: 'Array Methods: map, filter, reduce', duration: '25:10', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Higher-order functions untuk array.' },
+                        { title: 'Object & Destructuring', duration: '20:45', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Object literal, destructuring, spread.' },
+                        { title: 'Template Literal & Modules', duration: '18:30', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Template string, import/export.' },
+                        { title: 'Class & Prototype', duration: '24:15', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'OOP: class, constructor, inheritance.' },
+                        { title: 'Error Handling', duration: '16:20', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'try/catch, custom error, debugging.' }
+                    ]},
+                    { title: 'DOM & Async JavaScript', desc: 'Interaksi halaman web dan komunikasi API.', cover: 'poster/fullstack.jpg', duration: '1 jam 55 menit', free: false, videos: [
+                        { title: 'DOM Manipulation', duration: '28:20', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'querySelector, event listener, DOM traversal.' },
+                        { title: 'Event Handling Deep Dive', duration: '22:10', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Bubbling, delegation, custom events.' },
+                        { title: 'Promise & Async/Await', duration: '24:35', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Callback, Promise, async/await.' },
+                        { title: 'Fetch API & REST', duration: '20:15', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Fetch data, GET/POST, handling response.' }
+                    ]},
+                    { title: 'Project: Todo App', desc: 'Aplikasi Todo lengkap dengan CRUD dan localStorage.', cover: 'poster/fullstack.jpg', duration: '1 jam 20 menit', free: false, videos: [
+                        { title: 'Setup & UI Structure', duration: '22:30', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Struktur HTML/CSS todo app.' },
+                        { title: 'CRUD Operations', duration: '28:40', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Add, edit, delete, toggle todo.' },
+                        { title: 'LocalStorage & Polish', duration: '29:10', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Simpan data, filter, animasi.' }
+                    ]}
+                ]
+            },
+            {
+                id: 'alb-003', title: 'Python Programming',
+                desc: 'Python dari nol: syntax, struktur data, OOP, hingga otomasi dan API.',
+                category: 'Python', color: 'sky', cover: 'poster/python.jpg',
+                price: 'Rp 99K', totalDuration: '5 jam 15 menit', enrolled: 198, completed: 124,
+                playlists: [
+                    { title: 'Python Dasar', desc: 'Instalasi, syntax, variabel, tipe data, kontrol alur.', cover: 'poster/python.jpg', duration: '1 jam 30 menit', free: true, videos: [
+                        { title: 'Install Python & Hello World', duration: '12:20', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Setup Python, VS Code, program pertama.' },
+                        { title: 'Variabel & Tipe Data', duration: '16:45', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'String, int, float, boolean, type casting.' },
+                        { title: 'Kondisi if/elif/else', duration: '20:10', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Percabangan dan logika boolean.' },
+                        { title: 'Loop: for & while', duration: '22:15', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Perulangan, range(), break, continue.' },
+                        { title: 'Fungsi & Parameter', duration: '18:30', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Fungsi, default parameter, *args, **kwargs.' }
+                    ]},
+                    { title: 'Struktur Data & File', desc: 'List, dictionary, tuple, set, dan file I/O.', cover: 'poster/python.jpg', duration: '1 jam 45 menit', free: false, videos: [
+                        { title: 'List & List Comprehension', duration: '25:15', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Operasi list, slicing, comprehension.' },
+                        { title: 'Dictionary & Set', duration: '22:30', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Key-value pairs, set operations.' },
+                        { title: 'File I/O & Exception', duration: '24:20', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Baca/tulis file, try/except.' },
+                        { title: 'Module & pip', duration: '18:10', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Import module dan install package.' }
+                    ]},
+                    { title: 'Project: CLI & Otomasi', desc: 'Aplikasi CLI dan script otomasi praktis.', cover: 'poster/python.jpg', duration: '2 jam', free: false, videos: [
+                        { title: 'Project: Calculator CLI', duration: '35:00', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Kalkulator interaktif di terminal.' },
+                        { title: 'Project: File Organizer', duration: '28:45', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Otomasi kelola file berdasarkan ekstensi.' },
+                        { title: 'Project: Web Scraping', duration: '32:20', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Scraping data dengan requests & BeautifulSoup.' }
+                    ]}
+                ]
+            },
+            {
+                id: 'alb-004', title: 'AI & Prompt Engineering',
+                desc: 'Teknik prompt engineering untuk ChatGPT, Gemini, dan tools AI produktivitas.',
+                category: 'AI & Prompt', color: 'violet', cover: 'poster/001.jpg',
+                price: 'Gratis', totalDuration: '3 jam 10 menit', enrolled: 512, completed: 387,
+                playlists: [
+                    { title: 'Dasar Prompt Engineering', desc: 'Konsep dan teknik fundamental prompting.', cover: 'poster/001.jpg', duration: '1 jam 30 menit', free: true, videos: [
+                        { title: 'Apa itu Prompt Engineering?', duration: '14:20', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Konsep dasar dan kenapa penting.' },
+                        { title: 'Zero-Shot & Few-Shot', duration: '18:30', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Teknik prompting dengan contoh.' },
+                        { title: 'Chain-of-Thought', duration: '16:45', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'AI berpikir step-by-step.' },
+                        { title: 'System Prompt & Role', duration: '22:10', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Persona dan konteks untuk akurasi.' },
+                        { title: 'Prompt Chaining', duration: '18:15', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Pecah tugas kompleks jadi rangkaian prompt.' }
+                    ]},
+                    { title: 'AI untuk Coding', desc: 'AI tools untuk menulis, review, dan debug kode.', cover: 'poster/001.jpg', duration: '1 jam 40 menit', free: true, videos: [
+                        { title: 'Prompt untuk Generate Code', duration: '22:10', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Prompt yang menghasilkan kode berkualitas.' },
+                        { title: 'Code Review dengan AI', duration: '18:30', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'AI mereview dan improve kode.' },
+                        { title: 'Debugging dengan AI', duration: '20:45', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Debugging efektif pakai AI assistant.' },
+                        { title: 'Google Gemini untuk Developer', duration: '28:15', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Gemini untuk analisa dan generate kode.' }
+                    ]}
+                ]
+            },
+            {
+                id: 'alb-005', title: 'Figma UI/UX Design',
+                desc: 'Desain antarmuka modern: komponen, auto layout, prototyping, dan design system.',
+                category: 'Design', color: 'rose', cover: 'poster/ui-design.jpg',
+                price: 'Rp 99K', totalDuration: '4 jam 30 menit', enrolled: 183, completed: 98,
+                playlists: [
+                    { title: 'Figma Essentials', desc: 'Interface, tools dasar, dan workflow Figma.', cover: 'poster/ui-design.jpg', duration: '1 jam 10 menit', free: true, videos: [
+                        { title: 'Mengenal Interface Figma', duration: '15:20', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Toolbar, layers, pages, shortcut.' },
+                        { title: 'Shape, Text & Color', duration: '18:40', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Shape, typography, sistem warna.' },
+                        { title: 'Frame & Constraint', duration: '16:25', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Frame vs group, constraints responsive.' },
+                        { title: 'Image & Masking', duration: '14:10', youtubeId: 'dQw4w9WgXcQ', locked: false, desc: 'Import gambar, masking, efek visual.' }
+                    ]},
+                    { title: 'Layout & Components', desc: 'Auto Layout, komponen, variants, design token.', cover: 'poster/ui-design.jpg', duration: '1 jam 35 menit', free: false, videos: [
+                        { title: 'Auto Layout Mastery', duration: '22:15', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Auto layout untuk responsive components.' },
+                        { title: 'Komponen & Variants', duration: '20:30', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Reusable components dengan variants.' },
+                        { title: 'Design Tokens & Styles', duration: '18:45', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Color, text, effect styles.' },
+                        { title: 'Responsive Grid System', duration: '17:30', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Grid system untuk layout konsisten.' }
+                    ]},
+                    { title: 'Prototyping & Project', desc: 'Prototipe interaktif, animasi, dan project UI.', cover: 'poster/ui-design.jpg', duration: '1 jam 45 menit', free: false, videos: [
+                        { title: 'Prototyping & Interaction', duration: '25:10', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Prototipe dengan transisi dan smart animate.' },
+                        { title: 'Micro Interaction', duration: '18:30', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Animasi hover, loading, state change.' },
+                        { title: 'Project: Mobile App UI', duration: '38:45', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Desain app dari wireframe ke high-fidelity.' },
+                        { title: 'Developer Handoff', duration: '22:15', youtubeId: 'dQw4w9WgXcQ', locked: true, desc: 'Export assets, inspect mode, handoff.' }
+                    ]}
+                ]
+            }
+        ],
+
+        filteredAlbums() { return this.filter === 'all' ? this.albums : this.albums.filter(a => a.category === this.filter); },
+        albumVideoCount(a) { return a.playlists.reduce((s, p) => s + p.videos.length, 0); },
+        totalPlaylists() { return this.albums.reduce((s, a) => s + a.playlists.length, 0); },
+        totalVideos() { return this.albums.reduce((s, a) => s + this.albumVideoCount(a), 0); },
+
+        openAlbum(a) { this.activeAlbum = a; this.view = 'album'; window.scrollTo({ top: 0, behavior: 'smooth' }); },
+        openPlayer(pl) { this.activePlaylist = pl; this.activeVideo = pl.videos[0]; this.showPlayer = true; document.body.style.overflow = 'hidden'; },
+        closePlayer() { this.showPlayer = false; this.activePlaylist = {}; this.activeVideo = null; document.body.style.overflow = ''; },
+        selectVideo(v) { this.activeVideo = v; }
+    };
+}
+</script>
+</body>
+</html>

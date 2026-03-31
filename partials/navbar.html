@@ -1,0 +1,44 @@
+<!-- partials/navbar.html — @include('partials.navbar') -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50">
+<div class="bg-indigo-600 text-white py-2.5 text-center font-bold tracking-wide text-lg">
+    <i class="fa-solid fa-wand-magic-sparkles"></i> Kelas baru dibuka di Jayapura, Papua!
+    <a href="index.html#harga" class="underline ml-2 hover:text-yellow-300 transition-all">Lihat Paket <i class="fa-solid fa-bolt"></i></a>
+</div>
+<nav id="navbar" class="bg-white/95 backdrop-blur-md border-b-4 border-slate-200 py-4">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-2.5 shrink-0">
+            <img src="assets/img/logo.svg" alt="EasySyntax Logo" class="w-10 h-10">
+            <div class="text-xl font-extrabold text-slate-900 tracking-tighter">Easy<span class="text-indigo-600">Syntax</span></div>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="index.html#beranda"  class="nav-link">Beranda</a>
+            <a href="index.html#kursus"   class="nav-link">Kursus</a>
+            <a href="index.html#harga"    class="nav-link">Harga</a>
+            <button onclick="openSyarat()" class="nav-link bg-transparent border-none cursor-pointer p-0">Syarat &amp; Ketentuan</button>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Profile button (shown when logged in — simulated) -->
+            <a href="profil.html" class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center border-2 border-indigo-200 hover:bg-indigo-200 transition-colors hidden sm:flex" title="Profil Saya">
+                <i class="fa-solid fa-user text-indigo-600"></i>
+            </a>
+            <a href="login.html" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-6 py-2.5 rounded-xl font-black uppercase text-lg hidden sm:inline-flex"><i class="fa-solid fa-user-plus mr-2"></i>Daftar Sekarang</a>
+            <button id="hamburger" onclick="toggleMenu()" class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 rounded-xl border-2 border-slate-200">
+                <span class="w-5 h-0.5 bg-slate-700 block"></span>
+                <span class="w-5 h-0.5 bg-slate-700 block"></span>
+                <span class="w-4 h-0.5 bg-slate-700 block self-start ml-0.5"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden bg-white border-t-2 border-slate-100 px-6">
+        <div class="py-5 flex flex-col gap-4 font-bold">
+            <a href="index.html#beranda"  onclick="closeMenu()" class="text-slate-700 hover:text-indigo-600 py-1">Beranda</a>
+            <a href="index.html#kursus"   onclick="closeMenu()" class="text-slate-700 hover:text-indigo-600 py-1">Kursus</a>
+            <a href="index.html#harga"    onclick="closeMenu()" class="text-slate-700 hover:text-indigo-600 py-1">Harga</a>
+            <button onclick="closeMenu();openSyarat();" class="text-left text-slate-700 hover:text-indigo-600 py-1">Syarat &amp; Ketentuan</button>
+            <a href="profil.html" onclick="closeMenu()" class="text-slate-700 hover:text-indigo-600 py-1"><i class="fa-solid fa-user mr-2"></i>Profil Saya</a>
+            <a href="login.html" onclick="closeMenu()" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-6 py-3 rounded-xl font-black uppercase text-lg text-center mt-2"><i class="fa-solid fa-user-plus mr-2"></i>Daftar Sekarang</a>
+        </div>
+    </div>
+</nav>
+</header>
+<div id="navbar-spacer" class="h-[108px]"></div>

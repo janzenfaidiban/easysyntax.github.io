@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <rect width="120" height="120" rx="24" fill="#4F46E5"/>
+  <rect y="110" width="120" height="10" fill="#3730A3" clip-path="inset(0 round 0 0 24px 24px)"/>
+  <text x="60" y="74" text-anchor="middle" font-family="'Plus Jakarta Sans', 'Inter', system-ui, sans-serif" font-weight="900" font-size="54" fill="white" letter-spacing="-2">ES</text>
+</svg>

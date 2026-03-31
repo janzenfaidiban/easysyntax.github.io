@@ -1,0 +1,105 @@
+/* ============================================
+   EasySyntax — Global Styles
+   Laravel-ready: maps to resources/css/app.css
+   ============================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* --- Nav Links --- */
+.nav-link {
+    position: relative; font-weight: 700; color: #475569; transition: color 0.2s;
+}
+.nav-link::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 3px; background: #4f46e5;
+    border-radius: 99px; transition: width 0.2s;
+}
+.nav-link:hover { color: #4f46e5; }
+.nav-link:hover::after { width: 100%; }
+
+/* --- Buttons & Cards (flat 3D) --- */
+.btn-flat {
+    position: relative;
+    transition: transform 0.08s ease, border-bottom-width 0.08s ease;
+    border-bottom-width: 5px;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.btn-flat:active { transform: translateY(3px); border-bottom-width: 2px; }
+.card-flat { border-bottom-width: 7px; }
+
+/* --- Hero Grid --- */
+.hero-grid {
+    background-image:
+        linear-gradient(rgba(99,102,241,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+/* --- Marquee --- */
+@keyframes marquee { from{transform:translateX(0);}to{transform:translateX(-50%);} }
+.marquee-track { display:flex; width:max-content; animation:marquee 30s linear infinite; }
+.marquee-track:hover { animation-play-state:paused; }
+
+/* --- Reveal animation --- */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .55s ease,transform .55s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.a1{animation:fadeUp .5s .05s ease both;}
+.a2{animation:fadeUp .5s .15s ease both;}
+.a3{animation:fadeUp .5s .25s ease both;}
+.a4{animation:fadeUp .5s .35s ease both;}
+
+/* --- FAQ --- */
+.faq-body { max-height:0; overflow:hidden; transition:max-height .35s ease; }
+.faq-body.open { max-height:500px; }
+.faq-icon { transition:transform .3s ease; }
+.faq-icon.open { transform:rotate(45deg); }
+
+/* --- Cards hover --- */
+.poster-card img { transition:transform .3s ease; }
+.poster-card:hover img { transform:scale(1.05); }
+.poster-card .card-badges { opacity:0; transition:opacity .3s ease; }
+.poster-card:hover .card-badges { opacity:1; }
+.gallery-item img { transition:transform .35s ease; }
+.gallery-item:hover img { transform:scale(1.06); }
+
+/* --- Floating buttons --- */
+.float-group {
+    position:fixed; right:20px; bottom:24px; z-index:9999;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.float-btn { cursor:pointer; text-decoration:none; }
+#back-to-top { display:none; }
+#back-to-top.visible { display:flex; }
+
+/* --- Price toggle --- */
+.price-box { display:none; }
+.price-box.active { display:block; }
+.tab-pill { cursor:pointer; transition:all .15s ease; }
+
+/* --- Mobile menu --- */
+#mobile-menu { transition:max-height .3s ease,opacity .3s ease; max-height:0; opacity:0; overflow:hidden; }
+#mobile-menu.open { max-height:400px; opacity:1; }
+
+/* --- Modal --- */
+#syarat-modal { display:none; }
+#syarat-modal.open { display:flex; }
+
+/* --- Star rating (kursus detail) --- */
+.star-rating { display:inline-flex; gap:2px; }
+.star-rating i { cursor:pointer; transition:color .15s; }
+
+/* --- Profile page --- */
+.avatar-overlay { border-radius:1.5rem; }
+.profile-tab-scroll::-webkit-scrollbar { height:4px; }
+.profile-tab-scroll::-webkit-scrollbar-thumb { background:#c7d2fe; border-radius:99px; }
+
+/* --- Copy link toast --- */
+.toast {
+    position:fixed; bottom:100px; left:50%; transform:translateX(-50%);
+    background:#1e293b; color:#fff; padding:12px 24px; border-radius:16px;
+    font-weight:700; font-size:1rem; z-index:10000;
+    opacity:0; transition:opacity .3s;
+}
+.toast.show { opacity:1; }

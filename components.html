@@ -133,6 +133,14 @@
             <a href="#pricing-pattern" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Pricing Cards</a>
             <a href="#hero-pattern" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Hero Section</a>
         </div>
+        <div class="px-3 mt-6">
+            <p class="font-black uppercase tracking-widest text-xs text-slate-400 mb-3">Video Tutorial</p>
+            <a href="#video-album-card" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Album Card</a>
+            <a href="#video-playlist-row" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Playlist Row</a>
+            <a href="#video-player-modal" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Player Modal</a>
+            <a href="#video-chip" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Video Chip</a>
+            <a href="#video-filter-bar" class="sidebar-link block py-2 font-bold text-slate-700 hover:text-indigo-600 text-sm">Filter Bar</a>
+        </div>
     </aside>
 
     <!-- ===== MAIN CONTENT ===== -->
@@ -904,6 +912,337 @@ rounded-[3rem]   <span class="code-cmt">/* 48px — feature sections */</span>
     <span class="code-kw">&lt;/div&gt;</span>
   <span class="code-kw">&lt;/div&gt;</span>
 <span class="code-kw">&lt;/section&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== VIDEO: ALBUM CARD ======== -->
+        <section id="video-album-card" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-rose-500 font-black uppercase tracking-widest text-xs">Video Tutorial</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Album Card</h2>
+                <p class="text-slate-500 font-bold mt-2 text-sm">Kartu album video dengan thumbnail, badge free/premium, statistik, dan hover play overlay.</p>
+            </div>
+            <div class="preview-box mb-4">
+                <div class="max-w-xs">
+                    <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden group cursor-pointer hover:-translate-y-1 transition-transform">
+                        <div class="aspect-video bg-gray-200 relative overflow-hidden">
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-100 to-rose-100">
+                                <i class="fa-solid fa-circle-play text-5xl text-indigo-300"></i>
+                            </div>
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center"><i class="fa-solid fa-play text-indigo-600 text-2xl ml-1"></i></div>
+                            </div>
+                            <div class="absolute top-3 left-3">
+                                <span class="inline-flex items-center gap-1 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-emerald-700"><i class="fa-solid fa-unlock"></i> Gratis</span>
+                            </div>
+                            <div class="absolute bottom-3 right-3 bg-black/70 text-white px-2.5 py-1 rounded-lg text-xs font-black">
+                                <i class="fa-solid fa-list mr-1"></i>3 Playlist
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <span class="font-black uppercase text-xs tracking-widest text-orange-600">Web Development</span>
+                            <h3 class="text-lg font-black mt-1 mb-1">Web Development Fundamentals</h3>
+                            <p class="text-slate-500 font-semibold text-sm leading-relaxed">Kuasai fondasi web dari HTML, CSS, hingga responsive design.</p>
+                            <div class="mt-3 flex items-center gap-3 text-sm font-bold text-slate-400">
+                                <span><i class="fa-solid fa-users mr-1"></i>487 Terdaftar</span>
+                                <span class="text-emerald-500"><i class="fa-solid fa-circle-check mr-1"></i>312 Selesai</span>
+                            </div>
+                            <div class="mt-2 flex items-center justify-between">
+                                <span class="text-sm font-bold text-slate-400"><i class="fa-solid fa-film mr-1"></i>12 Video · <i class="fa-solid fa-clock mx-1"></i>5j 30m</span>
+                                <span class="font-black text-sm text-emerald-600">Gratis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Album Card --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden group cursor-pointer hover:-translate-y-1 transition-transform"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- Thumbnail --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"aspect-video bg-gray-200 relative overflow-hidden"</span><span class="code-kw">&gt;</span>
+    <span class="code-kw">&lt;img</span> src=<span class="code-str">"cover.jpg"</span> class=<span class="code-str">"w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"</span><span class="code-kw">&gt;</span>
+    <span class="code-cmt">&lt;!-- Hover play overlay --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;div</span> class=<span class="code-str">"w-16 h-16 bg-white/90 rounded-full flex items-center justify-center"</span><span class="code-kw">&gt;</span><span class="code-kw">&lt;i</span> class=<span class="code-str">"fa-solid fa-play text-indigo-600 text-2xl ml-1"</span><span class="code-kw">&gt;&lt;/i&gt;&lt;/div&gt;</span>
+    <span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-cmt">&lt;!-- Free badge --&gt;</span>
+    <span class="code-kw">&lt;span</span> class=<span class="code-str">"absolute top-3 left-3 inline-flex items-center gap-1 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-emerald-700"</span><span class="code-kw">&gt;</span>Gratis<span class="code-kw">&lt;/span&gt;</span>
+    <span class="code-cmt">&lt;!-- Premium badge --&gt;</span>
+    <span class="code-kw">&lt;span</span> class=<span class="code-str">"absolute top-3 left-3 inline-flex items-center gap-1 bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-indigo-800"</span><span class="code-kw">&gt;</span>Premium<span class="code-kw">&lt;/span&gt;</span>
+    <span class="code-cmt">&lt;!-- Playlist count chip --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"absolute bottom-3 right-3 bg-black/70 text-white px-2.5 py-1 rounded-lg text-xs font-black"</span><span class="code-kw">&gt;</span>3 Playlist<span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-cmt">&lt;!-- Body --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"p-5"</span><span class="code-kw">&gt;</span>
+    <span class="code-kw">&lt;span</span> class=<span class="code-str">"font-black uppercase text-xs tracking-widest text-orange-600"</span><span class="code-kw">&gt;</span>Category<span class="code-kw">&lt;/span&gt;</span>
+    <span class="code-kw">&lt;h3</span> class=<span class="code-str">"text-lg font-black mt-1 mb-1"</span><span class="code-kw">&gt;</span>Album Title<span class="code-kw">&lt;/h3&gt;</span>
+    <span class="code-kw">&lt;p</span> class=<span class="code-str">"text-slate-500 font-semibold text-sm leading-relaxed"</span><span class="code-kw">&gt;</span>Description<span class="code-kw">&lt;/p&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== VIDEO: PLAYLIST ROW ======== -->
+        <section id="video-playlist-row" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-rose-500 font-black uppercase tracking-widest text-xs">Video Tutorial</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Playlist Row</h2>
+                <p class="text-slate-500 font-bold mt-2 text-sm">Baris playlist di dalam halaman album: thumbnail kecil, info, badge free/premium, dan CTA tonton.</p>
+            </div>
+            <div class="preview-box mb-4">
+                <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+                    <div class="p-6 flex flex-col sm:flex-row gap-5 items-start">
+                        <div class="w-full sm:w-48 aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-50 to-rose-50 relative shrink-0 flex items-center justify-center">
+                            <i class="fa-solid fa-circle-play text-3xl text-indigo-300"></i>
+                            <div class="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded-md text-xs font-black"><i class="fa-solid fa-film mr-1"></i>4</div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="inline-flex items-center bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-[10px] font-black border border-emerald-200"><i class="fa-solid fa-unlock mr-1"></i>Gratis</span>
+                            </div>
+                            <h3 class="text-lg font-black">HTML dari Nol</h3>
+                            <p class="text-slate-500 font-semibold text-sm leading-relaxed mt-1">Struktur HTML, tag penting, form, dan semantic markup.</p>
+                            <div class="mt-3 flex flex-wrap items-center gap-3 text-sm font-bold text-slate-400">
+                                <span><i class="fa-solid fa-film mr-1"></i>4 Video</span>
+                                <span><i class="fa-solid fa-clock mr-1"></i>1 jam 15 menit</span>
+                            </div>
+                        </div>
+                        <div class="hidden sm:flex shrink-0 self-center">
+                            <div class="btn-flat bg-indigo-600 border-indigo-900 text-white px-5 py-2.5 rounded-xl font-black text-sm"><i class="fa-solid fa-play mr-1"></i> Tonton</div>
+                        </div>
+                    </div>
+                    <!-- Video preview chips -->
+                    <div class="border-t-2 border-slate-100 px-6 py-3 bg-slate-50">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                                <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]">1</span>
+                                Pengenalan HTML
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                                <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]">2</span>
+                                Heading & Link
+                            </span>
+                            <span class="inline-flex items-center text-xs font-black text-indigo-600">+2 lainnya</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Playlist Row --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"p-6 flex flex-col sm:flex-row gap-5 items-start cursor-pointer hover:bg-slate-50 transition-colors"</span><span class="code-kw">&gt;</span>
+    <span class="code-cmt">&lt;!-- Thumbnail --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"w-48 aspect-video rounded-2xl overflow-hidden relative shrink-0"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;img</span> src=<span class="code-str">"cover.jpg"</span> class=<span class="code-str">"w-full h-full object-cover"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;div</span> class=<span class="code-str">"absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded-md text-xs font-black"</span><span class="code-kw">&gt;</span>4 Video<span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-cmt">&lt;!-- Info --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"flex-1"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;h3</span> class=<span class="code-str">"text-lg font-black"</span><span class="code-kw">&gt;</span>Playlist Title<span class="code-kw">&lt;/h3&gt;</span>
+      ...
+    <span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-cmt">&lt;!-- CTA --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"btn-flat bg-indigo-600 border-indigo-900 text-white px-5 py-2.5 rounded-xl font-black text-sm"</span><span class="code-kw">&gt;</span>Tonton<span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-cmt">&lt;!-- Video chip preview bar --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"border-t-2 border-slate-100 px-6 py-3 bg-slate-50 flex flex-wrap gap-2"</span><span class="code-kw">&gt;</span>
+    <span class="code-kw">&lt;span</span> class=<span class="code-str">"inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200"</span><span class="code-kw">&gt;</span>
+      <span class="code-kw">&lt;span</span> class=<span class="code-str">"w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]"</span><span class="code-kw">&gt;</span>1<span class="code-kw">&lt;/span&gt;</span>
+      Video Title
+    <span class="code-kw">&lt;/span&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== VIDEO: PLAYER MODAL ======== -->
+        <section id="video-player-modal" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-rose-500 font-black uppercase tracking-widest text-xs">Video Tutorial</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Player Modal</h2>
+                <p class="text-slate-500 font-bold mt-2 text-sm">Modal pemutar video dengan sidebar daftar episode. Mendukung state aktif, locked (premium), dan embed YouTube.</p>
+            </div>
+            <div class="preview-box mb-4">
+                <div class="bg-white rounded-[2rem] border-4 border-slate-900 overflow-hidden">
+                    <!-- Header -->
+                    <div class="bg-white border-b-4 border-slate-200 px-6 py-4 flex justify-between items-start">
+                        <div>
+                            <span class="font-black uppercase text-xs tracking-widest text-orange-600">Web Development</span>
+                            <h2 class="text-lg font-black tracking-tight">HTML dari Nol</h2>
+                            <div class="flex gap-3 mt-1 text-sm font-bold text-slate-400">
+                                <span><i class="fa-solid fa-film mr-1"></i>4 Video</span>
+                                <span><i class="fa-solid fa-clock mr-1"></i>1j 15m</span>
+                                <span class="text-emerald-600"><i class="fa-solid fa-unlock mr-1"></i>Gratis</span>
+                            </div>
+                        </div>
+                        <button class="w-10 h-10 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center font-black hover:bg-rose-100 hover:border-rose-400 transition-colors">✕</button>
+                    </div>
+                    <div class="grid md:grid-cols-5">
+                        <!-- Player area -->
+                        <div class="md:col-span-3 p-5">
+                            <div class="aspect-video bg-slate-900 rounded-2xl flex items-center justify-center mb-3">
+                                <i class="fa-brands fa-youtube text-5xl text-red-500"></i>
+                            </div>
+                            <h3 class="font-black text-base">Pengenalan HTML & Struktur Dasar</h3>
+                            <div class="flex gap-3 mt-1 text-sm font-bold text-slate-400">
+                                <span><i class="fa-solid fa-clock mr-1"></i>18:24</span>
+                                <span class="text-emerald-600"><i class="fa-solid fa-unlock mr-1"></i>Tersedia</span>
+                            </div>
+                        </div>
+                        <!-- Episode list sidebar -->
+                        <div class="md:col-span-2 border-t-4 md:border-t-0 md:border-l-4 border-slate-100">
+                            <div class="p-4 border-b-2 border-slate-100">
+                                <h4 class="font-black text-sm uppercase tracking-widest text-slate-400"><i class="fa-solid fa-list mr-1"></i> Daftar Video</h4>
+                            </div>
+                            <div>
+                                <div class="p-4 border-b-2 border-slate-100 bg-indigo-50 flex gap-3 items-start">
+                                    <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-black text-sm shrink-0">1</div>
+                                    <div>
+                                        <div class="font-black text-sm">Pengenalan HTML & Struktur Dasar</div>
+                                        <div class="text-slate-400 font-semibold text-xs mt-0.5">18:24</div>
+                                    </div>
+                                    <i class="fa-solid fa-volume-high text-indigo-600 text-sm ml-auto"></i>
+                                </div>
+                                <div class="p-4 border-b-2 border-slate-100 flex gap-3 items-start">
+                                    <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-sm shrink-0">2</div>
+                                    <div>
+                                        <div class="font-black text-sm">Heading, Paragraf & Link</div>
+                                        <div class="text-slate-400 font-semibold text-xs mt-0.5">15:10</div>
+                                    </div>
+                                </div>
+                                <div class="p-4 flex gap-3 items-start opacity-60">
+                                    <div class="w-8 h-8 rounded-lg bg-slate-200 text-slate-400 flex items-center justify-center font-black text-sm shrink-0">3</div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-black text-sm text-slate-400">Gambar, List & Tabel</span>
+                                            <i class="fa-solid fa-lock text-xs text-slate-400"></i>
+                                        </div>
+                                        <div class="text-slate-400 font-semibold text-xs mt-0.5">20:32</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Player Modal (full-screen overlay) --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"fixed inset-0 z-[100] flex items-start justify-center p-4 pt-20 overflow-y-auto"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- Backdrop --&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"absolute inset-0 bg-slate-900/80 backdrop-blur-sm"</span><span class="code-kw">&gt;&lt;/div&gt;</span>
+  <span class="code-kw">&lt;div</span> class=<span class="code-str">"relative bg-white rounded-[2rem] border-4 border-slate-900 w-full max-w-4xl"</span><span class="code-kw">&gt;</span>
+    <span class="code-cmt">&lt;!-- Sticky header --&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"sticky top-0 bg-white border-b-4 border-slate-200 px-6 py-5 flex justify-between items-start rounded-t-[2rem] z-10"</span><span class="code-kw">&gt;</span>...<span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-kw">&lt;div</span> class=<span class="code-str">"grid lg:grid-cols-5"</span><span class="code-kw">&gt;</span>
+      <span class="code-cmt">&lt;!-- Player: col-span-3 --&gt;</span>
+      <span class="code-kw">&lt;div</span> class=<span class="code-str">"lg:col-span-3 p-6"</span><span class="code-kw">&gt;</span>
+        <span class="code-kw">&lt;div</span> class=<span class="code-str">"aspect-video bg-slate-900 rounded-2xl overflow-hidden"</span><span class="code-kw">&gt;</span>
+          <span class="code-kw">&lt;iframe</span> src=<span class="code-str">"https://www.youtube.com/embed/VIDEO_ID?rel=0"</span> class=<span class="code-str">"w-full h-full"</span> allowfullscreen<span class="code-kw">&gt;&lt;/iframe&gt;</span>
+        <span class="code-kw">&lt;/div&gt;</span>
+      <span class="code-kw">&lt;/div&gt;</span>
+      <span class="code-cmt">&lt;!-- Episode sidebar: col-span-2 --&gt;</span>
+      <span class="code-kw">&lt;div</span> class=<span class="code-str">"lg:col-span-2 border-l-4 border-slate-100 overflow-y-auto max-h-[60vh]"</span><span class="code-kw">&gt;</span>
+        <span class="code-cmt">&lt;!-- Active episode --&gt;</span>
+        <span class="code-kw">&lt;button</span> class=<span class="code-str">"w-full text-left p-4 bg-indigo-50 border-b-2 border-slate-100 flex gap-3"</span><span class="code-kw">&gt;</span>
+          <span class="code-kw">&lt;div</span> class=<span class="code-str">"w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-black text-sm"</span><span class="code-kw">&gt;</span>1<span class="code-kw">&lt;/div&gt;</span>
+          ...
+        <span class="code-kw">&lt;/button&gt;</span>
+        <span class="code-cmt">&lt;!-- Locked episode --&gt;</span>
+        <span class="code-kw">&lt;button</span> class=<span class="code-str">"w-full text-left p-4 border-b-2 border-slate-100 flex gap-3 opacity-60"</span><span class="code-kw">&gt;</span>
+          <span class="code-kw">&lt;div</span> class=<span class="code-str">"w-8 h-8 rounded-lg bg-slate-200 text-slate-400 flex items-center justify-center font-black text-sm"</span><span class="code-kw">&gt;</span>3<span class="code-kw">&lt;/div&gt;</span>
+          <span class="code-kw">&lt;i</span> class=<span class="code-str">"fa-solid fa-lock text-xs text-slate-400"</span><span class="code-kw">&gt;&lt;/i&gt;</span>
+        <span class="code-kw">&lt;/button&gt;</span>
+      <span class="code-kw">&lt;/div&gt;</span>
+    <span class="code-kw">&lt;/div&gt;</span>
+  <span class="code-kw">&lt;/div&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== VIDEO: CHIP ======== -->
+        <section id="video-chip" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-rose-500 font-black uppercase tracking-widest text-xs">Video Tutorial</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Video Chip</h2>
+                <p class="text-slate-500 font-bold mt-2 text-sm">Chip kecil untuk preview judul video di bawah row playlist. Menampilkan nomor urut dan judul singkat.</p>
+            </div>
+            <div class="preview-box flex flex-wrap gap-2 mb-4">
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                    <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]">1</span>
+                    Pengenalan HTML
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                    <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]">2</span>
+                    Heading & Link
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                    <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]">3</span>
+                    Gambar, List & Tabel
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                    <span class="w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]">4</span>
+                    Form & Input
+                </span>
+                <span class="inline-flex items-center text-xs font-black text-indigo-600">+3 lainnya</span>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Video Chip --&gt;</span>
+<span class="code-kw">&lt;span</span> class=<span class="code-str">"inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200"</span><span class="code-kw">&gt;</span>
+  <span class="code-kw">&lt;span</span> class=<span class="code-str">"w-4 h-4 rounded bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-[10px]"</span><span class="code-kw">&gt;</span>1<span class="code-kw">&lt;/span&gt;</span>
+  Video Title
+<span class="code-kw">&lt;/span&gt;</span>
+
+<span class="code-cmt">&lt;!-- Overflow counter --&gt;</span>
+<span class="code-kw">&lt;span</span> class=<span class="code-str">"inline-flex items-center text-xs font-black text-indigo-600"</span><span class="code-kw">&gt;</span>+N lainnya<span class="code-kw">&lt;/span&gt;</span>
+            </div>
+        </section>
+
+        <!-- ======== VIDEO: FILTER BAR ======== -->
+        <section id="video-filter-bar" class="section-anchor">
+            <div class="mb-8">
+                <span class="text-rose-500 font-black uppercase tracking-widest text-xs">Video Tutorial</span>
+                <h2 class="text-4xl font-black tracking-tighter mt-1">Filter Bar</h2>
+                <p class="text-slate-500 font-bold mt-2 text-sm">Bar filter kategori untuk halaman album. Scroll horizontal di mobile, active state dengan warna indigo.</p>
+            </div>
+            <div class="preview-box mb-4">
+                <div class="flex overflow-x-auto gap-2 pb-2">
+                    <button class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-indigo-600 text-white border-indigo-900">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Semua
+                    </button>
+                    <button class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-white text-slate-600 border-slate-200">
+                        Web Development
+                    </button>
+                    <button class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-white text-slate-600 border-slate-200">
+                        JavaScript
+                    </button>
+                    <button class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-white text-slate-600 border-slate-200">
+                        Python
+                    </button>
+                    <button class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-white text-slate-600 border-slate-200">
+                        AI &amp; Prompt
+                    </button>
+                    <button class="btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-white text-slate-600 border-slate-200">
+                        Design
+                    </button>
+                </div>
+            </div>
+            <div class="code-block relative">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="code-cmt">&lt;!-- Filter Bar --&gt;</span>
+<span class="code-kw">&lt;div</span> class=<span class="code-str">"flex overflow-x-auto gap-2 pb-2"</span><span class="code-kw">&gt;</span>
+  <span class="code-cmt">&lt;!-- Active state --&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-indigo-600 text-white border-indigo-900"</span><span class="code-kw">&gt;</span>
+    Semua
+  <span class="code-kw">&lt;/button&gt;</span>
+  <span class="code-cmt">&lt;!-- Inactive state --&gt;</span>
+  <span class="code-kw">&lt;button</span> class=<span class="code-str">"btn-flat px-5 py-2 rounded-xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 bg-white text-slate-600 border-slate-200 hover:border-indigo-300"</span><span class="code-kw">&gt;</span>
+    Category
+  <span class="code-kw">&lt;/button&gt;</span>
+<span class="code-kw">&lt;/div&gt;</span>
             </div>
         </section>
 

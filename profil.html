@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya — EasySyntax</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['"Plus Jakarta Sans"','sans-serif']},colors:{brandBlue:'#3B82F6',brandBlueDark:'#1D4ED8'}}}}</script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</head>
+<body class="bg-[#F0F7FF] text-slate-900 font-sans antialiased text-lg">
+
+<!-- ▸ Navbar -->
+<div data-include="partials/navbar.html"></div>
+
+<!-- ══════════════ PROFIL ══════════════ -->
+<main x-data="profilePage()" class="py-12 px-6">
+<div class="container mx-auto max-w-6xl">
+
+    <!-- ── Profile Header Card ── -->
+    <div class="card-flat bg-white rounded-[2.5rem] border-4 border-slate-200 p-8 md:p-10 mb-8">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+            <!-- Avatar with upload overlay -->
+            <div class="relative group shrink-0">
+                <div class="w-32 h-32 rounded-3xl overflow-hidden border-4 border-indigo-200 bg-indigo-100">
+                    <img :src="user.avatar" alt="Foto Profil" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div style="display:none" class="w-full h-full items-center justify-center bg-indigo-100">
+                        <i class="fa-solid fa-user text-4xl text-indigo-300"></i>
+                    </div>
+                </div>
+                <label class="avatar-overlay absolute inset-0 rounded-3xl bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                    <div class="text-center text-white">
+                        <i class="fa-solid fa-camera text-2xl"></i>
+                        <div class="text-xs font-bold mt-1">Ganti Foto</div>
+                    </div>
+                    <input type="file" accept="image/*" class="hidden" @change="handleAvatarUpload($event)">
+                </label>
+            </div>
+            <!-- User info -->
+            <div class="flex-1 text-center md:text-left">
+                <h1 class="text-3xl md:text-4xl font-black tracking-tighter" x-text="user.name"></h1>
+                <p class="text-slate-500 font-semibold mt-1"><i class="fa-solid fa-envelope mr-1"></i> <span x-text="user.email"></span></p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
+                    <span class="inline-flex items-center gap-1.5 bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full text-sm font-black border border-indigo-200">
+                        <i class="fa-solid fa-calendar-check"></i> Bergabung <span x-text="user.joinedDate"></span>
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-700 px-4 py-1.5 rounded-full text-sm font-black border border-emerald-200">
+                        <i class="fa-solid fa-book"></i> <span x-text="myCourses.length"></span> Kursus
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-sm font-black border border-yellow-200">
+                        <i class="fa-solid fa-certificate"></i> <span x-text="certificates.length"></span> Sertifikat
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Tab Navigation ── -->
+    <div class="flex overflow-x-auto gap-2 mb-8 pb-2 -mx-2 px-2">
+        <button @click="activeTab='courses'" :class="activeTab==='courses' ? 'bg-indigo-600 text-white border-indigo-900' : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300'" class="btn-flat px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 transition-colors">
+            <i class="fa-solid fa-book mr-2"></i>Kursus Saya
+        </button>
+        <button @click="activeTab='invoices'" :class="activeTab==='invoices' ? 'bg-indigo-600 text-white border-indigo-900' : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300'" class="btn-flat px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 transition-colors">
+            <i class="fa-solid fa-file-invoice mr-2"></i>Riwayat Invoice
+        </button>
+        <button @click="activeTab='certificates'" :class="activeTab==='certificates' ? 'bg-indigo-600 text-white border-indigo-900' : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300'" class="btn-flat px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 transition-colors">
+            <i class="fa-solid fa-certificate mr-2"></i>Sertifikat
+        </button>
+        <button @click="activeTab='settings'" :class="activeTab==='settings' ? 'bg-indigo-600 text-white border-indigo-900' : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300'" class="btn-flat px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider whitespace-nowrap border-4 transition-colors">
+            <i class="fa-solid fa-gear mr-2"></i>Pengaturan
+        </button>
+    </div>
+
+    <!-- ══════ TAB: Kursus Saya ══════ -->
+    <div x-show="activeTab==='courses'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="c in myCourses" :key="c.id">
+                <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+                    <!-- Course image -->
+                    <div class="aspect-[16/10] bg-gray-200 relative overflow-hidden">
+                        <img :src="c.img" :alt="c.title" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" class="w-full h-full object-cover">
+                        <div style="display:none" class="w-full h-full items-center justify-center bg-slate-100">
+                            <i class="fa-solid fa-image text-3xl text-slate-300"></i>
+                        </div>
+                        <!-- Status badge -->
+                        <div class="absolute top-3 left-3">
+                            <span x-show="c.progress===100" class="inline-flex items-center gap-1.5 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-emerald-700">
+                                <i class="fa-solid fa-check"></i> Selesai
+                            </span>
+                            <span x-show="c.progress<100 && c.progress>0" class="inline-flex items-center gap-1.5 bg-indigo-500 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-indigo-700">
+                                <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> Sedang Berjalan
+                            </span>
+                            <span x-show="c.progress===0" class="inline-flex items-center gap-1.5 bg-slate-500 text-white px-3 py-1 rounded-full text-xs font-black border-2 border-slate-700">
+                                <i class="fa-solid fa-clock"></i> Belum Mulai
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <span class="font-black uppercase text-xs tracking-widest" :class="'text-'+c.color+'-600'" x-text="c.track"></span>
+                        <h3 class="text-lg font-black mt-1 mb-2" x-text="c.title"></h3>
+                        <div class="flex items-center gap-2 text-sm text-slate-500 font-bold mb-3">
+                            <i class="fa-regular fa-calendar text-indigo-400"></i>
+                            <span x-text="c.date"></span>
+                        </div>
+                        <!-- Progress bar -->
+                        <div class="mb-3">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-slate-400">Progress</span>
+                                <span class="text-xs font-black" :class="c.progress===100 ? 'text-emerald-600' : 'text-indigo-600'" x-text="c.progress+'%'"></span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden border border-slate-300">
+                                <div class="h-full rounded-full transition-all duration-500" :class="c.progress===100 ? 'bg-emerald-500' : 'bg-indigo-500'" :style="'width:'+c.progress+'%'"></div>
+                            </div>
+                        </div>
+                        <!-- Action -->
+                        <a :href="'kursus-detail.html?id='+c.id" class="btn-flat bg-slate-100 border-slate-300 text-slate-700 w-full py-2.5 rounded-xl font-black text-sm text-center">
+                            <i class="fa-solid fa-arrow-right mr-1"></i> Lihat Detail
+                        </a>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <!-- Empty state -->
+        <div x-show="myCourses.length === 0" class="text-center py-20">
+            <i class="fa-solid fa-book-open text-5xl text-slate-300 mb-4"></i>
+            <p class="text-slate-400 font-bold text-lg">Belum ada kursus yang diambil.</p>
+            <a href="index.html#kursus" class="btn-flat bg-indigo-600 border-indigo-900 text-white px-8 py-3 rounded-2xl font-black uppercase text-sm mt-6 inline-flex">
+                <i class="fa-solid fa-search mr-2"></i>Jelajahi Kursus
+            </a>
+        </div>
+    </div>
+
+    <!-- ══════ TAB: Riwayat Invoice ══════ -->
+    <div x-show="activeTab==='invoices'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+        <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden">
+            <!-- Header -->
+            <div class="p-6 border-b-4 border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-black tracking-tight"><i class="fa-solid fa-file-invoice mr-2 text-indigo-600"></i>Riwayat Invoice</h2>
+                    <p class="text-slate-400 font-semibold text-sm">Semua transaksi pembayaran kursus</p>
+                </div>
+                <div class="flex gap-2">
+                    <select x-model="invoiceFilter" class="px-4 py-2 rounded-xl border-2 border-slate-200 font-bold text-sm focus:border-indigo-400 focus:outline-none">
+                        <option value="all">Semua Status</option>
+                        <option value="paid">Lunas</option>
+                        <option value="pending">Menunggu</option>
+                        <option value="cancelled">Dibatalkan</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Invoice list -->
+            <div class="divide-y divide-slate-100">
+                <template x-for="inv in filteredInvoices()" :key="inv.id">
+                    <div class="p-6 hover:bg-slate-50 transition-colors">
+                        <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+                            <!-- Invoice info -->
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-3 mb-1">
+                                    <span class="font-black text-sm text-indigo-600" x-text="inv.id"></span>
+                                    <span x-show="inv.status==='paid'" class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full text-xs font-black border border-emerald-200"><i class="fa-solid fa-check-circle"></i> Lunas</span>
+                                    <span x-show="inv.status==='pending'" class="inline-flex items-center gap-1 bg-yellow-100 text-yellow-700 px-2.5 py-0.5 rounded-full text-xs font-black border border-yellow-200"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                                    <span x-show="inv.status==='cancelled'" class="inline-flex items-center gap-1 bg-red-100 text-red-700 px-2.5 py-0.5 rounded-full text-xs font-black border border-red-200"><i class="fa-solid fa-times-circle"></i> Dibatalkan</span>
+                                </div>
+                                <h3 class="font-black text-lg truncate" x-text="inv.courseName"></h3>
+                                <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-400 font-bold mt-1">
+                                    <span><i class="fa-regular fa-calendar mr-1"></i> <span x-text="inv.date"></span></span>
+                                    <span><i class="fa-solid fa-credit-card mr-1"></i> <span x-text="inv.method"></span></span>
+                                </div>
+                            </div>
+                            <!-- Amount -->
+                            <div class="text-right shrink-0">
+                                <div class="text-xl font-black" :class="inv.status==='cancelled' ? 'text-slate-400 line-through' : 'text-slate-900'" x-text="inv.amount"></div>
+                                <button x-show="inv.status==='paid'" @click="downloadInvoice(inv)" class="text-indigo-600 font-bold text-sm hover:text-indigo-800 transition-colors mt-1">
+                                    <i class="fa-solid fa-download mr-1"></i>Unduh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <!-- Empty state -->
+            <div x-show="filteredInvoices().length === 0" class="text-center py-16">
+                <i class="fa-solid fa-receipt text-5xl text-slate-300 mb-4"></i>
+                <p class="text-slate-400 font-bold">Tidak ada invoice ditemukan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════ TAB: Sertifikat ══════ -->
+    <div x-show="activeTab==='certificates'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="cert in certificates" :key="cert.id">
+                <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 overflow-hidden group">
+                    <!-- Certificate preview -->
+                    <div class="aspect-[4/3] bg-gradient-to-br from-indigo-50 to-yellow-50 relative overflow-hidden">
+                        <img :src="cert.img" :alt="'Sertifikat '+cert.courseName" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <div style="display:none" class="w-full h-full items-center justify-center flex-col gap-2">
+                            <i class="fa-solid fa-award text-5xl text-indigo-300"></i>
+                            <span class="text-sm font-black text-indigo-400">SERTIFIKAT</span>
+                        </div>
+                        <!-- Overlay on hover -->
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button @click="viewCertificate(cert)" class="btn-flat bg-white border-slate-300 text-slate-800 px-5 py-2.5 rounded-xl font-black text-sm">
+                                <i class="fa-solid fa-expand mr-1"></i> Lihat
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-award text-yellow-400 text-xl"></i>
+                            <span class="font-black uppercase text-xs tracking-widest text-emerald-600">Selesai</span>
+                        </div>
+                        <h3 class="font-black text-lg mb-1" x-text="cert.courseName"></h3>
+                        <p class="text-slate-400 font-semibold text-sm mb-1">Diterbitkan: <span x-text="cert.issuedDate"></span></p>
+                        <p class="text-slate-400 font-semibold text-sm mb-4">No: <span x-text="cert.certNumber"></span></p>
+                        <div class="flex gap-2">
+                            <a :href="cert.img" :download="'Sertifikat-'+cert.courseName.replace(/\\s+/g,'-')+'.jpg'" class="btn-flat bg-indigo-600 border-indigo-900 text-white flex-1 py-2.5 rounded-xl font-black text-sm text-center">
+                                <i class="fa-solid fa-download mr-1"></i> Unduh JPG
+                            </a>
+                            <button @click="shareCertificate(cert)" class="btn-flat bg-white border-slate-300 text-slate-700 px-4 py-2.5 rounded-xl font-black text-sm">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <!-- Empty state -->
+        <div x-show="certificates.length === 0" class="text-center py-20">
+            <i class="fa-solid fa-award text-5xl text-slate-300 mb-4"></i>
+            <p class="text-slate-400 font-bold text-lg">Belum ada sertifikat.</p>
+            <p class="text-slate-400 font-semibold text-sm mt-1">Selesaikan kursus untuk mendapatkan sertifikat.</p>
+        </div>
+    </div>
+
+    <!-- ══════ TAB: Pengaturan ══════ -->
+    <div x-show="activeTab==='settings'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Informasi Profil -->
+            <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 p-8">
+                <h2 class="text-xl font-black tracking-tight mb-6"><i class="fa-solid fa-user-pen mr-2 text-indigo-600"></i>Informasi Profil</h2>
+                <div class="space-y-5">
+                    <!-- Foto profil -->
+                    <div>
+                        <label class="block font-black text-sm text-slate-700 mb-2">Foto Profil</label>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-2xl overflow-hidden border-2 border-indigo-200 bg-indigo-50 shrink-0">
+                                <img :src="user.avatar" alt="Foto" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                                <div style="display:none" class="w-full h-full items-center justify-center"><i class="fa-solid fa-user text-xl text-indigo-300"></i></div>
+                            </div>
+                            <div>
+                                <label class="btn-flat bg-white border-slate-300 text-slate-700 px-4 py-2 rounded-xl font-black text-sm cursor-pointer inline-flex">
+                                    <i class="fa-solid fa-upload mr-1"></i> Upload Foto
+                                    <input type="file" accept="image/*" class="hidden" @change="handleAvatarUpload($event)">
+                                </label>
+                                <p class="text-slate-400 font-semibold text-xs mt-1">JPG, PNG. Maks 2MB.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Nama -->
+                    <div>
+                        <label class="block font-black text-sm text-slate-700 mb-1">Nama Lengkap</label>
+                        <input type="text" x-model="editForm.name" class="w-full px-4 py-3 rounded-xl border-4 border-slate-200 font-semibold text-lg focus:border-indigo-400 focus:outline-none transition-colors">
+                    </div>
+                    <!-- Email -->
+                    <div>
+                        <label class="block font-black text-sm text-slate-700 mb-1">Email</label>
+                        <input type="email" x-model="editForm.email" class="w-full px-4 py-3 rounded-xl border-4 border-slate-200 font-semibold text-lg focus:border-indigo-400 focus:outline-none transition-colors">
+                    </div>
+                    <!-- Phone -->
+                    <div>
+                        <label class="block font-black text-sm text-slate-700 mb-1">No. Telepon</label>
+                        <input type="tel" x-model="editForm.phone" class="w-full px-4 py-3 rounded-xl border-4 border-slate-200 font-semibold text-lg focus:border-indigo-400 focus:outline-none transition-colors" placeholder="+62">
+                    </div>
+                    <!-- Save -->
+                    <button @click="saveProfile()" class="btn-flat bg-indigo-600 border-indigo-900 text-white w-full py-3.5 rounded-2xl font-black uppercase text-sm">
+                        <i class="fa-solid fa-check mr-2"></i>Simpan Perubahan
+                    </button>
+                    <!-- Success toast -->
+                    <div x-show="showProfileSaved" x-transition class="flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-3 rounded-xl font-bold text-sm border border-emerald-200">
+                        <i class="fa-solid fa-check-circle"></i> Profil berhasil diperbarui!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keamanan Akun -->
+            <div class="card-flat bg-white rounded-3xl border-4 border-slate-200 p-8">
+                <h2 class="text-xl font-black tracking-tight mb-6"><i class="fa-solid fa-shield-halved mr-2 text-indigo-600"></i>Keamanan Akun</h2>
+                <div class="space-y-5">
+                    <!-- Current password -->
+                    <div>
+                        <label class="block font-black text-sm text-slate-700 mb-1">Password Saat Ini</label>
+                        <div class="relative">
+                            <input :type="showCurrentPw ? 'text' : 'password'" x-model="passwordForm.current" class="w-full px-4 py-3 pr-12 rounded-xl border-4 border-slate-200 font-semibold text-lg focus:border-indigo-400 focus:outline-none transition-colors" placeholder="••••••••">
+                            <button @click="showCurrentPw = !showCurrentPw" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600">
+                                <i :class="showCurrentPw ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- New password -->
+                    <div>
+                        <label class="block font-black text-sm text-slate-700 mb-1">Password Baru</label>
+                        <div class="relative">
+                            <input :type="showNewPw ? 'text' : 'password'" x-model="passwordForm.newPw" class="w-full px-4 py-3 pr-12 rounded-xl border-4 border-slate-200 font-semibold text-lg focus:border-indigo-400 focus:outline-none transition-colors" placeholder="Minimal 8 karakter">
+                            <button @click="showNewPw = !showNewPw" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600">
+                                <i :class="showNewPw ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                            </button>
+                        </div>
+                        <!-- Strength indicator -->
+                        <div class="mt-2" x-show="passwordForm.newPw.length > 0">
+                            <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-300"
+                                     :class="pwStrength() === 'strong' ? 'bg-emerald-500' : pwStrength() === 'medium' ? 'bg-yellow-400' : 'bg-red-400'"
+                                     :style="'width:' + (pwStrength() === 'strong' ? 100 : pwStrength() === 'medium' ? 60 : 30) + '%'"></div>
+                            </div>
+                            <span class="text-xs font-bold mt-1 block"
+                                  :class="pwStrength() === 'strong' ? 'text-emerald-600' : pwStrength() === 'medium' ? 'text-yellow-600' : 'text-red-500'"
+                                  x-text="pwStrength() === 'strong' ? 'Kuat' : pwStrength() === 'medium' ? 'Sedang' : 'Lemah'"></span>
+                        </div>
+                    </div>
+                    <!-- Confirm password -->
+                    <div>
+                        <label class="block font-black text-sm text-slate-700 mb-1">Konfirmasi Password Baru</label>
+                        <input :type="showNewPw ? 'text' : 'password'" x-model="passwordForm.confirm" class="w-full px-4 py-3 rounded-xl border-4 border-slate-200 font-semibold text-lg focus:border-indigo-400 focus:outline-none transition-colors" placeholder="Ketik ulang password baru">
+                        <p x-show="passwordForm.confirm.length > 0 && passwordForm.newPw !== passwordForm.confirm" class="text-red-500 font-bold text-xs mt-1">
+                            <i class="fa-solid fa-exclamation-circle"></i> Password tidak cocok
+                        </p>
+                    </div>
+                    <!-- Save password -->
+                    <button @click="changePassword()" :disabled="!passwordForm.current || !passwordForm.newPw || passwordForm.newPw !== passwordForm.confirm" :class="(!passwordForm.current || !passwordForm.newPw || passwordForm.newPw !== passwordForm.confirm) ? 'opacity-50 cursor-not-allowed' : ''" class="btn-flat bg-slate-900 border-slate-700 text-white w-full py-3.5 rounded-2xl font-black uppercase text-sm">
+                        <i class="fa-solid fa-lock mr-2"></i>Ubah Password
+                    </button>
+                    <!-- Success toast -->
+                    <div x-show="showPasswordSaved" x-transition class="flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-3 rounded-xl font-bold text-sm border border-emerald-200">
+                        <i class="fa-solid fa-check-circle"></i> Password berhasil diubah!
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t-4 border-slate-100 pt-5 mt-5">
+                        <h3 class="font-black text-sm text-slate-700 mb-3"><i class="fa-brands fa-google mr-1 text-indigo-600"></i> Akun Terhubung</h3>
+                        <div class="flex items-center justify-between bg-slate-50 p-4 rounded-xl border-2 border-slate-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center border-2 border-slate-200">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                                </div>
+                                <div>
+                                    <div class="font-black text-sm" x-text="user.email"></div>
+                                    <div class="text-slate-400 font-semibold text-xs">Google Account</div>
+                                </div>
+                            </div>
+                            <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-black border border-emerald-200">
+                                <i class="fa-solid fa-link"></i> Terhubung
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</main>
+
+<!-- ── Certificate Lightbox Modal ── -->
+<div x-data x-show="$store.lightbox.open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @keydown.escape.window="$store.lightbox.open = false" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 p-6" style="display:none">
+    <div class="relative max-w-4xl w-full">
+        <button @click="$store.lightbox.open = false" class="absolute -top-12 right-0 text-white font-black text-lg hover:text-yellow-300 transition-colors">
+            <i class="fa-solid fa-xmark mr-1"></i> Tutup
+        </button>
+        <img :src="$store.lightbox.img" alt="Sertifikat" class="w-full rounded-2xl shadow-2xl">
+    </div>
+</div>
+
+<!-- ▸ Partials -->
+<div data-include="partials/footer.html"></div>
+<div data-include="partials/floating-buttons.html"></div>
+
+<!-- Profile page toast -->
+<div id="profile-toast" class="toast"><i class="fa-solid fa-check mr-2"></i><span id="profile-toast-text"></span></div>
+
+<script>
+/* ─── Alpine Store: Lightbox ─── */
+document.addEventListener('alpine:init', () => {
+    Alpine.store('lightbox', { open: false, img: '' });
+});
+
+/* ─── Profile Page Component ─── */
+function profilePage() {
+    return {
+        activeTab: 'courses',
+        invoiceFilter: 'all',
+
+        // Toast states
+        showProfileSaved: false,
+        showPasswordSaved: false,
+
+        // Password visibility
+        showCurrentPw: false,
+        showNewPw: false,
+
+        // User data (simulated - will come from Laravel auth)
+        user: {
+            name: 'Rizky Kurniawan',
+            email: 'rizky@gmail.com',
+            phone: '+6281234567890',
+            avatar: 'https://ui-avatars.com/api/?name=Rizky+Kurniawan&size=256&background=4F46E5&color=fff&bold=true&format=svg',
+            joinedDate: 'Januari 2026'
+        },
+
+        // Edit forms
+        editForm: {
+            name: '',
+            email: '',
+            phone: ''
+        },
+
+        passwordForm: {
+            current: '',
+            newPw: '',
+            confirm: ''
+        },
+
+        // Courses enrolled
+        myCourses: [
+            { id: '001', title: 'Membuat Landing Page Modern', track: 'Track 01', color: 'violet', date: '12 Apr 2026', img: 'poster/001.jpg', progress: 100 },
+            { id: '002', title: 'Fullstack Development', track: 'Track 02', color: 'indigo', date: '21 Apr – 30 Jun 2026', img: 'poster/fullstack.jpg', progress: 45 },
+            { id: '005', title: 'Web Dasar', track: 'Track 05', color: 'emerald', date: '3 Feb – 28 Mar 2026', img: 'poster/web-dasar.jpg', progress: 100 },
+            { id: '004', title: 'Python Programming', track: 'Track 04', color: 'sky', date: '5 Mei – 12 Jul 2026', img: 'poster/python.jpg', progress: 10 }
+        ],
+
+        // Invoice history
+        invoices: [
+            { id: 'INV-2026-001', courseName: 'Membuat Landing Page Modern', date: '5 Apr 2026', amount: 'Rp 250.000', method: 'GoPay', status: 'paid' },
+            { id: 'INV-2026-002', courseName: 'Fullstack Development', date: '18 Apr 2026', amount: 'Rp 1.200.000', method: 'Transfer BCA', status: 'paid' },
+            { id: 'INV-2026-003', courseName: 'Web Dasar', date: '1 Feb 2026', amount: 'Rp 1.200.000', method: 'QRIS', status: 'paid' },
+            { id: 'INV-2026-004', courseName: 'Python Programming', date: '2 Mei 2026', amount: 'Rp 1.200.000', method: 'Transfer Mandiri', status: 'pending' },
+            { id: 'INV-2026-005', courseName: 'Mobile Development', date: '10 Mar 2026', amount: 'Rp 2.000.000', method: 'OVO', status: 'cancelled' }
+        ],
+
+        // Certificates (only for completed courses)
+        certificates: [
+            { id: 'CERT-001', courseName: 'Membuat Landing Page Modern', issuedDate: '12 Apr 2026', certNumber: 'ES/2026/LP/001', img: 'assets/img/sertifikat/sertifikat-landing-page.jpg' },
+            { id: 'CERT-005', courseName: 'Web Dasar', issuedDate: '28 Mar 2026', certNumber: 'ES/2026/WD/005', img: 'assets/img/sertifikat/sertifikat-web-dasar.jpg' }
+        ],
+
+        init() {
+            // Populate edit form with current user data
+            this.editForm.name = this.user.name;
+            this.editForm.email = this.user.email;
+            this.editForm.phone = this.user.phone;
+        },
+
+        // Handlers
+        handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran file maksimal 2MB.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.user.avatar = e.target.result;
+                this.showToast('Foto profil berhasil diperbarui!');
+            };
+            reader.readAsDataURL(file);
+        },
+
+        saveProfile() {
+            this.user.name = this.editForm.name;
+            this.user.email = this.editForm.email;
+            this.user.phone = this.editForm.phone;
+            // Update avatar URL with new name
+            this.user.avatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(this.editForm.name) + '&size=256&background=4F46E5&color=fff&bold=true&format=svg';
+            this.showProfileSaved = true;
+            setTimeout(() => this.showProfileSaved = false, 3000);
+            this.showToast('Profil berhasil diperbarui!');
+        },
+
+        changePassword() {
+            if (!this.passwordForm.current || !this.passwordForm.newPw) return;
+            if (this.passwordForm.newPw !== this.passwordForm.confirm) return;
+            // Simulate password change
+            this.passwordForm = { current: '', newPw: '', confirm: '' };
+            this.showPasswordSaved = true;
+            setTimeout(() => this.showPasswordSaved = false, 3000);
+            this.showToast('Password berhasil diubah!');
+        },
+
+        pwStrength() {
+            const pw = this.passwordForm.newPw;
+            if (pw.length >= 8 && /[A-Z]/.test(pw) && /[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw)) return 'strong';
+            if (pw.length >= 6) return 'medium';
+            return 'weak';
+        },
+
+        filteredInvoices() {
+            if (this.invoiceFilter === 'all') return this.invoices;
+            return this.invoices.filter(inv => inv.status === this.invoiceFilter);
+        },
+
+        downloadInvoice(inv) {
+            this.showToast('Mengunduh invoice ' + inv.id + '...');
+            // In production, this would trigger a real download from Laravel
+        },
+
+        viewCertificate(cert) {
+            Alpine.store('lightbox').img = cert.img;
+            Alpine.store('lightbox').open = true;
+        },
+
+        shareCertificate(cert) {
+            const text = 'Saya berhasil menyelesaikan kursus ' + cert.courseName + ' di EasySyntax! 🎉';
+            if (navigator.share) {
+                navigator.share({ title: 'Sertifikat EasySyntax', text: text, url: window.location.href });
+            } else {
+                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
+                    this.showToast('Link sertifikat berhasil disalin!');
+                });
+            }
+        },
+
+        showToast(message) {
+            const toast = document.getElementById('profile-toast');
+            const textEl = document.getElementById('profile-toast-text');
+            if (toast && textEl) {
+                textEl.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2500);
+            }
+        }
+    };
+}
+</script>
+</body>
+</html>

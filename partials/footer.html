@@ -1,0 +1,40 @@
+<!-- partials/footer.html — @include('partials.footer') -->
+<footer class="bg-slate-900 text-white py-16 px-6">
+    <div class="container mx-auto grid md:grid-cols-4 gap-12">
+        <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-4">
+                <img src="assets/img/logo.svg" alt="EasySyntax Logo" class="w-12 h-12">
+                <div class="text-3xl font-black tracking-tighter uppercase">Easy<span class="text-indigo-400">Syntax</span></div>
+            </div>
+            <p class="text-slate-400 font-semibold max-w-sm leading-relaxed mb-6 text-lg">
+                Platform belajar coding yang nggak bikin stres. Tersedia online dan on-site di Jayapura, Papua. Open Source — MIT License.
+            </p>
+            <p class="text-slate-500 font-bold text-lg uppercase tracking-widest mb-3">Ikuti Kami</p>
+            <div class="flex gap-3">
+                <a href="https://instagram.com/easysyntax" target="_blank" class="w-12 h-12 rounded-xl flex items-center justify-center border-b-4 border-pink-900 hover:-translate-y-1 transition-transform" style="background:linear-gradient(135deg,#f43f5e,#a855f7)" title="Instagram"><i class="fa-brands fa-instagram text-lg text-white"></i></a>
+                <a href="https://youtube.com/@easysyntax" target="_blank" class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center border-b-4 border-red-900 hover:-translate-y-1 transition-transform" title="YouTube"><i class="fa-brands fa-youtube text-lg text-white"></i></a>
+                <a href="https://tiktok.com/@easysyntax" target="_blank" class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border-b-4 border-slate-700 hover:-translate-y-1 transition-transform" title="TikTok"><i class="fa-brands fa-tiktok text-lg text-white"></i></a>
+                <a href="https://wa.me/6281234567890" target="_blank" class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center border-b-4 border-emerald-900 hover:-translate-y-1 transition-transform" title="WhatsApp"><i class="fa-brands fa-whatsapp text-lg text-white"></i></a>
+            </div>
+        </div>
+        <div class="flex flex-col gap-4 font-bold text-lg">
+            <span class="text-indigo-400 uppercase tracking-widest text-lg">Navigasi</span>
+            <a href="index.html#beranda"   class="text-slate-400 hover:text-white transition-colors">Beranda</a>
+            <a href="index.html#kursus"    class="text-slate-400 hover:text-white transition-colors">Kursus</a>
+            <a href="index.html#harga"     class="text-slate-400 hover:text-white transition-colors">Harga</a>
+            <a href="index.html#testimoni" class="text-slate-400 hover:text-white transition-colors">Testimoni</a>
+            <a href="index.html#faq"       class="text-slate-400 hover:text-white transition-colors">FAQ</a>
+            <button onclick="openSyarat()" class="text-left text-slate-400 hover:text-white transition-colors">Syarat &amp; Ketentuan</button>
+        </div>
+        <div class="flex flex-col gap-4 font-bold text-lg">
+            <span class="text-indigo-400 uppercase tracking-widest text-lg">Kontak</span>
+            <a href="https://wa.me/6281234567890" target="_blank" class="text-slate-400 hover:text-white transition-colors"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <a href="mailto:hello@easysyntax.id" class="text-slate-400 hover:text-white transition-colors"><i class="fa-solid fa-envelope"></i> Email</a>
+            <span class="text-slate-400"><i class="fa-solid fa-location-dot"></i> Jayapura, Papua</span>
+        </div>
+    </div>
+    <div class="container mx-auto mt-14 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-slate-500 font-bold text-lg">&copy; 2026 EasySyntax. Open Source — MIT License.</div>
+        <div class="text-slate-500 font-bold text-lg">Made with <i class="fa-solid fa-heart text-red-500"></i> in Jayapura, Papua</div>
+    </div>
+</footer>

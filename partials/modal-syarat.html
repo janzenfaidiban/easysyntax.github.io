@@ -1,0 +1,20 @@
+<!-- partials/modal-syarat.html — @include('partials.modal-syarat') -->
+<div id="syarat-modal" class="fixed inset-0 z-[100] items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeSyarat()"></div>
+    <div class="relative bg-white rounded-[2rem] border-4 border-slate-900 w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+        <div class="sticky top-0 bg-white border-b-4 border-slate-200 px-8 py-5 flex justify-between items-center rounded-t-[2rem]">
+            <h2 class="text-2xl font-black">Syarat &amp; Ketentuan</h2>
+            <button onclick="closeSyarat()" class="w-10 h-10 bg-slate-100 border-2 border-slate-300 rounded-xl flex items-center justify-center font-black hover:bg-rose-100 hover:border-rose-400 transition-colors text-lg">✕</button>
+        </div>
+        <div class="px-8 py-7 space-y-6 text-lg font-semibold text-slate-700 leading-relaxed">
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">1. Persyaratan Peserta</h3><p>Peserta wajib memiliki laptop pribadi, koneksi internet yang stabil, dan akun Google aktif. EasySyntax tidak menyediakan perangkat keras selama sesi berlangsung.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">2. Pembayaran</h3><p>Pembayaran dilakukan di muka sebelum sesi pertama dimulai. EasySyntax menerima transfer bank, GoPay, OVO, dan QRIS. Bukti pembayaran wajib dikirimkan via WhatsApp untuk konfirmasi pendaftaran.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">3. Kebijakan Reschedule</h3><p>Reschedule sesi diperbolehkan maksimal 2 kali per paket dengan pemberitahuan minimal 24 jam sebelumnya. Ketidakhadiran tanpa pemberitahuan dianggap sebagai sesi yang sudah terpakai.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">4. Kebijakan Refund</h3><p>Refund penuh (100%) dapat diberikan jika dibatalkan lebih dari 48 jam sebelum sesi pertama. Refund 50% jika dibatalkan kurang dari 48 jam. Tidak ada refund setelah sesi pertama dimulai.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">5. Hak Kekayaan Intelektual</h3><p>Seluruh materi kursus adalah hak milik EasySyntax dan dilindungi lisensi MIT. Peserta boleh menggunakan materi untuk keperluan pribadi tetapi dilarang mendistribusikan atau menjualnya tanpa izin tertulis.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">6. Rekaman Sesi</h3><p>Sesi online direkam untuk keperluan review peserta. Rekaman hanya dibagikan kepada peserta terdaftar dan tidak untuk disebarluaskan ke pihak lain.</p></div>
+            <div><h3 class="font-black text-slate-900 uppercase tracking-tight mb-2">7. Kode Etik</h3><p>Peserta wajib menjaga sikap yang sopan selama sesi berlangsung. EasySyntax berhak memberhentikan peserta yang melanggar kode etik tanpa pengembalian dana.</p></div>
+            <div class="bg-indigo-50 border-4 border-indigo-200 rounded-2xl p-5"><p class="font-black text-indigo-800">Dengan mendaftar, peserta dianggap telah membaca dan menyetujui seluruh syarat dan ketentuan di atas.</p></div>
+        </div>
+    </div>
+</div>
